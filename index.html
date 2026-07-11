@@ -198,9 +198,12 @@
   .kings-facts span{font-size:11.5px;color:var(--muted)}
 
   /* avatar in people card */
-  .pcard.lead{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
-  .pcard .avatar{width:76px;height:76px;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
-  .pcard.lead .pbody{min-width:0}
+  .pcard{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+  .pcard .avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:center top;border:1px solid var(--line);background:var(--faint)}
+  .pcard .mono{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-family:var(--mono);font-weight:600;font-size:20px;color:var(--primary);background:var(--faint);border:1px solid var(--line)}
+  .pcard .pbody{min-width:0}
+  .pcard.lead{gap:16px}
+  .pcard.lead .avatar{width:76px;height:76px}
 
   /* SMR figures */
   .smr-figs{display:grid;grid-template-columns:1fr;gap:16px;margin-top:8px}
@@ -453,34 +456,34 @@
       <p class="glab">Faculty</p>
       <div class="pgrid">
         <div class="pcard lead"><img class="avatar" src="assets/img/yoon.jpg" alt="Prof. Joo-il Yoon" loading="lazy"><div class="pbody"><div class="pn">Prof. Joo-il Yoon</div><div class="pr">Principal Investigator · Associate Professor</div><div class="paff">Head, Dept. of Nuclear Power Plant Engineering, KINGS</div><div class="pf">Monte Carlo transport, deterministic solvers, and AI-enhanced simulation.</div></div></div>
-        <div class="pcard"><div class="pn">Prof. Jae-Seung Song</div><div class="pr">Research Professor</div><div class="paff">Ph.D. Nuclear Engineering</div><div class="pf">PWR core design, LEU+ fuel, boron-free cores, load-follow &amp; flexible operation.</div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/song.jpg" alt="Prof. Jae-Seung Song" loading="lazy"><div class="pbody"><div class="pn">Prof. Jae-Seung Song</div><div class="pr">Research Professor</div><div class="paff">Ph.D. Nuclear Engineering</div><div class="pf">PWR core design, LEU+ fuel, boron-free cores, load-follow &amp; flexible operation.</div></div></div>
       </div>
     </div>
 
     <div class="pgroup">
       <p class="glab">Ph.D. Students</p>
       <div class="pgrid">
-        <div class="pcard"><div class="pn">Jin-sun Kim</div><div class="pr">Ph.D. Student</div><div class="paff">Senior Researcher, KEPCO Nuclear Fuel</div><div class="pf">Advanced core design &amp; reactivity control for PWRs and i-SMRs under boron-free, LEU+ conditions.</div></div>
-        <div class="pcard"><div class="pn">Se-yeon Hwang</div><div class="pr">Ph.D. Student</div><div class="paff">M.S. Mechanical Engineering</div><div class="pf">Multi-physics core analysis of PWR and SMR systems via high-fidelity and reduced-order methods.</div></div>
-        <div class="pcard"><div class="pn">Muhammad Wazif Mohd Sallehhudin</div><div class="pr">Ph.D. Student</div><div class="paff">M.En. Nuclear Power Plant Eng., KINGS</div><div class="pf">CYNUS code verification for molten-salt reactor cores.</div></div>
-        <div class="pcard"><div class="pn">Yang Kyung-min</div><div class="pr">Ph.D. Student</div><div class="paff">KHNP</div><div class="pf">Core design considering safety under load-following operation.</div></div>
-        <div class="pcard"><div class="pn">Dawid Szymczyna</div><div class="pr">Ph.D. Student</div><div class="paff">M.Sc. Nuclear Engineering, KINGS</div><div class="pf">DeCART–MANTIS coupling for high-fidelity cross-section reconstruction and whole-core analysis.</div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/kim.jpg" alt="Jin-sun Kim" loading="lazy"><div class="pbody"><div class="pn">Jin-sun Kim</div><div class="pr">Ph.D. Student</div><div class="paff">Senior Researcher, KEPCO Nuclear Fuel</div><div class="pf">Advanced core design &amp; reactivity control for PWRs and i-SMRs under boron-free, LEU+ conditions.</div></div></div>
+        <div class="pcard"><div class="mono">SH</div><div class="pbody"><div class="pn">Se-yeon Hwang</div><div class="pr">Ph.D. Student</div><div class="paff">M.S. Mechanical Engineering</div><div class="pf">Multi-physics core analysis of PWR and SMR systems via high-fidelity and reduced-order methods.</div></div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/wazif.jpg" alt="Muhammad Wazif Mohd Sallehhudin" loading="lazy"><div class="pbody"><div class="pn">Muhammad Wazif Mohd Sallehhudin</div><div class="pr">Ph.D. Student</div><div class="paff">M.En. Nuclear Power Plant Eng., KINGS</div><div class="pf">CYNUS code verification for molten-salt reactor cores.</div></div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/yang.jpg" alt="Yang Kyung-min" loading="lazy"><div class="pbody"><div class="pn">Yang Kyung-min</div><div class="pr">Ph.D. Student</div><div class="paff">KHNP</div><div class="pf">Core design considering safety under load-following operation.</div></div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/dawid.jpg" alt="Dawid Szymczyna" loading="lazy"><div class="pbody"><div class="pn">Dawid Szymczyna</div><div class="pr">Ph.D. Student</div><div class="paff">M.Sc. Nuclear Engineering, KINGS</div><div class="pf">DeCART–MANTIS coupling for high-fidelity cross-section reconstruction and whole-core analysis.</div></div></div>
       </div>
     </div>
 
     <div class="pgroup">
       <p class="glab">M.S. Students</p>
       <div class="pgrid">
-        <div class="pcard"><div class="pn">John Caesar Katabarwa</div><div class="pr">M.S. Student</div><div class="paff">B.Sc. Physics, SPbSU</div><div class="pf">Sensitivity study of 1D/2D power-synthesis methods for PWR flexible operation.</div></div>
-        <div class="pcard"><div class="pn">Michał Kobierski</div><div class="pr">M.S. Student</div><div class="paff">B.Sc. Energy Eng., AGH</div><div class="pf">Neutronic analysis of the AP1000 core with the PRAGMA/SPHINCS code system.</div></div>
-        <div class="pcard"><div class="pn">Michał Kurowski</div><div class="pr">M.S. Student</div><div class="paff">B.Eng. Power Eng., Gdańsk Tech</div><div class="pf">A direction-specific nodal diffusion solver for cylindrical geometry.</div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/katabarwa.jpg" alt="John Caesar Katabarwa" loading="lazy"><div class="pbody"><div class="pn">John Caesar Katabarwa</div><div class="pr">M.S. Student</div><div class="paff">B.Sc. Physics, SPbSU</div><div class="pf">Sensitivity study of 1D/2D power-synthesis methods for PWR flexible operation.</div></div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/kobierski.jpg" alt="Michał Kobierski" loading="lazy"><div class="pbody"><div class="pn">Michał Kobierski</div><div class="pr">M.S. Student</div><div class="paff">B.Sc. Energy Eng., AGH</div><div class="pf">Neutronic analysis of the AP1000 core with the PRAGMA/SPHINCS code system.</div></div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/kurowski.jpg" alt="Michał Kurowski" loading="lazy"><div class="pbody"><div class="pn">Michał Kurowski</div><div class="pr">M.S. Student</div><div class="paff">B.Eng. Power Eng., Gdańsk Tech</div><div class="pf">A direction-specific nodal diffusion solver for cylindrical geometry.</div></div></div>
       </div>
     </div>
 
     <div class="pgroup">
       <p class="glab">Alumni</p>
       <div class="pgrid">
-        <div class="pcard"><div class="pn">Łukasz Bielec</div><div class="pr">Alumnus · M.Sc. 2025</div><div class="paff">B.En. Energy Eng., AGH</div><div class="pf">Development of a GPU-based Monte Carlo neutronics code.</div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/bielec.jpg" alt="Łukasz Bielec" loading="lazy"><div class="pbody"><div class="pn">Łukasz Bielec</div><div class="pr">Alumnus · M.Sc. 2025</div><div class="paff">B.En. Energy Eng., AGH</div><div class="pf">Development of a GPU-based Monte Carlo neutronics code.</div></div></div>
       </div>
     </div>
   </div>
