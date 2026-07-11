@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RPL — Reactor Physics &amp; Computational Analysis Laboratory · KINGS</title>
+<meta name="description" content="Reactor Physics and Computational Analysis Laboratory (RPL) at KINGS, Ulsan — in-house nuclear reactor core simulation codes: Monte Carlo transport, pin-by-pin whole-core diffusion, and SMR / Gen-IV core design.">
+<meta property="og:title" content="RPL — Reactor Physics and Computational Analysis Laboratory">
+<meta property="og:description" content="In-house reactor core simulation codes and SMR core design at KINGS, Ulsan, Korea.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='9' fill='%231c4e80'/%3E%3Cg fill='none' stroke='%231c4e80' stroke-width='5'%3E%3Cellipse cx='50' cy='50' rx='44' ry='17'/%3E%3Cellipse cx='50' cy='50' rx='44' ry='17' transform='rotate(60 50 50)'/%3E%3Cellipse cx='50' cy='50' rx='44' ry='17' transform='rotate(120 50 50)'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  :root{
+    --serif:"IBM Plex Serif","Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --paper:#f5f7f9;--surface:#ffffff;--surface-2:#fbfcfd;--ink:#151c25;--ink-2:#33404e;
+    --muted:#566270;--line:#d5dbe1;--faint:#eef1f4;--primary:#1c4e80;--primary-strong:#143a61;
+    --link:#1e5aa8;--copper:#a8632a;--copper-soft:rgba(168,99,42,.08);--mature:#2e7d52;--dev:#a8632a;
+    --shadow:0 20px 50px -34px rgba(20,40,70,.4);
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#0f141b;--surface:#161d26;--surface-2:#131a22;--ink:#e6eaef;--ink-2:#c3ccd6;
+    --muted:#93a0ae;--line:#26303c;--faint:#1a222c;--primary:#5b9bd5;--primary-strong:#7db2e4;
+    --link:#6fa8dd;--copper:#d08a4e;--copper-soft:rgba(208,138,78,.13);--mature:#4ca57b;--dev:#d08a4e;
+    --shadow:0 22px 55px -30px rgba(0,0,0,.6);}}
+  :root[data-theme="light"]{--paper:#f5f7f9;--surface:#ffffff;--surface-2:#fbfcfd;--ink:#151c25;--ink-2:#33404e;--muted:#566270;--line:#d5dbe1;--faint:#eef1f4;--primary:#1c4e80;--primary-strong:#143a61;--link:#1e5aa8;--copper:#a8632a;--copper-soft:rgba(168,99,42,.08);--mature:#2e7d52;--dev:#a8632a;--shadow:0 20px 50px -34px rgba(20,40,70,.4)}
+  :root[data-theme="dark"]{--paper:#0f141b;--surface:#161d26;--surface-2:#131a22;--ink:#e6eaef;--ink-2:#c3ccd6;--muted:#93a0ae;--line:#26303c;--faint:#1a222c;--primary:#5b9bd5;--primary-strong:#7db2e4;--link:#6fa8dd;--copper:#d08a4e;--copper-soft:rgba(208,138,78,.13);--mature:#4ca57b;--dev:#d08a4e;--shadow:0 22px 55px -30px rgba(0,0,0,.6)}
+
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--link);text-decoration:none}
+  h1,h2,h3{text-wrap:balance}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+  section{scroll-margin-top:70px}
+
+  /* nav */
+  .bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface) 88%,transparent);
+    backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+  .bar-in{display:flex;align-items:center;gap:26px;max-width:1120px;margin:0 auto;padding:14px 32px}
+  .mark{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.01em;white-space:nowrap}
+  .mark b{color:var(--primary)}
+  .nav{display:flex;gap:20px;margin-left:auto;overflow-x:auto}
+  .nav a{font-size:14px;color:var(--ink-2);font-weight:500;white-space:nowrap}
+  .nav a:hover{color:var(--primary)}
+  .nav .gh{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);padding:4px 10px;border-radius:6px}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);
+    background:repeating-linear-gradient(90deg,transparent 0 71px,color-mix(in srgb,var(--primary) 4%,transparent) 71px 72px),var(--paper)}
+  .hero-in{display:grid;grid-template-columns:1fr;gap:36px;max-width:1120px;margin:0 auto;padding:72px 32px 60px;position:relative;z-index:2}
+  @media(min-width:900px){.hero-in{grid-template-columns:1.35fr .65fr;align-items:center}}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--primary);margin:0 0 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .eyebrow::before{content:"";width:30px;height:1.5px;background:var(--copper);flex:none}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,5.2vw,58px);line-height:1.04;letter-spacing:-.018em;margin:0 0 20px;max-width:16ch}
+  .hero .lede{font-size:18px;color:var(--ink-2);max-width:50ch;margin:0 0 28px}
+  .eqn{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--muted);border-left:2px solid var(--copper);padding:3px 0 3px 14px;margin:0 0 30px;max-width:44ch}
+  .eqn b{font-style:normal;font-family:var(--mono);color:var(--ink-2);font-size:12.5px}
+  .actions{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{font-size:14.5px;font-weight:600;font-family:var(--sans);padding:12px 22px;border-radius:8px;border:1px solid transparent;display:inline-flex;align-items:center;gap:9px;cursor:pointer}
+  .btn.primary{background:var(--primary);color:#fff}
+  .btn.primary:hover{background:var(--primary-strong)}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn.ghost:hover{border-color:var(--primary);color:var(--primary)}
+  .btn .arw{font-family:var(--mono)}
+  .hero-art{display:none}
+  @media(min-width:900px){.hero-art{display:block}}
+  .core{aspect-ratio:1;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);position:relative}
+  .core .grid{display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(9,1fr);gap:3px;width:100%;height:100%}
+  .core .cell{border-radius:3px}
+  .core-cap{position:absolute;bottom:-11px;left:16px;background:var(--paper);padding:0 8px;font-family:var(--mono);font-size:10px;color:var(--muted)}
+  .stat-strip{display:flex;gap:0;flex-wrap:wrap;border-top:1px solid var(--line);position:relative;z-index:2;background:var(--surface-2)}
+  .stat-strip .st{flex:1 1 180px;padding:18px 32px;border-right:1px solid var(--line)}
+  .stat-strip .st:last-child{border-right:0}
+  .stat-strip b{font-family:var(--mono);font-size:20px;font-weight:600;display:block;letter-spacing:-.01em}
+  .stat-strip span{font-size:12px;color:var(--muted);letter-spacing:.03em}
+
+  /* generic section */
+  .sec{padding:64px 0;border-bottom:1px solid var(--line)}
+  .sec.alt{background:var(--surface-2)}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--copper);margin:0 0 12px}
+  .sec h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);font-weight:600;letter-spacing:-.015em;margin:0 0 14px}
+  .sec .intro{font-size:16.5px;color:var(--ink-2);max-width:64ch;margin:0 0 8px}
+
+  /* research grid */
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:34px}
+  .rcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 22px 24px;position:relative}
+  .rcard .rn{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .rcard h3{font-size:17px;margin:10px 0 8px;letter-spacing:-.01em}
+  .rcard p{font-size:14px;color:var(--muted);margin:0}
+  .rcard::before{content:"";position:absolute;top:0;left:22px;right:22px;height:2px;background:var(--copper);opacity:.5}
+
+  /* pipeline */
+  .pipe{display:flex;align-items:stretch;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin:34px 0 10px}
+  .pipe .node{flex:1 1 130px;padding:16px 18px;border-right:1px solid var(--line);min-width:130px}
+  .pipe .node:last-child{border-right:0}
+  .pipe .node.mid{background:linear-gradient(180deg,var(--copper-soft),transparent)}
+  .pipe .node .lab{font-family:var(--mono);font-weight:600;font-size:13px}
+  .pipe .node.out .lab{color:var(--primary)}
+  .pipe .node .sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .pipe .arrow{align-self:center;font-family:var(--mono);color:var(--copper);font-size:11px;padding:0 4px}
+  .pipe-note{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin:0 0 30px}
+  .pipe-note code{background:var(--copper-soft);color:var(--copper);padding:2px 7px;border-radius:4px}
+
+  /* code cards */
+  .grouplbl{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:26px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+  .ccard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:0;transition:transform .2s,box-shadow .2s,border-color .2s}
+  .ccard:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--primary) 40%,var(--line))}
+  .ccard .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .ccard .name{font-family:var(--mono);font-weight:600;font-size:16px;color:var(--ink)}
+  .badge{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:3px 8px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
+  .badge.m{color:var(--mature)}.badge.a{color:var(--primary)}.badge.d{color:var(--dev)}
+  .ccard .exp{font-size:12px;color:var(--copper);margin-top:5px;min-height:1.2em}
+  .ccard .desc{font-size:13.5px;color:var(--ink-2);margin:11px 0 12px}
+  .ccard .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+  .ccard .tag{font-family:var(--mono);font-size:10.5px;color:var(--muted);background:var(--faint);padding:2px 8px;border-radius:5px}
+  .found{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:22px}
+  .found b{color:var(--ink-2)}
+
+  /* SMR feature */
+  .feat{display:grid;grid-template-columns:1fr;gap:22px;margin-top:34px}
+  @media(min-width:800px){.feat{grid-template-columns:1fr 1fr}}
+  .fbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;border-top:3px solid var(--copper)}
+  .fbox h3{font-size:17px;margin:0 0 6px}
+  .fbox .fsub{font-size:13px;color:var(--muted);margin:0 0 16px}
+  .specs{display:flex;flex-direction:column;gap:0}
+  .specs .row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--faint);font-size:13.5px}
+  .specs .row:last-child{border-bottom:0}
+  .specs .k{color:var(--muted)}
+  .specs .v{font-family:var(--mono);font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+
+  /* people */
+  .pgroup{margin-top:30px}
+  .pgroup .glab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  .pcard{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:18px}
+  .pcard .pn{font-weight:600;font-size:15.5px}
+  .pcard .pr{font-family:var(--mono);font-size:11.5px;color:var(--primary);margin-top:3px}
+  .pcard .paff{font-size:12px;color:var(--muted);margin-top:2px}
+  .pcard .pf{font-size:13px;color:var(--ink-2);margin-top:10px}
+  .pcard.lead{border-top:3px solid var(--primary)}
+
+  /* publications */
+  .pubmetrics{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:30px 0 26px;background:var(--surface)}
+  .pubmetrics .m{flex:1 1 140px;padding:16px 22px;border-right:1px solid var(--line)}
+  .pubmetrics .m:last-child{border-right:0}
+  .pubmetrics b{font-family:var(--mono);font-size:22px;font-weight:600;display:block}
+  .pubmetrics span{font-size:12px;color:var(--muted)}
+  .publist{display:flex;flex-direction:column;gap:0}
+  .pub{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--faint)}
+  .pub .yr{font-family:var(--mono);font-size:13px;color:var(--copper);font-weight:500;padding-top:1px}
+  .pub .pt{font-size:15px;color:var(--ink);font-weight:500;margin:0 0 4px;line-height:1.4}
+  .pub .pmeta{font-size:12.5px;color:var(--muted)}
+  .pub .pmeta em{font-style:italic;color:var(--ink-2)}
+  .pubmore{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:18px}
+
+  /* teaching */
+  .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:32px}
+  .tcard{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:20px;border-left:3px solid var(--primary)}
+  .tcard h3{font-size:15.5px;margin:0 0 8px}
+  .tcard p{font-size:13.5px;color:var(--muted);margin:0}
+
+  /* contact */
+  .cwrap{display:grid;grid-template-columns:1fr;gap:22px;margin-top:30px}
+  @media(min-width:760px){.cwrap{grid-template-columns:1.2fr 1fr}}
+  .cbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px}
+  .cbox .clab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  .cbox address{font-style:normal;font-size:15px;line-height:1.7;color:var(--ink-2)}
+  .cbox .big{font-size:16px;font-weight:600;color:var(--ink)}
+  .cline{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--faint);font-size:14px}
+  .cline:last-child{border-bottom:0}
+  .cline .k{color:var(--muted);font-family:var(--mono);font-size:12px}
+
+  footer{padding:40px 0;color:var(--muted);font-size:13px}
+  footer .fin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
+  footer .mark{font-size:18px}
+</style>
+
+</head>
+<body>
+<header class="bar">
+  <div class="bar-in">
+    <span class="mark">RPL<b>.</b></span>
+    <nav class="nav">
+      <a href="#about">About</a><a href="#research">Research</a><a href="#codes">Codes</a>
+      <a href="#smr">SMR</a><a href="#people">People</a><a href="#publications">Publications</a>
+      <a href="#teaching">Teaching</a><a href="#contact">Contact</a>
+      <a href="https://github.com/dnegri" class="gh">github ↗</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-in">
+    <div>
+      <p class="eyebrow">Reactor Physics &amp; Computational Analysis Laboratory · KINGS · Ulsan</p>
+      <h1>From neutron transport to the whole core.</h1>
+      <p class="lede">We develop, validate, and deploy in-house simulation codes for
+        nuclear reactor core analysis — spanning Monte Carlo transport, whole-core
+        pin-by-pin diffusion, and next-generation SMR and Gen-IV core design.</p>
+      <p class="eqn">∇·J(r,E) + Σₜ(r,E) φ(r,E) = <b>(1/k)</b> νΣբ(r,E) ∫ φ(r,E′) dE′
+        <br>— the transport problem we solve.</p>
+      <div class="actions">
+        <a class="btn primary" href="#codes">Explore the code system <span class="arw">→</span></a>
+        <a class="btn ghost" href="#publications">Publications</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="core"><div class="grid" id="lattice"></div><div class="core-cap">pin-by-pin whole-core flux</div></div>
+    </div>
+  </div>
+  <div class="stat-strip">
+    <div class="st"><b>7</b><span>in-house codes</span></div>
+    <div class="st"><b>pin × pin</b><span>3-D whole-core</span></div>
+    <div class="st"><b>GPU</b><span>Monte Carlo transport</span></div>
+    <div class="st"><b>SMR</b><span>boron-free core design</span></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="wrap">
+    <p class="kicker">About the lab</p>
+    <h2>Computational reactor physics, from first principles to industry.</h2>
+    <p class="intro">The Reactor Physics &amp; Computational Analysis Laboratory (RPL) at KINGS
+      (KEPCO International Nuclear Graduate School), led by Prof. Joo-il Yoon, is dedicated to
+      nuclear reactor physics, computational methods, and advanced core design. Located in Ulsan —
+      the heart of Korea's nuclear energy industry — RPL bridges rigorous academic research with
+      real-world nuclear engineering. Our work spans the full spectrum of reactor physics
+      computation: from first-principles Monte Carlo neutron transport to industry-grade
+      whole-core diffusion solvers, and from traditional PWR core design to innovative Small
+      Modular Reactor concepts, with a strong international team and deep ties to KEPCO Nuclear Fuel.</p>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research" class="sec alt">
+  <div class="wrap">
+    <p class="kicker">Research areas</p>
+    <h2>Five directions, one computational core.</h2>
+    <div class="rgrid">
+      <div class="rcard"><div class="rn">01</div><h3>Monte Carlo Neutron Transport</h3><p>In-house GPU-accelerated Monte Carlo code (MONTEX), CUDA-based continuous-energy transport, and multigroup cross-section generation.</p></div>
+      <div class="rcard"><div class="rn">02</div><h3>Whole-Core Transport &amp; Diffusion</h3><p>Two-step Monte Carlo → pin-by-pin diffusion method (MONTEX/SPHINCS) and MOC-based 2D/1D whole-core transport (CROMA).</p></div>
+      <div class="rcard"><div class="rn">03</div><h3>SMR Core Design</h3><p>Innovative Small Modular Reactor core concepts, soluble-boron-free reactivity control, and APR1400 core design for next-generation systems.</p></div>
+      <div class="rcard"><div class="rn">04</div><h3>Computational Methods</h3><p>Method of Characteristics (MOC), Coarse-Mesh Finite-Difference (CMFD) acceleration, and depletion methods including predictor-corrector and CRAM.</p></div>
+      <div class="rcard"><div class="rn">05</div><h3>AI &amp; HPC for Nuclear</h3><p>GPU/CUDA acceleration, MPI/OpenMP parallel frameworks, and machine-learning applications in reactor-physics simulation and optimization.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CODES -->
+<section id="codes" class="sec">
+  <div class="wrap">
+    <p class="kicker">The code system</p>
+    <h2>A two-step PWR pipeline, plus solvers for new geometries.</h2>
+    <p class="intro">Lattice transport and Monte Carlo generate cross sections; HYBRID processes them
+      into tablesets; SPHINCS runs the pin-by-pin whole core. Alongside the PWR chain, we build
+      solvers for hexagonal and cylindrical Gen-IV geometries. Every code shares one foundation —
+      the JIArray numerical library.</p>
+
+    <div class="pipe">
+      <div class="node"><div class="lab">MONTEX · CROMA</div><div class="sub">lattice transport / XS generation</div></div>
+      <div class="arrow">──▶</div>
+      <div class="node mid"><div class="lab">HYBRID</div><div class="sub">SPH · homogenization · functionalization</div></div>
+      <div class="arrow">──▶</div>
+      <div class="node out"><div class="lab">SPHINCS</div><div class="sub">pin-by-pin 3-D whole core</div></div>
+    </div>
+    <p class="pipe-note">data flow <code>.hybrid</code> → <code>.hbd</code> → whole-core results (k-eff · pin power · depletion · transient)</p>
+
+    <div class="grouplbl">PWR two-step system</div>
+    <div class="cgrid">
+      <div class="ccard">
+        <div class="top"><span class="name">SPHINCS</span><span class="badge m">MATURE</span></div>
+        <div class="exp">SPH-based Pin-Homogenized Innovative Neutronics Core Simulator</div>
+        <div class="desc">3-D pin-by-pin diffusion core simulator — steady-state, depletion, reactivity coefficients, and time-dependent transient with one kernel.</div>
+        <div class="tags"><span class="tag">2D/1D</span><span class="tag">two-level CMFD</span><span class="tag">SPH · SP3</span></div>
+      </div>
+      <div class="ccard">
+        <div class="top"><span class="name">MONTEX</span><span class="badge a">ACTIVE</span></div>
+        <div class="exp">Monte Carlo code for Neutronic X</div>
+        <div class="desc">GPU continuous-energy Monte Carlo transport, generating transport-corrected multigroup cross sections for the two-step pipeline.</div>
+        <div class="tags"><span class="tag">GPU / CUDA</span><span class="tag">CRAM depletion</span><span class="tag">MPI</span></div>
+      </div>
+      <div class="ccard">
+        <div class="top"><span class="name">CROMA</span><span class="badge a">ACTIVE</span></div>
+        <div class="exp">Characteristics-based Reactor Operation &amp; Multigroup Analysis</div>
+        <div class="desc">2-D Method-of-Characteristics lattice transport solver — a refactored C++ port of DeCART, with cell-based CMFD acceleration.</div>
+        <div class="tags"><span class="tag">MOC</span><span class="tag">CMFD</span><span class="tag">depletion · branch</span></div>
+      </div>
+      <div class="ccard">
+        <div class="top"><span class="name">HYBRID</span><span class="badge a">ACTIVE</span></div>
+        <div class="exp">Cross-section processing pipeline</div>
+        <div class="desc">Converts lattice and Monte Carlo results into SPHINCS-ready tablesets — isotopic lumping, SPH equivalence, discontinuity factors, and branch functionalization.</div>
+        <div class="tags"><span class="tag">SPH</span><span class="tag">discontinuity factors</span><span class="tag">.hbd</span></div>
+      </div>
+    </div>
+
+    <div class="grouplbl">Gen-IV &amp; other geometries</div>
+    <div class="cgrid">
+      <div class="ccard">
+        <div class="top"><span class="name">VENUS</span><span class="badge a">ACTIVE</span></div>
+        <div class="exp">SFR hexagonal-core solver</div>
+        <div class="desc">Variational nodal method for sodium-cooled fast reactor cores — 2-D/3-D hex-z, multigroup diffusion and Pₙ transport, verified against Takeda-4, SNR-300 and VVER-440.</div>
+        <div class="tags"><span class="tag">variational nodal</span><span class="tag">Pₙ transport</span><span class="tag">CMFD</span></div>
+      </div>
+      <div class="ccard">
+        <div class="top"><span class="name">HEXANUS</span><span class="badge d">IN DEVELOPMENT</span></div>
+        <div class="exp">Hexagonal nodal diffusion</div>
+        <div class="desc">Multigroup nodal diffusion solver for hexagonal-assembly cores using the TPEN / Corner-Point-Balance method with CMFD acceleration.</div>
+        <div class="tags"><span class="tag">TPEN · CPB</span><span class="tag">CMFD</span><span class="tag">hex-z</span></div>
+      </div>
+      <div class="ccard">
+        <div class="top"><span class="name">CYNUS</span><span class="badge d">IN DEVELOPMENT</span></div>
+        <div class="exp">Cylindrical-geometry diffusion solver</div>
+        <div class="desc">Fine-mesh FDM + CMFD eigenvalue solver in cylindrical (r,θ,z) geometry, targeting molten-salt reactor core analysis.</div>
+        <div class="tags"><span class="tag">FDM</span><span class="tag">CMFD</span><span class="tag">MSR</span></div>
+      </div>
+    </div>
+
+    <p class="found">Foundation — all codes are built on <b>JIArray</b>, an in-house header-only N-dimensional
+      array library (1-based, column-major, CUDA-capable).</p>
+  </div>
+</section>
+
+<!-- SMR / HIGA -->
+<section id="smr" class="sec alt">
+  <div class="wrap">
+    <p class="kicker">Flagship design work</p>
+    <h2>A soluble-boron-free innovative SMR.</h2>
+    <p class="intro">RPL designs innovative SMR cores that operate without soluble boron, controlling
+      reactivity through advanced burnable absorbers and loading-pattern design — enabling daily
+      flexible operation and long cycles.</p>
+    <div class="feat">
+      <div class="fbox">
+        <h3>iSMR core</h3>
+        <p class="fsub">Soluble-boron-free, flexible-operation design point</p>
+        <div class="specs">
+          <div class="row"><span class="k">Thermal power</span><span class="v">520 MWth</span></div>
+          <div class="row"><span class="k">Lattice / height</span><span class="v">17×17 · 2.4 m</span></div>
+          <div class="row"><span class="k">Fuel assemblies</span><span class="v">69 FAs</span></div>
+          <div class="row"><span class="k">Operation</span><span class="v">daily flexible</span></div>
+          <div class="row"><span class="k">Cycle length</span><span class="v">24 months</span></div>
+        </div>
+      </div>
+      <div class="fbox">
+        <h3>HIGA burnable absorber</h3>
+        <p class="fsub">Highly Intensive Gadolinia / Alumina — a strong BA for boron-free cores</p>
+        <div class="specs">
+          <div class="row"><span class="k">Absorber</span><span class="v">Gd₂O₃–Al₂O₃</span></div>
+          <div class="row"><span class="k">Gd₂O₃ content</span><span class="v">10–20 mol %</span></div>
+          <div class="row"><span class="k">Cladding</span><span class="v">HANA-6</span></div>
+          <div class="row"><span class="k">Active height</span><span class="v">2.4 m</span></div>
+          <div class="row"><span class="k">Target</span><span class="v">boron-free SMR</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section id="people" class="sec">
+  <div class="wrap">
+    <p class="kicker">People</p>
+    <h2>An international team at the academia–industry interface.</h2>
+
+    <div class="pgroup">
+      <p class="glab">Faculty</p>
+      <div class="pgrid">
+        <div class="pcard lead"><div class="pn">Prof. Joo-il Yoon</div><div class="pr">Principal Investigator · Associate Professor</div><div class="paff">Head, Dept. of Nuclear Power Plant Engineering, KINGS</div><div class="pf">Monte Carlo transport, deterministic solvers, and AI-enhanced simulation.</div></div>
+        <div class="pcard"><div class="pn">Prof. Jae-Seung Song</div><div class="pr">Research Professor</div><div class="paff">Ph.D. Nuclear Engineering</div><div class="pf">PWR core design, LEU+ fuel, boron-free cores, load-follow &amp; flexible operation.</div></div>
+      </div>
+    </div>
+
+    <div class="pgroup">
+      <p class="glab">Ph.D. Students</p>
+      <div class="pgrid">
+        <div class="pcard"><div class="pn">Jin-sun Kim</div><div class="pr">Ph.D. Student</div><div class="paff">Senior Researcher, KEPCO Nuclear Fuel</div><div class="pf">Advanced core design &amp; reactivity control for PWRs and i-SMRs under boron-free, LEU+ conditions.</div></div>
+        <div class="pcard"><div class="pn">Se-yeon Hwang</div><div class="pr">Ph.D. Student</div><div class="paff">M.S. Mechanical Engineering</div><div class="pf">Multi-physics core analysis of PWR and SMR systems via high-fidelity and reduced-order methods.</div></div>
+        <div class="pcard"><div class="pn">Muhammad Wazif Mohd Sallehhudin</div><div class="pr">Ph.D. Student</div><div class="paff">M.En. Nuclear Power Plant Eng., KINGS</div><div class="pf">CYNUS code verification for molten-salt reactor cores.</div></div>
+        <div class="pcard"><div class="pn">Yang Kyung-min</div><div class="pr">Ph.D. Student</div><div class="paff">KHNP</div><div class="pf">Core design considering safety under load-following operation.</div></div>
+        <div class="pcard"><div class="pn">Dawid Szymczyna</div><div class="pr">Ph.D. Student</div><div class="paff">M.Sc. Nuclear Engineering, KINGS</div><div class="pf">DeCART–MANTIS coupling for high-fidelity cross-section reconstruction and whole-core analysis.</div></div>
+      </div>
+    </div>
+
+    <div class="pgroup">
+      <p class="glab">M.S. Students</p>
+      <div class="pgrid">
+        <div class="pcard"><div class="pn">John Caesar Katabarwa</div><div class="pr">M.S. Student</div><div class="paff">B.Sc. Physics, SPbSU</div><div class="pf">Sensitivity study of 1D/2D power-synthesis methods for PWR flexible operation.</div></div>
+        <div class="pcard"><div class="pn">Michał Kobierski</div><div class="pr">M.S. Student</div><div class="paff">B.Sc. Energy Eng., AGH</div><div class="pf">Neutronic analysis of the AP1000 core with the PRAGMA/SPHINCS code system.</div></div>
+        <div class="pcard"><div class="pn">Michał Kurowski</div><div class="pr">M.S. Student</div><div class="paff">B.Eng. Power Eng., Gdańsk Tech</div><div class="pf">A direction-specific nodal diffusion solver for cylindrical geometry.</div></div>
+      </div>
+    </div>
+
+    <div class="pgroup">
+      <p class="glab">Alumni</p>
+      <div class="pgrid">
+        <div class="pcard"><div class="pn">Łukasz Bielec</div><div class="pr">Alumnus · M.Sc. 2025</div><div class="paff">B.En. Energy Eng., AGH</div><div class="pf">Development of a GPU-based Monte Carlo neutronics code.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications" class="sec alt">
+  <div class="wrap">
+    <p class="kicker">Publications</p>
+    <h2>Peer-reviewed methods and core-design studies.</h2>
+    <div class="pubmetrics">
+      <div class="m"><b>319</b><span>total citations</span></div>
+      <div class="m"><b>7</b><span>h-index</span></div>
+      <div class="m"><b>9</b><span>i10-index</span></div>
+    </div>
+    <div class="publist">
+      <div class="pub"><div class="yr">2025</div><div><p class="pt">Full-core fuel analysis of a soluble boron-free SMR: pellet–cladding interaction and enhanced fuel safety through loading-pattern design</p><div class="pmeta">C. Lee, K. Shim, H. Rho, J. Yoon, H. Jeong, Y. Lee · <em>Nuclear Engineering and Technology</em> 57(10), 103709</div></div></div>
+      <div class="pub"><div class="yr">2025</div><div><p class="pt">Performance analysis of a two-step calculation procedure based on Monte Carlo and pin-wise diffusion methods for PWR core design</p><div class="pmeta">C. Lim, S.J. Kwon, J. Yoon · <em>Nuclear Engineering and Technology</em> 57(8), 103596</div></div></div>
+      <div class="pub"><div class="yr">2025</div><div><p class="pt">Transient analysis of the SPERT III E-core experiment with the nTRACER/SPHINCS code system</p><div class="pmeta">S.D. Pawel, J. Yoon · <em>Nuclear Engineering and Technology</em>, 104011</div></div></div>
+      <div class="pub"><div class="yr">2024</div><div><p class="pt">Solution of the OECD/NEA PWR MOX/UO₂ benchmark with a high-performance pin-by-pin core calculation code</p><div class="pmeta">H. Hong, J. Yoon · <em>Nuclear Engineering and Technology</em> 56(9), 3654–3667</div></div></div>
+      <div class="pub"><div class="yr">2024</div><div><p class="pt">Reactor core design with practical gadolinia burnable absorbers for soluble boron-free operation in the innovative SMR</p><div class="pmeta">J.S. Kim, T.S. Jung, J. Yoon · <em>Nuclear Engineering and Technology</em> 56(8), 3144–3154</div></div></div>
+      <div class="pub"><div class="yr">2021</div><div><p class="pt">High-performance 3-D pin-by-pin neutron diffusion calculation based on 2D/1D decoupling for accurate pin-power estimation</p><div class="pmeta">J. Yoon, H.C. Lee, H.G. Joo, H.S. Kim · <em>Nuclear Engineering and Technology</em> 53(11), 3543–3562</div></div></div>
+      <div class="pub"><div class="yr">2021</div><div><p class="pt">Analysis of the C5G7-TD benchmark with the multi-group pin-homogenized SP3 code SPHINCS</p><div class="pmeta">H.H. Cho, J. Kang, J.I. Yoon, H.G. Joo · <em>Nuclear Engineering and Technology</em> 53(5), 1403–1415</div></div></div>
+      <div class="pub"><div class="yr">2008</div><div><p class="pt">Two-level coarse-mesh finite-difference formulation with multigroup source-expansion nodal kernels</p><div class="pmeta">J.I. Yoon, H.G. Joo · <em>Journal of Nuclear Science and Technology</em> 45(7), 668–682</div></div></div>
+    </div>
+    <p class="pubmore">Selected from 20+ publications (2008–2025) in Nuclear Engineering and Technology, Nuclear Engineering and Design, Progress in Nuclear Energy, and Annals of Nuclear Energy.</p>
+  </div>
+</section>
+
+<!-- TEACHING -->
+<section id="teaching" class="sec">
+  <div class="wrap">
+    <p class="kicker">Teaching</p>
+    <h2>Graduate courses in reactor physics and computation.</h2>
+    <div class="tgrid">
+      <div class="tcard"><h3>Reactor Physics</h3><p>Neutron lifecycle, criticality, diffusion theory, and the physics of sustained fission chain reactions in thermal and fast systems.</p></div>
+      <div class="tcard"><h3>Nuclear Core Design</h3><p>Practical APR1400 Nuclear Design (PAND) — hands-on full-cycle design methodology of Korea's flagship advanced PWR.</p></div>
+      <div class="tcard"><h3>Computational Methods in Nuclear Engineering</h3><p>Numerical methods for reactor-physics problems: finite-difference, finite-element, and spectral methods for the transport equations.</p></div>
+      <div class="tcard"><h3>Neutron Transport Methods</h3><p>Stochastic and deterministic simulation: random-number generation, variance reduction, tallying, and parallel implementation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec alt">
+  <div class="wrap">
+    <p class="kicker">Contact</p>
+    <h2>Find us in Ulsan.</h2>
+    <div class="cwrap">
+      <div class="cbox">
+        <p class="clab">Address</p>
+        <address>
+          <span class="big">Reactor Physics &amp; Computational Analysis Lab</span><br>
+          Room 411, Main Building<br>
+          KEPCO International Nuclear Graduate School (KINGS)<br>
+          658-91 Haemaji-ro, Seosaeng-myeon, Ulju-gun<br>
+          Ulsan 45014, Republic of Korea
+        </address>
+      </div>
+      <div class="cbox">
+        <p class="clab">Get in touch</p>
+        <div class="cline"><span class="k">PI</span><span>Prof. Joo-il Yoon</span></div>
+        <div class="cline"><span class="k">Email</span><span><a href="mailto:jiyoon@kings.ac.kr">jiyoon@kings.ac.kr</a></span></div>
+        <div class="cline"><span class="k">Phone</span><span>+82-52-712-7367</span></div>
+        <div class="cline"><span class="k">Institution</span><span><a href="https://www.kings.ac.kr">www.kings.ac.kr</a></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap fin">
+    <span class="mark">RPL<b style="color:var(--primary)">.</b></span>
+    <span>Reactor Physics &amp; Computational Analysis Laboratory · KINGS · Ulsan, Korea</span>
+    <span>© 2026 RPL</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // hero: quarter-core pin lattice, cool-blue power field (subtle, static)
+  var g=document.getElementById("lattice");
+  if(!g)return;
+  var stops=[[0.30,"#cfe0ef"],[0.48,"#8fb8dc"],[0.64,"#4f8fc4"],[0.80,"#2c6aa6"],[1,"#1c4e80"]];
+  function col(v){for(var i=0;i<stops.length;i++)if(v<=stops[i][0])return stops[i][1];return stops[stops.length-1][1];}
+  var N=9,html="";
+  for(var r=0;r<N;r++)for(var c=0;c<N;c++){
+    var dx=c+.5,dy=r+.5,rad=Math.sqrt(dx*dx+dy*dy)/N;
+    if(rad>0.99){html+='<div class="cell" style="background:transparent"></div>';continue;}
+    var p=Math.cos(rad*1.4);
+    p=Math.max(0.16,Math.min(1,p+0.05*Math.sin(r*1.3)+0.04*Math.cos(c*1.1)));
+    html+='<div class="cell" style="background:'+col(p)+'"></div>';
+  }
+  g.innerHTML=html;
+})();
+</script>
+</body>
+</html>
