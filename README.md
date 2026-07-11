@@ -16,13 +16,30 @@ A single self-contained static page — `index.html` with inline CSS/JS, no buil
 step. Typography uses the IBM Plex superfamily (served via Google Fonts).
 Deployed with **GitHub Pages** (serves `index.html` from the `main` branch root).
 
+## Editing content (no HTML needed)
+
+Content is being moved out of `index.html` into plain text files under `content/`,
+so you can update the site without touching HTML or CSS. The page loads these files
+in the browser and renders them into the design automatically.
+
+**People** — edit [`content/people.yml`](content/people.yml):
+
+- **Change a name/role/bio:** edit the text after `name:`, `role:`, `bio:`.
+- **Add a person:** copy a `- name:` block (keep the 2-space indentation) and fill it in.
+- **Add a photo:** put the image file in `assets/img/`, then set `photo: yourfile.jpg`.
+  Leave `photo` out and the site shows the person's initials instead.
+- **Add/rename a group** (e.g. "Postdocs"): copy a `- label:` block.
+
+Other sections (Codes, Publications, About, …) will follow the same pattern.
+
 ## Local preview
+
+The page fetches files from `content/`, so it must be served over HTTP — opening
+`index.html` directly (as a `file://`) will show a load error. Run a local server:
 
 ```bash
 python3 -m http.server 8000   # then open http://localhost:8000
 ```
-
-or just open `index.html` in a browser.
 
 ## Custom domain (rpl.kings.ac.kr)
 
