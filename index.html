@@ -204,6 +204,15 @@
   .pcard .pbody{min-width:0}
   .pcard.lead{gap:16px}
   .pcard.lead .avatar{width:76px;height:76px}
+  /* PI feature row */
+  .pi-feature{display:grid;grid-template-columns:1fr;gap:22px;align-items:center;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--primary);border-radius:14px;padding:24px;margin:30px 0 8px;box-shadow:var(--shadow)}
+  @media(min-width:720px){.pi-feature{grid-template-columns:230px 1fr;gap:36px;padding:30px 34px}}
+  .pi-feature .pi-photo{width:100%;max-width:230px;justify-self:center;border-radius:12px;border:1px solid var(--line);object-fit:cover;aspect-ratio:4/5}
+  .pi-feature .pn{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:-.01em}
+  .pi-feature .pr{font-family:var(--mono);font-size:12.5px;color:var(--primary);margin:7px 0 2px}
+  .pi-feature .paff{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .pi-feature .pbio{font-size:15px;color:var(--ink-2);margin:0 0 14px;max-width:62ch}
+  .pi-feature .pmail{font-family:var(--mono);font-size:12.5px}
 
   /* SMR figures */
   .smr-figs{display:grid;grid-template-columns:1fr;gap:16px;margin-top:8px}
@@ -452,10 +461,24 @@
     <p class="kicker">People</p>
     <h2>An international team at the academia–industry interface.</h2>
 
+    <div class="pi-feature">
+      <img class="pi-photo" src="assets/img/yoon-feature.jpg" alt="Prof. Joo-il Yoon" loading="lazy">
+      <div>
+        <div class="pn">Prof. Joo-il Yoon</div>
+        <div class="pr">Principal Investigator · Associate Professor</div>
+        <div class="paff">Head, Department of Nuclear Power Plant Engineering, KINGS</div>
+        <p class="pbio">As Principal Investigator, Prof. Yoon directs RPL's research across Monte Carlo
+          neutron transport, high-fidelity deterministic core solvers, and AI-enhanced reactor
+          simulation. His work carries computational reactor physics from first-principles methods
+          through to industrial PWR and next-generation SMR core design, and underpins the lab's
+          two-step pin-by-pin code system.</p>
+        <div class="pmail"><a href="mailto:jiyoon@kings.ac.kr">jiyoon@kings.ac.kr</a></div>
+      </div>
+    </div>
+
     <div class="pgroup">
       <p class="glab">Faculty</p>
       <div class="pgrid">
-        <div class="pcard lead"><img class="avatar" src="assets/img/yoon.jpg" alt="Prof. Joo-il Yoon" loading="lazy"><div class="pbody"><div class="pn">Prof. Joo-il Yoon</div><div class="pr">Principal Investigator · Associate Professor</div><div class="paff">Head, Dept. of Nuclear Power Plant Engineering, KINGS</div><div class="pf">Monte Carlo transport, deterministic solvers, and AI-enhanced simulation.</div></div></div>
         <div class="pcard"><img class="avatar" src="assets/img/song.jpg" alt="Prof. Jae-Seung Song" loading="lazy"><div class="pbody"><div class="pn">Prof. Jae-Seung Song</div><div class="pr">Research Professor</div><div class="paff">Ph.D. Nuclear Engineering</div><div class="pf">PWR core design, LEU+ fuel, boron-free cores, load-follow &amp; flexible operation.</div></div></div>
       </div>
     </div>
@@ -464,7 +487,7 @@
       <p class="glab">Ph.D. Students</p>
       <div class="pgrid">
         <div class="pcard"><img class="avatar" src="assets/img/kim.jpg" alt="Jin-sun Kim" loading="lazy"><div class="pbody"><div class="pn">Jin-sun Kim</div><div class="pr">Ph.D. Student</div><div class="paff">Senior Researcher, KEPCO Nuclear Fuel</div><div class="pf">Advanced core design &amp; reactivity control for PWRs and i-SMRs under boron-free, LEU+ conditions.</div></div></div>
-        <div class="pcard"><div class="mono">SH</div><div class="pbody"><div class="pn">Se-yeon Hwang</div><div class="pr">Ph.D. Student</div><div class="paff">M.S. Mechanical Engineering</div><div class="pf">Multi-physics core analysis of PWR and SMR systems via high-fidelity and reduced-order methods.</div></div></div>
+        <div class="pcard"><img class="avatar" src="assets/img/hwang.jpg" alt="Se-yeon Hwang" loading="lazy"><div class="pbody"><div class="pn">Se-yeon Hwang</div><div class="pr">Ph.D. Student</div><div class="paff">M.S. Mechanical Engineering</div><div class="pf">Multi-physics core analysis of PWR and SMR systems via high-fidelity and reduced-order methods.</div></div></div>
         <div class="pcard"><img class="avatar" src="assets/img/wazif.jpg" alt="Muhammad Wazif Mohd Sallehhudin" loading="lazy"><div class="pbody"><div class="pn">Muhammad Wazif Mohd Sallehhudin</div><div class="pr">Ph.D. Student</div><div class="paff">M.En. Nuclear Power Plant Eng., KINGS</div><div class="pf">CYNUS code verification for molten-salt reactor cores.</div></div></div>
         <div class="pcard"><img class="avatar" src="assets/img/yang.jpg" alt="Yang Kyung-min" loading="lazy"><div class="pbody"><div class="pn">Yang Kyung-min</div><div class="pr">Ph.D. Student</div><div class="paff">KHNP</div><div class="pf">Core design considering safety under load-following operation.</div></div></div>
         <div class="pcard"><img class="avatar" src="assets/img/dawid.jpg" alt="Dawid Szymczyna" loading="lazy"><div class="pbody"><div class="pn">Dawid Szymczyna</div><div class="pr">Ph.D. Student</div><div class="paff">M.Sc. Nuclear Engineering, KINGS</div><div class="pf">DeCART–MANTIS coupling for high-fidelity cross-section reconstruction and whole-core analysis.</div></div></div>
