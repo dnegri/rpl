@@ -175,6 +175,38 @@
   .cline:last-child{border-bottom:0}
   .cline .k{color:var(--muted);font-family:var(--mono);font-size:12px}
 
+  /* images / figures */
+  img{max-width:100%;height:auto;display:block}
+  .figure{margin:30px 0 6px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+  .figure img{width:100%}
+  .figure.pad{padding:22px}
+  .figure figcaption{font-family:var(--mono);font-size:11.5px;color:var(--muted);padding:11px 16px;border-top:1px solid var(--line);background:var(--surface-2)}
+
+  /* KINGS institution band */
+  .kings-band{background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 6%,var(--paper)),var(--paper));border-bottom:1px solid var(--line);padding:64px 0}
+  .kings-grid{display:grid;grid-template-columns:1fr;gap:36px;align-items:center}
+  @media(min-width:860px){.kings-grid{grid-template-columns:1.02fr .98fr}}
+  .kings-photo{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);position:relative}
+  .kings-photo img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  .kings-photo .cred{position:absolute;bottom:0;left:0;right:0;font-family:var(--mono);font-size:10px;color:#fff;background:linear-gradient(0deg,rgba(0,0,0,.5),transparent);padding:16px 14px 8px}
+  .kings-copy p{font-size:15.5px;color:var(--ink-2);margin:0 0 14px}
+  .kings-facts{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);margin-top:24px}
+  .kings-facts .kf{padding:15px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .kings-facts .kf:nth-child(2n){border-right:0}
+  .kings-facts .kf:nth-last-child(-n+2){border-bottom:0}
+  .kings-facts b{font-family:var(--mono);font-size:15px;display:block;letter-spacing:-.01em;color:var(--primary)}
+  .kings-facts span{font-size:11.5px;color:var(--muted)}
+
+  /* avatar in people card */
+  .pcard.lead{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+  .pcard .avatar{width:76px;height:76px;border-radius:10px;object-fit:cover;border:1px solid var(--line)}
+  .pcard.lead .pbody{min-width:0}
+
+  /* SMR figures */
+  .smr-figs{display:grid;grid-template-columns:1fr;gap:16px;margin-top:8px}
+  @media(min-width:820px){.smr-figs{grid-template-columns:1.35fr .85fr}}
+  .smr-figs .figure{margin:0}
+
   footer{padding:40px 0;color:var(--muted);font-size:13px}
   footer .fin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
   footer .mark{font-size:18px}
@@ -186,7 +218,7 @@
   <div class="bar-in">
     <span class="mark">RPL<b>.</b></span>
     <nav class="nav">
-      <a href="#about">About</a><a href="#research">Research</a><a href="#codes">Codes</a>
+      <a href="#about">About</a><a href="#kings">KINGS</a><a href="#research">Research</a><a href="#codes">Codes</a>
       <a href="#smr">SMR</a><a href="#people">People</a><a href="#publications">Publications</a>
       <a href="#teaching">Teaching</a><a href="#contact">Contact</a>
       <a href="https://github.com/dnegri" class="gh">github ↗</a>
@@ -237,6 +269,37 @@
   </div>
 </section>
 
+<!-- KINGS -->
+<section id="kings" class="kings-band">
+  <div class="wrap">
+    <p class="kicker">Our institution</p>
+    <h2 style="font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);font-weight:600;letter-spacing:-.015em;margin:0 0 26px">KEPCO International Nuclear Graduate School.</h2>
+    <div class="kings-grid">
+      <div class="kings-photo">
+        <img src="assets/img/kings-campus.jpg" alt="KINGS campus in Ulsan, with the KEPCO International Nuclear Graduate School sign" loading="lazy">
+        <span class="cred">KINGS campus · Seosaeng, Ulsan</span>
+      </div>
+      <div class="kings-copy">
+        <p>RPL is part of <b>KINGS (KEPCO International Nuclear Graduate School)</b> — a specialized
+          graduate school established by Korea Electric Power Corporation (KEPCO) and opened in 2012.
+          It is devoted entirely to educating the next generation of leaders for the global nuclear
+          and energy industries.</p>
+        <p>Set in Ulsan — the industrial heart of Korea's nuclear power sector — KINGS delivers
+          practice-oriented master's and doctoral programs to an international student body drawn
+          from dozens of countries, working hand-in-hand with the KEPCO group across the full
+          nuclear-power-plant life cycle. This industry-linked setting is what lets RPL carry its
+          computational methods from first principles all the way to real reactor cores.</p>
+        <div class="kings-facts">
+          <div class="kf"><b>2012</b><span>Opened in Ulsan, Korea</span></div>
+          <div class="kf"><b>KEPCO</b><span>Established by Korea Electric Power Corp.</span></div>
+          <div class="kf"><b>M.S. · Ph.D.</b><span>Nuclear &amp; energy graduate programs</span></div>
+          <div class="kf"><b>Global</b><span>Students from dozens of countries</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- RESEARCH -->
 <section id="research" class="sec alt">
   <div class="wrap">
@@ -249,6 +312,10 @@
       <div class="rcard"><div class="rn">04</div><h3>Computational Methods</h3><p>Method of Characteristics (MOC), Coarse-Mesh Finite-Difference (CMFD) acceleration, and depletion methods including predictor-corrector and CRAM.</p></div>
       <div class="rcard"><div class="rn">05</div><h3>AI &amp; HPC for Nuclear</h3><p>GPU/CUDA acceleration, MPI/OpenMP parallel frameworks, and machine-learning applications in reactor-physics simulation and optimization.</p></div>
     </div>
+    <figure class="figure">
+      <img src="assets/img/core-blueprint.jpg" alt="Rendering of a hexagonal reactor core with a computed neutron power distribution over engineering blueprints" loading="lazy">
+      <figcaption>Assembly-wise power distribution across a hexagonal fast-reactor core — the computational output at the center of our work.</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -270,6 +337,11 @@
       <div class="node out"><div class="lab">SPHINCS</div><div class="sub">pin-by-pin 3-D whole core</div></div>
     </div>
     <p class="pipe-note">data flow <code>.hybrid</code> → <code>.hbd</code> → whole-core results (k-eff · pin power · depletion · transient)</p>
+
+    <figure class="figure pad">
+      <img src="assets/img/two-step.png" alt="Two-step method: pin-wise cross-section generation on a lattice, then a whole-core pin-by-pin 3-D calculation" loading="lazy">
+      <figcaption>The two-step method — pin-wise cross-section generation feeds a whole-core pin-by-pin 3-D calculation.</figcaption>
+    </figure>
 
     <div class="grouplbl">PWR two-step system</div>
     <div class="cgrid">
@@ -358,6 +430,16 @@
         </div>
       </div>
     </div>
+    <div class="smr-figs">
+      <figure class="figure pad">
+        <img src="assets/img/higa.jpg" alt="HIGA rod and HANA-6 cladding with a Gd2O3-Al2O3 neutron absorber pellet and Al2O3 cutback" loading="lazy">
+        <figcaption>HIGA™ rod — a Gd₂O₃–Al₂O₃ burnable absorber in HANA-6™ cladding for boron-free operation.</figcaption>
+      </figure>
+      <figure class="figure pad">
+        <img src="assets/img/ismr-core.png" alt="iSMR core loading pattern with burnup and cycle-reactivity curves" loading="lazy">
+        <figcaption>iSMR loading pattern and cycle-reactivity behavior from RPL core-design studies.</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -370,7 +452,7 @@
     <div class="pgroup">
       <p class="glab">Faculty</p>
       <div class="pgrid">
-        <div class="pcard lead"><div class="pn">Prof. Joo-il Yoon</div><div class="pr">Principal Investigator · Associate Professor</div><div class="paff">Head, Dept. of Nuclear Power Plant Engineering, KINGS</div><div class="pf">Monte Carlo transport, deterministic solvers, and AI-enhanced simulation.</div></div>
+        <div class="pcard lead"><img class="avatar" src="assets/img/yoon.jpg" alt="Prof. Joo-il Yoon" loading="lazy"><div class="pbody"><div class="pn">Prof. Joo-il Yoon</div><div class="pr">Principal Investigator · Associate Professor</div><div class="paff">Head, Dept. of Nuclear Power Plant Engineering, KINGS</div><div class="pf">Monte Carlo transport, deterministic solvers, and AI-enhanced simulation.</div></div></div>
         <div class="pcard"><div class="pn">Prof. Jae-Seung Song</div><div class="pr">Research Professor</div><div class="paff">Ph.D. Nuclear Engineering</div><div class="pf">PWR core design, LEU+ fuel, boron-free cores, load-follow &amp; flexible operation.</div></div>
       </div>
     </div>
