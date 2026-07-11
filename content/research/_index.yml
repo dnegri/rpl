@@ -1,0 +1,11 @@
+kicker: Research areas
+heading: Five directions, one computational core.
+figure:
+  src: core-blueprint.jpg
+  caption: Assembly-wise power distribution across a hexagonal fast-reactor core — the computational output at the center of our work.
+order:
+  - 01-monte-carlo.md
+  - 02-whole-core.md
+  - 03-smr-core-design.md
+  - 04-computational-methods.md
+  - 05-ai-hpc.md

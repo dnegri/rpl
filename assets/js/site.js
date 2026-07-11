@@ -190,16 +190,76 @@
     return head(d) + '<div class="cwrap">' + addr + det + "</div>";
   }
 
-  var renderers = {
+  // ---- per-item collections (folder of files + _index.yml) -----------------
+
+  function parseFrontMatter(text) {
+    var m = /^\uFEFF?---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(text || "");
+    if (!m) return { body: String(text || "").trim() };
+    var data = yaml.load(m[1]) || {};
+    data.body = (m[2] || "").trim();
+    return data;
+  }
+
+  function loadCollection(dir) {
+    return fetch(dir + "/_index.yml")
+      .then(function (r) { if (!r.ok) throw new Error(r.status + " " + dir + "/_index.yml"); return r.text(); })
+      .then(function (t) {
+        var index = yaml.load(t) || {};
+        return Promise.all((index.order || []).map(function (fn) {
+          return fetch(dir + "/" + fn)
+            .then(function (r) { if (!r.ok) throw new Error(r.status + " " + fn); return r.text(); })
+            .then(parseFrontMatter);
+        })).then(function (items) { return { index: index, items: items }; });
+      });
+  }
+
+  function byGroups(items, groupOrder, mapFn) {
+    var buckets = {};
+    items.forEach(function (it) { (buckets[it.group] = buckets[it.group] || []).push(mapFn(it)); });
+    var order = groupOrder || Object.keys(buckets);
+    return order.filter(function (l) { return buckets[l]; }).map(function (l) { return { label: l, items: buckets[l] }; });
+  }
+
+  function assemblePeople(index, items) {
+    var pi = null;
+    var rest = items.filter(function (it) { if (it.pi) { pi = it; return false; } return true; });
+    var groups = byGroups(rest, index.groups, function (it) {
+      return { name: it.name, role: it.role, affiliation: it.affiliation, photo: it.photo, bio: it.body };
+    }).map(function (g) { return { label: g.label, people: g.items }; });
+    var piObj = pi ? { name: pi.name, role: pi.role, affiliation: pi.affiliation, photo: pi.photo, email: pi.email, bio: pi.body } : null;
+    return { kicker: index.kicker, heading: index.heading, pi: piObj, groups: groups };
+  }
+  function assembleResearch(index, items) {
+    return { kicker: index.kicker, heading: index.heading, intro: index.intro, columns: index.columns, figure: index.figure,
+      cards: items.map(function (it) { return { title: it.title, body: it.body, n: it.n }; }) };
+  }
+  function assembleCodes(index, items) {
+    var groups = byGroups(items, index.groups, function (it) {
+      return { name: it.name, status: it.status, exp: it.exp, tags: it.tags, desc: it.body };
+    }).map(function (g) { return { label: g.label, columns: index.columns, codes: g.items }; });
+    return { kicker: index.kicker, heading: index.heading, intro: index.intro, pipeline: index.pipeline,
+      pipeline_note: index.pipeline_note, figure: index.figure, foundation: index.foundation, groups: groups };
+  }
+  function assemblePubs(index, items) {
+    return { kicker: index.kicker, heading: index.heading, metrics: index.metrics, note: index.note,
+      items: items.map(function (it) { return { year: it.year, title: it.body, meta: it.meta }; }) };
+  }
+  function assembleTeaching(index, items) {
+    return { kicker: index.kicker, heading: index.heading, columns: index.columns,
+      courses: items.map(function (it) { return { title: it.title, body: it.body }; }) };
+  }
+
+  // Single-file sections use {file, render}; collections use {dir, assemble, render}.
+  var config = {
     "about-root": { file: "content/about.yml", render: renderAbout },
     "kings-root": { file: "content/kings.yml", render: renderKings },
-    "research-root": { file: "content/research.yml", render: renderResearch },
-    "codes-root": { file: "content/codes.yml", render: renderCodes },
     "smr-root": { file: "content/smr.yml", render: renderSMR },
-    "people-root": { file: "content/people.yml", render: renderPeople },
-    "publications-root": { file: "content/publications.yml", render: renderPubs },
-    "teaching-root": { file: "content/teaching.yml", render: renderTeaching },
-    "contact-root": { file: "content/contact.yml", render: renderContact }
+    "contact-root": { file: "content/contact.yml", render: renderContact },
+    "research-root": { dir: "content/research", assemble: assembleResearch, render: renderResearch },
+    "codes-root": { dir: "content/codes", assemble: assembleCodes, render: renderCodes },
+    "people-root": { dir: "content/people", assemble: assemblePeople, render: renderPeople },
+    "publications-root": { dir: "content/publications", assemble: assemblePubs, render: renderPubs },
+    "teaching-root": { dir: "content/teaching", assemble: assembleTeaching, render: renderTeaching }
   };
 
   if (typeof module !== "undefined" && module.exports) {
@@ -207,24 +267,28 @@
       renderAbout: renderAbout, renderKings: renderKings, renderResearch: renderResearch,
       renderCodes: renderCodes, renderSMR: renderSMR, renderPeople: renderPeople,
       renderPubs: renderPubs, renderTeaching: renderTeaching, renderContact: renderContact,
-      imgSrc: imgSrc, initials: initials, esc: esc, _setLibs: function (y, m) { yaml = y; marked = m; }
+      parseFrontMatter: parseFrontMatter, assemblePeople: assemblePeople, assembleResearch: assembleResearch,
+      assembleCodes: assembleCodes, assemblePubs: assemblePubs, assembleTeaching: assembleTeaching,
+      imgSrc: imgSrc, initials: initials, esc: esc, _setLibs: function (y, mk) { yaml = y; marked = mk; }
     };
   }
 
   if (typeof document !== "undefined") {
     var run = function () {
-      Object.keys(renderers).forEach(function (id) {
+      Object.keys(config).forEach(function (id) {
         var el = document.getElementById(id);
         if (!el) return;
-        var r = renderers[id];
-        fetch(r.file)
-          .then(function (res) { if (!res.ok) throw new Error(res.status + " " + r.file); return res.text(); })
-          .then(function (txt) { el.innerHTML = r.render(yaml.load(txt) || {}); })
-          .catch(function (err) {
+        var c = config[id];
+        var p = c.dir
+          ? loadCollection(c.dir).then(function (o) { return c.render(c.assemble(o.index, o.items)); })
+          : fetch(c.file).then(function (r) { if (!r.ok) throw new Error(r.status + " " + c.file); return r.text(); })
+              .then(function (t) { return c.render(yaml.load(t) || {}); });
+        p.then(function (html) { el.innerHTML = html; })
+         .catch(function (err) {
             el.innerHTML = '<p style="color:var(--copper)">Content failed to load (' + esc(err.message) +
               "). If previewing locally, serve over HTTP (see README).</p>";
             console.error(err);
-          });
+         });
       });
     };
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run);

@@ -1,0 +1,30 @@
+kicker: The code system
+heading: A two-step PWR pipeline, plus solvers for new geometries.
+intro: |
+  Lattice transport and Monte Carlo generate cross sections; HYBRID processes them into tablesets; SPHINCS runs the pin-by-pin whole core. Alongside the PWR chain, we build solvers for hexagonal and cylindrical Gen-IV geometries. Every code shares one foundation — the JIArray numerical library.
+groups:
+  - PWR two-step system
+  - Gen-IV & other geometries
+pipeline:
+  - label: MONTEX · CROMA
+    sub: lattice transport / XS generation
+  - label: HYBRID
+    sub: SPH · homogenization · functionalization
+    kind: mid
+  - label: SPHINCS
+    sub: pin-by-pin 3-D whole core
+    kind: out
+pipeline_note: data flow `.hybrid` → `.hbd` → whole-core results (k-eff · pin power · depletion · transient)
+figure:
+  src: two-step.png
+  pad: true
+  caption: The two-step method — pin-wise cross-section generation feeds a whole-core pin-by-pin 3-D calculation.
+foundation: Foundation — all codes are built on **JIArray**, an in-house header-only N-dimensional array library (1-based, column-major, CUDA-capable).
+order:
+  - sphincs.md
+  - montex.md
+  - croma.md
+  - hybrid.md
+  - venus.md
+  - hexanus.md
+  - cynus.md

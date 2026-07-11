@@ -1,0 +1,7 @@
+kicker: Teaching
+heading: Graduate courses in reactor physics and computation.
+order:
+  - reactor-physics.md
+  - nuclear-core-design.md
+  - computational-methods-in-nuclear.md
+  - neutron-transport-methods.md

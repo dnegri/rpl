@@ -1,0 +1,19 @@
+kicker: Publications
+heading: Peer-reviewed methods and core-design studies.
+metrics:
+  - value: '319'
+    label: total citations
+  - value: '7'
+    label: h-index
+  - value: '9'
+    label: i10-index
+note: Selected from 20+ publications (2008–2025) in Nuclear Engineering and Technology, Nuclear Engineering and Design, Progress in Nuclear Energy, and Annals of Nuclear Energy.
+order:
+  - 2025-01-fullcore-fuel-analysis-of.md
+  - 2025-02-performance-analysis-of-a.md
+  - 2025-03-transient-analysis-of-the.md
+  - 2024-04-solution-of-the-oecdnea.md
+  - 2024-05-reactor-core-design-with.md
+  - 2021-06-highperformance-3d-pinbypin-neutron.md
+  - 2021-07-analysis-of-the-c5g7td.md
+  - 2008-08-twolevel-coarsemesh-finitedifference-formulation.md
