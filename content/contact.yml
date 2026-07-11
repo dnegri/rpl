@@ -1,0 +1,18 @@
+# CONTACT.
+#  • address: one line per row.
+#  • details: key/value rows. Add "href:" to make the value a link (mailto: or https://).
+kicker: Contact
+heading: Find us in Ulsan.
+address_label: Address
+address_title: Reactor Physics & Computational Analysis Lab
+address:
+  - Room 411, Main Building
+  - KEPCO International Nuclear Graduate School (KINGS)
+  - 658-91 Haemaji-ro, Seosaeng-myeon, Ulju-gun
+  - Ulsan 45014, Republic of Korea
+details_label: Get in touch
+details:
+  - {k: PI, v: Prof. Joo-il Yoon}
+  - {k: Email, v: jiyoon@kings.ac.kr, href: "mailto:jiyoon@kings.ac.kr"}
+  - {k: Phone, v: "+82-52-712-7367"}
+  - {k: Institution, v: www.kings.ac.kr, href: "https://www.kings.ac.kr"}

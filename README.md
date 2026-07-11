@@ -18,19 +18,36 @@ Deployed with **GitHub Pages** (serves `index.html` from the `main` branch root)
 
 ## Editing content (no HTML needed)
 
-Content is being moved out of `index.html` into plain text files under `content/`,
-so you can update the site without touching HTML or CSS. The page loads these files
-in the browser and renders them into the design automatically.
+All page content lives in plain text files under [`content/`](content/) — one file per
+section. Edit those files (never `index.html`); the page loads them in the browser and
+renders them into the design automatically. Each file has comments at the top explaining
+its fields.
 
-**People** — edit [`content/people.yml`](content/people.yml):
+| Section | File |
+|---|---|
+| About | [`content/about.yml`](content/about.yml) |
+| KINGS | [`content/kings.yml`](content/kings.yml) |
+| Research | [`content/research.yml`](content/research.yml) |
+| Codes | [`content/codes.yml`](content/codes.yml) |
+| SMR | [`content/smr.yml`](content/smr.yml) |
+| People | [`content/people.yml`](content/people.yml) |
+| Publications | [`content/publications.yml`](content/publications.yml) |
+| Teaching | [`content/teaching.yml`](content/teaching.yml) |
+| Contact | [`content/contact.yml`](content/contact.yml) |
 
-- **Change a name/role/bio:** edit the text after `name:`, `role:`, `bio:`.
-- **Add a person:** copy a `- name:` block (keep the 2-space indentation) and fill it in.
-- **Add a photo:** put the image file in `assets/img/`, then set `photo: yourfile.jpg`.
-  Leave `photo` out and the site shows the person's initials instead.
-- **Add/rename a group** (e.g. "Postdocs"): copy a `- label:` block.
+Common tasks:
 
-Other sections (Codes, Publications, About, …) will follow the same pattern.
+- **Change text:** edit the value after a field (e.g. `heading:`, `bio:`, `desc:`).
+  Text fields accept **Markdown** (`**bold**`, `*italic*`, `[link](url)`).
+- **Add an item** (person, code, paper, course…): copy an existing `- ` block and fill it
+  in. Keep the 2-space indentation.
+- **Add / replace an image:** put the file in `assets/img/`, then write just its file name
+  (e.g. `photo: kim.jpg` or `src: core.jpg`). Images are resized to fit automatically.
+  A full path or URL also works.
+- **Change a layout:** many sections accept `columns: N` (1–4) to set the grid — e.g.
+  `columns: 2` gives a 2-across layout. Omit it for the responsive default.
+
+The nav bar, hero banner, and footer are design elements and stay in `index.html`.
 
 ## Local preview
 

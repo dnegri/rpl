@@ -1,0 +1,36 @@
+# PUBLICATIONS.
+#  • metrics: the three highlight numbers.
+#  • items:   one entry per paper. Wrap the journal name in *asterisks* to italicise it.
+#             To add a paper, copy a "- year:" block to the top.
+kicker: Publications
+heading: Peer-reviewed methods and core-design studies.
+metrics:
+  - {value: "319", label: total citations}
+  - {value: "7", label: h-index}
+  - {value: "9", label: i10-index}
+items:
+  - year: "2025"
+    title: "Full-core fuel analysis of a soluble boron-free SMR: pellet–cladding interaction and enhanced fuel safety through loading-pattern design"
+    meta: "C. Lee, K. Shim, H. Rho, J. Yoon, H. Jeong, Y. Lee · *Nuclear Engineering and Technology* 57(10), 103709"
+  - year: "2025"
+    title: "Performance analysis of a two-step calculation procedure based on Monte Carlo and pin-wise diffusion methods for PWR core design"
+    meta: "C. Lim, S.J. Kwon, J. Yoon · *Nuclear Engineering and Technology* 57(8), 103596"
+  - year: "2025"
+    title: "Transient analysis of the SPERT III E-core experiment with the nTRACER/SPHINCS code system"
+    meta: "S.D. Pawel, J. Yoon · *Nuclear Engineering and Technology*, 104011"
+  - year: "2024"
+    title: "Solution of the OECD/NEA PWR MOX/UO₂ benchmark with a high-performance pin-by-pin core calculation code"
+    meta: "H. Hong, J. Yoon · *Nuclear Engineering and Technology* 56(9), 3654–3667"
+  - year: "2024"
+    title: "Reactor core design with practical gadolinia burnable absorbers for soluble boron-free operation in the innovative SMR"
+    meta: "J.S. Kim, T.S. Jung, J. Yoon · *Nuclear Engineering and Technology* 56(8), 3144–3154"
+  - year: "2021"
+    title: "High-performance 3-D pin-by-pin neutron diffusion calculation based on 2D/1D decoupling for accurate pin-power estimation"
+    meta: "J. Yoon, H.C. Lee, H.G. Joo, H.S. Kim · *Nuclear Engineering and Technology* 53(11), 3543–3562"
+  - year: "2021"
+    title: "Analysis of the C5G7-TD benchmark with the multi-group pin-homogenized SP3 code SPHINCS"
+    meta: "H.H. Cho, J. Kang, J.I. Yoon, H.G. Joo · *Nuclear Engineering and Technology* 53(5), 1403–1415"
+  - year: "2008"
+    title: "Two-level coarse-mesh finite-difference formulation with multigroup source-expansion nodal kernels"
+    meta: "J.I. Yoon, H.G. Joo · *Journal of Nuclear Science and Technology* 45(7), 668–682"
+note: "Selected from 20+ publications (2008–2025) in Nuclear Engineering and Technology, Nuclear Engineering and Design, Progress in Nuclear Energy, and Annals of Nuclear Energy."

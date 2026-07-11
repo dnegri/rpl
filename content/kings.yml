@@ -1,0 +1,27 @@
+# KINGS — institution section. "body" is Markdown (a blank line = new paragraph).
+kicker: Our institution
+heading: KEPCO International Nuclear Graduate School.
+photo: kings-campus.jpg
+photo_alt: KINGS campus in Ulsan, with the KEPCO International Nuclear Graduate School sign
+caption: KINGS campus · Seosaeng, Ulsan
+body: >
+  RPL is part of **KINGS (KEPCO International Nuclear Graduate School)** — a specialized
+  graduate school established by Korea Electric Power Corporation (KEPCO) and opened in 2012.
+  It is devoted entirely to educating the next generation of leaders for the global nuclear
+  and energy industries.
+
+
+  Set in Ulsan — the industrial heart of Korea's nuclear power sector — KINGS delivers
+  practice-oriented master's and doctoral programs to an international student body drawn
+  from dozens of countries, working hand-in-hand with the KEPCO group across the full
+  nuclear-power-plant life cycle. This industry-linked setting is what lets RPL carry its
+  computational methods from first principles all the way to real reactor cores.
+facts:
+  - value: "2012"
+    label: Opened in Ulsan, Korea
+  - value: KEPCO
+    label: Established by Korea Electric Power Corp.
+  - value: M.S. · Ph.D.
+    label: Nuclear & energy graduate programs
+  - value: Global
+    label: Students from dozens of countries

@@ -1,0 +1,12 @@
+# ABOUT — edit the text below. "intro" accepts Markdown.
+kicker: About the lab
+heading: Computational reactor physics, from first principles to industry.
+intro: >
+  The Reactor Physics & Computational Analysis Laboratory (RPL) at KINGS
+  (KEPCO International Nuclear Graduate School), led by Prof. Joo-il Yoon, is dedicated to
+  nuclear reactor physics, computational methods, and advanced core design. Located in Ulsan —
+  the heart of Korea's nuclear energy industry — RPL bridges rigorous academic research with
+  real-world nuclear engineering. Our work spans the full spectrum of reactor physics
+  computation: from first-principles Monte Carlo neutron transport to industry-grade
+  whole-core diffusion solvers, and from traditional PWR core design to innovative Small
+  Modular Reactor concepts, with a strong international team and deep ties to KEPCO Nuclear Fuel.

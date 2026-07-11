@@ -1,0 +1,34 @@
+# SMR — flagship design work.
+#  • boxes:   spec panels (title + subtitle + a list of key/value rows)
+#  • figures: images shown below. Put files in assets/img/ and write the file names.
+#             figures_columns (optional) sets how many across (default = number of figures).
+kicker: Flagship design work
+heading: A soluble-boron-free innovative SMR.
+intro: >
+  RPL designs innovative SMR cores that operate without soluble boron, controlling
+  reactivity through advanced burnable absorbers and loading-pattern design — enabling daily
+  flexible operation and long cycles.
+boxes:
+  - title: iSMR core
+    subtitle: Soluble-boron-free, flexible-operation design point
+    specs:
+      - {k: Thermal power, v: 520 MWth}
+      - {k: Lattice / height, v: 17×17 · 2.4 m}
+      - {k: Fuel assemblies, v: 69 FAs}
+      - {k: Operation, v: daily flexible}
+      - {k: Cycle length, v: 24 months}
+  - title: HIGA burnable absorber
+    subtitle: Highly Intensive Gadolinia / Alumina — a strong BA for boron-free cores
+    specs:
+      - {k: Absorber, v: Gd₂O₃–Al₂O₃}
+      - {k: Gd₂O₃ content, v: 10–20 mol %}
+      - {k: Cladding, v: HANA-6}
+      - {k: Active height, v: 2.4 m}
+      - {k: Target, v: boron-free SMR}
+figures:
+  - src: higa.jpg
+    pad: true
+    caption: HIGA™ rod — a Gd₂O₃–Al₂O₃ burnable absorber in HANA-6™ cladding for boron-free operation.
+  - src: ismr-core.png
+    pad: true
+    caption: iSMR loading pattern and cycle-reactivity behavior from RPL core-design studies.

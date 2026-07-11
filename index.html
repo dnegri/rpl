@@ -219,6 +219,15 @@
   @media(min-width:820px){.smr-figs{grid-template-columns:1.35fr .85fr}}
   .smr-figs .figure{margin:0}
 
+  /* content-driven generic column layout (set columns: N in the content file) */
+  .gcols{display:grid;gap:16px;grid-template-columns:1fr}
+  @media(min-width:560px){.gcols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(min-width:820px){.gcols{grid-template-columns:repeat(var(--cols,3),minmax(0,1fr))}}
+  .gcols .figure{margin:0}
+  .kings-band h2{font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);font-weight:600;letter-spacing:-.015em;margin:0 0 26px}
+  .prose{font-size:16.5px;color:var(--ink-2);max-width:64ch}
+  .prose p{margin:0 0 14px}
+
   footer{padding:40px 0;color:var(--muted);font-size:13px}
   footer .fin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
   footer .mark{font-size:18px}
@@ -267,191 +276,36 @@
 
 <!-- ABOUT -->
 <section id="about" class="sec">
-  <div class="wrap">
-    <p class="kicker">About the lab</p>
-    <h2>Computational reactor physics, from first principles to industry.</h2>
-    <p class="intro">The Reactor Physics &amp; Computational Analysis Laboratory (RPL) at KINGS
-      (KEPCO International Nuclear Graduate School), led by Prof. Joo-il Yoon, is dedicated to
-      nuclear reactor physics, computational methods, and advanced core design. Located in Ulsan —
-      the heart of Korea's nuclear energy industry — RPL bridges rigorous academic research with
-      real-world nuclear engineering. Our work spans the full spectrum of reactor physics
-      computation: from first-principles Monte Carlo neutron transport to industry-grade
-      whole-core diffusion solvers, and from traditional PWR core design to innovative Small
-      Modular Reactor concepts, with a strong international team and deep ties to KEPCO Nuclear Fuel.</p>
+  <div class="wrap" id="about-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the About section.</p></noscript>
   </div>
 </section>
 
 <!-- KINGS -->
 <section id="kings" class="kings-band">
-  <div class="wrap">
-    <p class="kicker">Our institution</p>
-    <h2 style="font-family:var(--serif);font-size:clamp(26px,3.4vw,36px);font-weight:600;letter-spacing:-.015em;margin:0 0 26px">KEPCO International Nuclear Graduate School.</h2>
-    <div class="kings-grid">
-      <div class="kings-photo">
-        <img src="assets/img/kings-campus.jpg" alt="KINGS campus in Ulsan, with the KEPCO International Nuclear Graduate School sign" loading="lazy">
-        <span class="cred">KINGS campus · Seosaeng, Ulsan</span>
-      </div>
-      <div class="kings-copy">
-        <p>RPL is part of <b>KINGS (KEPCO International Nuclear Graduate School)</b> — a specialized
-          graduate school established by Korea Electric Power Corporation (KEPCO) and opened in 2012.
-          It is devoted entirely to educating the next generation of leaders for the global nuclear
-          and energy industries.</p>
-        <p>Set in Ulsan — the industrial heart of Korea's nuclear power sector — KINGS delivers
-          practice-oriented master's and doctoral programs to an international student body drawn
-          from dozens of countries, working hand-in-hand with the KEPCO group across the full
-          nuclear-power-plant life cycle. This industry-linked setting is what lets RPL carry its
-          computational methods from first principles all the way to real reactor cores.</p>
-        <div class="kings-facts">
-          <div class="kf"><b>2012</b><span>Opened in Ulsan, Korea</span></div>
-          <div class="kf"><b>KEPCO</b><span>Established by Korea Electric Power Corp.</span></div>
-          <div class="kf"><b>M.S. · Ph.D.</b><span>Nuclear &amp; energy graduate programs</span></div>
-          <div class="kf"><b>Global</b><span>Students from dozens of countries</span></div>
-        </div>
-      </div>
-    </div>
+  <div class="wrap" id="kings-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Kings section.</p></noscript>
   </div>
 </section>
 
 <!-- RESEARCH -->
 <section id="research" class="sec alt">
-  <div class="wrap">
-    <p class="kicker">Research areas</p>
-    <h2>Five directions, one computational core.</h2>
-    <div class="rgrid">
-      <div class="rcard"><div class="rn">01</div><h3>Monte Carlo Neutron Transport</h3><p>In-house GPU-accelerated Monte Carlo code (MONTEX), CUDA-based continuous-energy transport, and multigroup cross-section generation.</p></div>
-      <div class="rcard"><div class="rn">02</div><h3>Whole-Core Transport &amp; Diffusion</h3><p>Two-step Monte Carlo → pin-by-pin diffusion method (MONTEX/SPHINCS) and MOC-based 2D/1D whole-core transport (CROMA).</p></div>
-      <div class="rcard"><div class="rn">03</div><h3>SMR Core Design</h3><p>Innovative Small Modular Reactor core concepts, soluble-boron-free reactivity control, and APR1400 core design for next-generation systems.</p></div>
-      <div class="rcard"><div class="rn">04</div><h3>Computational Methods</h3><p>Method of Characteristics (MOC), Coarse-Mesh Finite-Difference (CMFD) acceleration, and depletion methods including predictor-corrector and CRAM.</p></div>
-      <div class="rcard"><div class="rn">05</div><h3>AI &amp; HPC for Nuclear</h3><p>GPU/CUDA acceleration, MPI/OpenMP parallel frameworks, and machine-learning applications in reactor-physics simulation and optimization.</p></div>
-    </div>
-    <figure class="figure">
-      <img src="assets/img/core-blueprint.jpg" alt="Rendering of a hexagonal reactor core with a computed neutron power distribution over engineering blueprints" loading="lazy">
-      <figcaption>Assembly-wise power distribution across a hexagonal fast-reactor core — the computational output at the center of our work.</figcaption>
-    </figure>
+  <div class="wrap" id="research-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Research section.</p></noscript>
   </div>
 </section>
 
 <!-- CODES -->
 <section id="codes" class="sec">
-  <div class="wrap">
-    <p class="kicker">The code system</p>
-    <h2>A two-step PWR pipeline, plus solvers for new geometries.</h2>
-    <p class="intro">Lattice transport and Monte Carlo generate cross sections; HYBRID processes them
-      into tablesets; SPHINCS runs the pin-by-pin whole core. Alongside the PWR chain, we build
-      solvers for hexagonal and cylindrical Gen-IV geometries. Every code shares one foundation —
-      the JIArray numerical library.</p>
-
-    <div class="pipe">
-      <div class="node"><div class="lab">MONTEX · CROMA</div><div class="sub">lattice transport / XS generation</div></div>
-      <div class="arrow">──▶</div>
-      <div class="node mid"><div class="lab">HYBRID</div><div class="sub">SPH · homogenization · functionalization</div></div>
-      <div class="arrow">──▶</div>
-      <div class="node out"><div class="lab">SPHINCS</div><div class="sub">pin-by-pin 3-D whole core</div></div>
-    </div>
-    <p class="pipe-note">data flow <code>.hybrid</code> → <code>.hbd</code> → whole-core results (k-eff · pin power · depletion · transient)</p>
-
-    <figure class="figure pad">
-      <img src="assets/img/two-step.png" alt="Two-step method: pin-wise cross-section generation on a lattice, then a whole-core pin-by-pin 3-D calculation" loading="lazy">
-      <figcaption>The two-step method — pin-wise cross-section generation feeds a whole-core pin-by-pin 3-D calculation.</figcaption>
-    </figure>
-
-    <div class="grouplbl">PWR two-step system</div>
-    <div class="cgrid">
-      <div class="ccard">
-        <div class="top"><span class="name">SPHINCS</span><span class="badge m">MATURE</span></div>
-        <div class="exp">SPH-based Pin-Homogenized Innovative Neutronics Core Simulator</div>
-        <div class="desc">3-D pin-by-pin diffusion core simulator — steady-state, depletion, reactivity coefficients, and time-dependent transient with one kernel.</div>
-        <div class="tags"><span class="tag">2D/1D</span><span class="tag">two-level CMFD</span><span class="tag">SPH · SP3</span></div>
-      </div>
-      <div class="ccard">
-        <div class="top"><span class="name">MONTEX</span><span class="badge a">ACTIVE</span></div>
-        <div class="exp">Monte Carlo code for Neutronic X</div>
-        <div class="desc">GPU continuous-energy Monte Carlo transport, generating transport-corrected multigroup cross sections for the two-step pipeline.</div>
-        <div class="tags"><span class="tag">GPU / CUDA</span><span class="tag">CRAM depletion</span><span class="tag">MPI</span></div>
-      </div>
-      <div class="ccard">
-        <div class="top"><span class="name">CROMA</span><span class="badge a">ACTIVE</span></div>
-        <div class="exp">Characteristics-based Reactor Operation &amp; Multigroup Analysis</div>
-        <div class="desc">A newly developed 2-D Method-of-Characteristics lattice transport solver in C++, sharing the DeCART library, with cell-based CMFD acceleration.</div>
-        <div class="tags"><span class="tag">MOC</span><span class="tag">CMFD</span><span class="tag">depletion · branch</span></div>
-      </div>
-      <div class="ccard">
-        <div class="top"><span class="name">HYBRID</span><span class="badge a">ACTIVE</span></div>
-        <div class="exp">Cross-section processing pipeline</div>
-        <div class="desc">Converts lattice and Monte Carlo results into SPHINCS-ready tablesets — isotopic lumping, SPH equivalence, discontinuity factors, and branch functionalization.</div>
-        <div class="tags"><span class="tag">SPH</span><span class="tag">discontinuity factors</span><span class="tag">.hbd</span></div>
-      </div>
-    </div>
-
-    <div class="grouplbl">Gen-IV &amp; other geometries</div>
-    <div class="cgrid">
-      <div class="ccard">
-        <div class="top"><span class="name">VENUS</span><span class="badge a">ACTIVE</span></div>
-        <div class="exp">SFR hexagonal-core solver</div>
-        <div class="desc">Variational nodal method for sodium-cooled fast reactor cores — 2-D/3-D hex-z, multigroup diffusion and Pₙ transport, verified against Takeda-4, SNR-300 and VVER-440.</div>
-        <div class="tags"><span class="tag">variational nodal</span><span class="tag">Pₙ transport</span><span class="tag">CMFD</span></div>
-      </div>
-      <div class="ccard">
-        <div class="top"><span class="name">HEXANUS</span><span class="badge d">IN DEVELOPMENT</span></div>
-        <div class="exp">Hexagonal nodal diffusion</div>
-        <div class="desc">Multigroup nodal diffusion solver for hexagonal-assembly cores using the TPEN / Corner-Point-Balance method with CMFD acceleration.</div>
-        <div class="tags"><span class="tag">TPEN · CPB</span><span class="tag">CMFD</span><span class="tag">hex-z</span></div>
-      </div>
-      <div class="ccard">
-        <div class="top"><span class="name">CYNUS</span><span class="badge d">IN DEVELOPMENT</span></div>
-        <div class="exp">Cylindrical-geometry diffusion solver</div>
-        <div class="desc">Fine-mesh FDM + CMFD eigenvalue solver in cylindrical (r,θ,z) geometry, targeting molten-salt reactor core analysis.</div>
-        <div class="tags"><span class="tag">FDM</span><span class="tag">CMFD</span><span class="tag">MSR</span></div>
-      </div>
-    </div>
-
-    <p class="found">Foundation — all codes are built on <b>JIArray</b>, an in-house header-only N-dimensional
-      array library (1-based, column-major, CUDA-capable).</p>
+  <div class="wrap" id="codes-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Codes section.</p></noscript>
   </div>
 </section>
 
 <!-- SMR / HIGA -->
 <section id="smr" class="sec alt">
-  <div class="wrap">
-    <p class="kicker">Flagship design work</p>
-    <h2>A soluble-boron-free innovative SMR.</h2>
-    <p class="intro">RPL designs innovative SMR cores that operate without soluble boron, controlling
-      reactivity through advanced burnable absorbers and loading-pattern design — enabling daily
-      flexible operation and long cycles.</p>
-    <div class="feat">
-      <div class="fbox">
-        <h3>iSMR core</h3>
-        <p class="fsub">Soluble-boron-free, flexible-operation design point</p>
-        <div class="specs">
-          <div class="row"><span class="k">Thermal power</span><span class="v">520 MWth</span></div>
-          <div class="row"><span class="k">Lattice / height</span><span class="v">17×17 · 2.4 m</span></div>
-          <div class="row"><span class="k">Fuel assemblies</span><span class="v">69 FAs</span></div>
-          <div class="row"><span class="k">Operation</span><span class="v">daily flexible</span></div>
-          <div class="row"><span class="k">Cycle length</span><span class="v">24 months</span></div>
-        </div>
-      </div>
-      <div class="fbox">
-        <h3>HIGA burnable absorber</h3>
-        <p class="fsub">Highly Intensive Gadolinia / Alumina — a strong BA for boron-free cores</p>
-        <div class="specs">
-          <div class="row"><span class="k">Absorber</span><span class="v">Gd₂O₃–Al₂O₃</span></div>
-          <div class="row"><span class="k">Gd₂O₃ content</span><span class="v">10–20 mol %</span></div>
-          <div class="row"><span class="k">Cladding</span><span class="v">HANA-6</span></div>
-          <div class="row"><span class="k">Active height</span><span class="v">2.4 m</span></div>
-          <div class="row"><span class="k">Target</span><span class="v">boron-free SMR</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="smr-figs">
-      <figure class="figure pad">
-        <img src="assets/img/higa.jpg" alt="HIGA rod and HANA-6 cladding with a Gd2O3-Al2O3 neutron absorber pellet and Al2O3 cutback" loading="lazy">
-        <figcaption>HIGA™ rod — a Gd₂O₃–Al₂O₃ burnable absorber in HANA-6™ cladding for boron-free operation.</figcaption>
-      </figure>
-      <figure class="figure pad">
-        <img src="assets/img/ismr-core.png" alt="iSMR core loading pattern with burnup and cycle-reactivity curves" loading="lazy">
-        <figcaption>iSMR loading pattern and cycle-reactivity behavior from RPL core-design studies.</figcaption>
-      </figure>
-    </div>
+  <div class="wrap" id="smr-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Smr section.</p></noscript>
   </div>
 </section>
 
@@ -466,66 +320,22 @@
 
 <!-- PUBLICATIONS -->
 <section id="publications" class="sec alt">
-  <div class="wrap">
-    <p class="kicker">Publications</p>
-    <h2>Peer-reviewed methods and core-design studies.</h2>
-    <div class="pubmetrics">
-      <div class="m"><b>319</b><span>total citations</span></div>
-      <div class="m"><b>7</b><span>h-index</span></div>
-      <div class="m"><b>9</b><span>i10-index</span></div>
-    </div>
-    <div class="publist">
-      <div class="pub"><div class="yr">2025</div><div><p class="pt">Full-core fuel analysis of a soluble boron-free SMR: pellet–cladding interaction and enhanced fuel safety through loading-pattern design</p><div class="pmeta">C. Lee, K. Shim, H. Rho, J. Yoon, H. Jeong, Y. Lee · <em>Nuclear Engineering and Technology</em> 57(10), 103709</div></div></div>
-      <div class="pub"><div class="yr">2025</div><div><p class="pt">Performance analysis of a two-step calculation procedure based on Monte Carlo and pin-wise diffusion methods for PWR core design</p><div class="pmeta">C. Lim, S.J. Kwon, J. Yoon · <em>Nuclear Engineering and Technology</em> 57(8), 103596</div></div></div>
-      <div class="pub"><div class="yr">2025</div><div><p class="pt">Transient analysis of the SPERT III E-core experiment with the nTRACER/SPHINCS code system</p><div class="pmeta">S.D. Pawel, J. Yoon · <em>Nuclear Engineering and Technology</em>, 104011</div></div></div>
-      <div class="pub"><div class="yr">2024</div><div><p class="pt">Solution of the OECD/NEA PWR MOX/UO₂ benchmark with a high-performance pin-by-pin core calculation code</p><div class="pmeta">H. Hong, J. Yoon · <em>Nuclear Engineering and Technology</em> 56(9), 3654–3667</div></div></div>
-      <div class="pub"><div class="yr">2024</div><div><p class="pt">Reactor core design with practical gadolinia burnable absorbers for soluble boron-free operation in the innovative SMR</p><div class="pmeta">J.S. Kim, T.S. Jung, J. Yoon · <em>Nuclear Engineering and Technology</em> 56(8), 3144–3154</div></div></div>
-      <div class="pub"><div class="yr">2021</div><div><p class="pt">High-performance 3-D pin-by-pin neutron diffusion calculation based on 2D/1D decoupling for accurate pin-power estimation</p><div class="pmeta">J. Yoon, H.C. Lee, H.G. Joo, H.S. Kim · <em>Nuclear Engineering and Technology</em> 53(11), 3543–3562</div></div></div>
-      <div class="pub"><div class="yr">2021</div><div><p class="pt">Analysis of the C5G7-TD benchmark with the multi-group pin-homogenized SP3 code SPHINCS</p><div class="pmeta">H.H. Cho, J. Kang, J.I. Yoon, H.G. Joo · <em>Nuclear Engineering and Technology</em> 53(5), 1403–1415</div></div></div>
-      <div class="pub"><div class="yr">2008</div><div><p class="pt">Two-level coarse-mesh finite-difference formulation with multigroup source-expansion nodal kernels</p><div class="pmeta">J.I. Yoon, H.G. Joo · <em>Journal of Nuclear Science and Technology</em> 45(7), 668–682</div></div></div>
-    </div>
-    <p class="pubmore">Selected from 20+ publications (2008–2025) in Nuclear Engineering and Technology, Nuclear Engineering and Design, Progress in Nuclear Energy, and Annals of Nuclear Energy.</p>
+  <div class="wrap" id="publications-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Publications section.</p></noscript>
   </div>
 </section>
 
 <!-- TEACHING -->
 <section id="teaching" class="sec">
-  <div class="wrap">
-    <p class="kicker">Teaching</p>
-    <h2>Graduate courses in reactor physics and computation.</h2>
-    <div class="tgrid">
-      <div class="tcard"><h3>Reactor Physics</h3><p>Neutron lifecycle, criticality, diffusion theory, and the physics of sustained fission chain reactions in thermal and fast systems.</p></div>
-      <div class="tcard"><h3>Nuclear Core Design</h3><p>Practical APR1400 Nuclear Design (PAND) — hands-on full-cycle design methodology of Korea's flagship advanced PWR.</p></div>
-      <div class="tcard"><h3>Computational Methods in Nuclear Engineering</h3><p>Numerical methods for reactor-physics problems: finite-difference, finite-element, and spectral methods for the transport equations.</p></div>
-      <div class="tcard"><h3>Neutron Transport Methods</h3><p>Stochastic and deterministic simulation: random-number generation, variance reduction, tallying, and parallel implementation.</p></div>
-    </div>
+  <div class="wrap" id="teaching-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Teaching section.</p></noscript>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="sec alt">
-  <div class="wrap">
-    <p class="kicker">Contact</p>
-    <h2>Find us in Ulsan.</h2>
-    <div class="cwrap">
-      <div class="cbox">
-        <p class="clab">Address</p>
-        <address>
-          <span class="big">Reactor Physics &amp; Computational Analysis Lab</span><br>
-          Room 411, Main Building<br>
-          KEPCO International Nuclear Graduate School (KINGS)<br>
-          658-91 Haemaji-ro, Seosaeng-myeon, Ulju-gun<br>
-          Ulsan 45014, Republic of Korea
-        </address>
-      </div>
-      <div class="cbox">
-        <p class="clab">Get in touch</p>
-        <div class="cline"><span class="k">PI</span><span>Prof. Joo-il Yoon</span></div>
-        <div class="cline"><span class="k">Email</span><span><a href="mailto:jiyoon@kings.ac.kr">jiyoon@kings.ac.kr</a></span></div>
-        <div class="cline"><span class="k">Phone</span><span>+82-52-712-7367</span></div>
-        <div class="cline"><span class="k">Institution</span><span><a href="https://www.kings.ac.kr">www.kings.ac.kr</a></span></div>
-      </div>
-    </div>
+  <div class="wrap" id="contact-root">
+    <noscript><p style="color:var(--muted)">Enable JavaScript to view the Contact section.</p></noscript>
   </div>
 </section>
 

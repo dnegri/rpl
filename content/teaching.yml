@@ -1,0 +1,13 @@
+# TEACHING — graduate courses. Set "columns: N" to fix the grid (1–4); omit for auto.
+kicker: Teaching
+heading: Graduate courses in reactor physics and computation.
+# columns: 2
+courses:
+  - title: Reactor Physics
+    body: Neutron lifecycle, criticality, diffusion theory, and the physics of sustained fission chain reactions in thermal and fast systems.
+  - title: Nuclear Core Design
+    body: Practical APR1400 Nuclear Design (PAND) — hands-on full-cycle design methodology of Korea's flagship advanced PWR.
+  - title: Computational Methods in Nuclear Engineering
+    body: "Numerical methods for reactor-physics problems: finite-difference, finite-element, and spectral methods for the transport equations."
+  - title: Neutron Transport Methods
+    body: "Stochastic and deterministic simulation: random-number generation, variance reduction, tallying, and parallel implementation."
