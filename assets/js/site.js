@@ -10,7 +10,7 @@
 
    Visual language: the "Industry" design system — square blueprint frames with
    corner registration marks, steel-blue on industrial grey, Barlow Condensed
-   uppercase headings. Photos get a duotone steel tint; data figures do not.
+   uppercase headings. Photos and figures render in their natural colour.
 */
 (function (root) {
   "use strict";
@@ -74,7 +74,7 @@
     return head(d) +
       '<div class="kings-grid">' +
         '<div class="kings-copy">' + md(d.body) + facts + "</div>" +
-        '<figure class="kings-photo blueprint duotone">' + corners() +
+        '<figure class="kings-photo blueprint">' + corners() +
           '<img src="' + esc(imgSrc(d.photo)) + '" alt="' + esc(d.photo_alt || "KINGS campus") + '" loading="lazy">' +
           (d.caption ? "<figcaption>" + mdi(d.caption) + "</figcaption>" : "") +
         "</figure>" +
@@ -140,7 +140,7 @@
 
   function personCard(p) {
     var photo = p.photo
-      ? '<figure class="pphoto duotone"><img src="' + esc(imgSrc(p.photo)) + '" alt="' + esc(p.name) + '" loading="lazy"></figure>'
+      ? '<figure class="pphoto"><img src="' + esc(imgSrc(p.photo)) + '" alt="' + esc(p.name) + '" loading="lazy"></figure>'
       : '<div class="mono">' + esc(initials(p.name)) + "</div>";
     return '<div class="pcard blueprint">' + corners() + photo + '<div class="pbody">' +
       '<div class="pn">' + esc(p.name) + "</div>" +
@@ -150,7 +150,7 @@
   }
   function renderPeople(d) {
     var pi = d.pi ? '<div class="pi-feature blueprint">' + corners() +
-      '<figure class="pi-photo blueprint duotone">' + corners() +
+      '<figure class="pi-photo blueprint">' + corners() +
         (d.pi.photo ? '<img src="' + esc(imgSrc(d.pi.photo)) + '" alt="' + esc(d.pi.name) + '" loading="lazy">' : "") +
       "</figure>" +
       '<div class="pi-body">' +
