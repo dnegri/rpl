@@ -7,6 +7,10 @@
      assets/img/. A full path or URL is used as-is. Images auto-fit their column.
    • Prose fields (body, intro, desc, caption, meta …) accept **Markdown**.
    • Card sections accept an optional  columns: N  to set the layout (1, 2, 3, 4).
+
+   Visual language: the "Industry" design system — square blueprint frames with
+   corner registration marks, steel-blue on industrial grey, Barlow Condensed
+   uppercase headings. Photos get a duotone steel tint; data figures do not.
 */
 (function (root) {
   "use strict";
@@ -33,31 +37,30 @@
     return (((parts[0] || "")[0] || "") + ((parts[1] || "")[0] || "")).toUpperCase();
   }
 
+  // Blueprint corner registration marks.
+  function corners() {
+    return '<i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>';
+  }
+
   function head(d) {
     return (d.kicker ? '<p class="kicker">' + esc(d.kicker) + "</p>" : "") +
            (d.heading ? "<h2>" + mdi(d.heading) + "</h2>" : "") +
            (d.intro ? '<p class="intro">' + mdi(d.intro) + "</p>" : "");
   }
+  var RULE = '<hr class="rule">';
 
-  // Open a card grid: default responsive class, or a fixed column count.
-  function gridOpen(defaultClass, columns) {
-    return columns ? '<div class="gcols" style="--cols:' + (+columns) + '">' : '<div class="' + defaultClass + '">';
-  }
-
+  // Data figures (plots, diagrams) keep their own colour — blueprint frame only.
   function figure(fig) {
     if (!fig) return "";
     if (typeof fig === "string") fig = { src: fig };
-    return '<figure class="figure' + (fig.pad ? " pad" : "") + '">' +
+    return '<figure class="figure blueprint">' + corners() +
       '<img src="' + esc(imgSrc(fig.src)) + '" alt="' + esc(fig.alt || fig.caption || "") + '" loading="lazy">' +
       (fig.caption ? "<figcaption>" + mdi(fig.caption) + "</figcaption>" : "") + "</figure>";
   }
-  function figures(list, columns) {
+  function figures(list) {
     if (!list || !list.length) return "";
     var inner = list.map(figure).join("");
-    var cols = columns || (list.length > 1 ? list.length : 1);
-    return list.length > 1
-      ? '<div class="gcols" style="--cols:' + (+cols) + ';margin-top:16px">' + inner + "</div>"
-      : inner;
+    return list.length > 1 ? '<div class="smr-figs">' + inner + "</div>" : inner;
   }
 
   // ---- section renderers ---------------------------------------------------
@@ -65,42 +68,29 @@
   function renderAbout(d) { return head(d) + (d.body ? '<div class="prose">' + md(d.body) + "</div>" : ""); }
 
   function renderKings(d) {
+    var facts = (d.facts && d.facts.length) ? '<div class="kings-facts">' + d.facts.map(function (f) {
+      return '<div class="kf"><b>' + esc(f.value) + "</b><span>" + esc(f.label) + "</span></div>";
+    }).join("") + "</div>" : "";
     return head(d) +
       '<div class="kings-grid">' +
-        '<div class="kings-photo"><img src="' + esc(imgSrc(d.photo)) + '" alt="' + esc(d.photo_alt || "KINGS campus") + '" loading="lazy">' +
-          (d.caption ? '<span class="cred">' + esc(d.caption) + "</span>" : "") + "</div>" +
-        '<div class="kings-copy">' + md(d.body) +
-          (d.facts && d.facts.length ? '<div class="kings-facts">' + d.facts.map(function (f) {
-            return '<div class="kf"><b>' + esc(f.value) + "</b><span>" + esc(f.label) + "</span></div>";
-          }).join("") + "</div>" : "") +
-        "</div>" +
+        '<div class="kings-copy">' + md(d.body) + facts + "</div>" +
+        '<figure class="kings-photo blueprint duotone">' + corners() +
+          '<img src="' + esc(imgSrc(d.photo)) + '" alt="' + esc(d.photo_alt || "KINGS campus") + '" loading="lazy">' +
+          (d.caption ? "<figcaption>" + mdi(d.caption) + "</figcaption>" : "") +
+        "</figure>" +
       "</div>";
   }
 
   function renderResearch(d) {
     var cards = (d.cards || []).map(function (c, i) {
-      return '<div class="rcard">' + (c.n || c.n === 0 || true ? '<div class="rn">' + esc(c.n != null ? c.n : ("0" + (i + 1)).slice(-2)) + "</div>" : "") +
+      var n = c.n != null ? c.n : ("0" + (i + 1)).slice(-2);
+      return '<div class="rcard blueprint">' + corners() +
+        '<div class="rn">' + esc(n) + "</div>" +
         "<h3>" + mdi(c.title) + "</h3><p>" + mdi(c.body) + "</p></div>";
     }).join("");
-    return head(d) + gridOpen("rgrid", d.columns) + cards + "</div>" + figure(d.figure);
+    return head(d) + RULE + '<div class="rgrid">' + cards + "</div>" + figure(d.figure);
   }
 
-  function badgeClass(status) {
-    var s = String(status || "").toLowerCase();
-    if (s.indexOf("matur") >= 0) return "m";
-    if (s.indexOf("develop") >= 0 || s.indexOf("prototype") >= 0) return "d";
-    return "a";
-  }
-  function codeCard(c) {
-    return '<div class="ccard">' +
-      '<div class="top"><span class="name">' + esc(c.name) + "</span>" +
-        (c.status ? '<span class="badge ' + badgeClass(c.status) + '">' + esc(c.status) + "</span>" : "") + "</div>" +
-      (c.exp ? '<div class="exp">' + mdi(c.exp) + "</div>" : "") +
-      (c.desc ? '<div class="desc">' + mdi(c.desc) + "</div>" : "") +
-      (c.tags && c.tags.length ? '<div class="tags">' + c.tags.map(function (t) {
-        return '<span class="tag">' + esc(t) + "</span>";
-      }).join("") + "</div>" : "") + "</div>";
-  }
   function renderCodes(d) {
     var pipe = "";
     if (d.pipeline && d.pipeline.length) {
@@ -111,78 +101,99 @@
         return (i ? '<div class="arrow">──▶</div>' : "") + node;
       }).join("") + "</div>";
     }
-    var groups = (d.groups || []).map(function (g) {
-      return '<div class="grouplbl">' + esc(g.label) + "</div>" +
-        gridOpen("cgrid", g.columns || d.columns) + (g.codes || []).map(codeCard).join("") + "</div>";
+    var rows = (d.groups || []).map(function (g) {
+      var groupRow = '<tr class="grp"><td colspan="4">' + esc(g.label) + "</td></tr>";
+      var codeRows = (g.codes || []).map(function (c) {
+        var tags = (c.tags && c.tags.length)
+          ? '<div class="ctags">' + c.tags.map(function (t) { return '<span class="tag tag-neutral">' + esc(t) + "</span>"; }).join("") + "</div>"
+          : "";
+        var status = c.status ? '<span class="tag tag-outline">' + esc(c.status) + "</span>" : "";
+        return "<tr>" +
+          '<td class="cname">' + esc(c.name) + "</td>" +
+          '<td class="cexp">' + mdi(c.exp || "") + "</td>" +
+          "<td>" + tags + "</td>" +
+          "<td>" + status + "</td></tr>";
+      }).join("");
+      return groupRow + codeRows;
     }).join("");
+    var table = rows ? '<div class="table-wrap"><table class="table">' +
+      "<thead><tr>" +
+        '<th style="width:150px">Code</th><th>Full name</th>' +
+        '<th style="width:230px">Focus</th><th style="width:120px">Status</th>' +
+      "</tr></thead><tbody>" + rows + "</tbody></table></div>" : "";
     return head(d) + pipe +
       (d.pipeline_note ? '<p class="pipe-note">' + mdi(d.pipeline_note) + "</p>" : "") +
-      figure(d.figure) + groups +
-      (d.foundation ? '<p class="found">' + mdi(d.foundation) + "</p>" : "");
+      figure(d.figure) + table +
+      (d.foundation ? '<p class="foundation">' + mdi(d.foundation) + "</p>" : "");
   }
 
   function renderSMR(d) {
     var boxes = (d.boxes || []).map(function (b) {
-      return '<div class="fbox"><h3>' + mdi(b.title) + "</h3>" +
+      return '<div class="fbox blueprint">' + corners() + "<h3>" + mdi(b.title) + "</h3>" +
         (b.subtitle ? '<p class="fsub">' + mdi(b.subtitle) + "</p>" : "") +
         '<div class="specs">' + (b.specs || []).map(function (r) {
           return '<div class="row"><span class="k">' + esc(r.k) + '</span><span class="v">' + esc(r.v) + "</span></div>";
         }).join("") + "</div></div>";
     }).join("");
-    return head(d) + '<div class="feat">' + boxes + "</div>" + figures(d.figures, d.figures_columns);
+    return head(d) + RULE + '<div class="feat">' + boxes + "</div>" + figures(d.figures);
   }
 
   function personCard(p) {
-    var av = p.photo
-      ? '<img class="avatar" src="' + esc(imgSrc(p.photo)) + '" alt="' + esc(p.name) + '" loading="lazy">'
+    var photo = p.photo
+      ? '<figure class="pphoto duotone"><img src="' + esc(imgSrc(p.photo)) + '" alt="' + esc(p.name) + '" loading="lazy"></figure>'
       : '<div class="mono">' + esc(initials(p.name)) + "</div>";
-    return '<div class="pcard">' + av + '<div class="pbody">' +
+    return '<div class="pcard blueprint">' + corners() + photo + '<div class="pbody">' +
       '<div class="pn">' + esc(p.name) + "</div>" +
       (p.role ? '<div class="pr">' + esc(p.role) + "</div>" : "") +
       (p.affiliation ? '<div class="paff">' + esc(p.affiliation) + "</div>" : "") +
       (p.bio ? '<div class="pf">' + mdi(p.bio) + "</div>" : "") + "</div></div>";
   }
   function renderPeople(d) {
-    var pi = d.pi ? '<div class="pi-feature">' +
-      (d.pi.photo ? '<img class="pi-photo" src="' + esc(imgSrc(d.pi.photo)) + '" alt="' + esc(d.pi.name) + '" loading="lazy">' : "") +
-      "<div>" +
+    var pi = d.pi ? '<div class="pi-feature blueprint">' + corners() +
+      '<figure class="pi-photo blueprint duotone">' + corners() +
+        (d.pi.photo ? '<img src="' + esc(imgSrc(d.pi.photo)) + '" alt="' + esc(d.pi.name) + '" loading="lazy">' : "") +
+      "</figure>" +
+      '<div class="pi-body">' +
+        (d.pi.role ? '<span class="tag tag-outline">' + esc(d.pi.role) + "</span>" : "") +
         '<div class="pn">' + esc(d.pi.name) + "</div>" +
-        (d.pi.role ? '<div class="pr">' + esc(d.pi.role) + "</div>" : "") +
         (d.pi.affiliation ? '<div class="paff">' + esc(d.pi.affiliation) + "</div>" : "") +
-        (d.pi.bio ? '<p class="pbio">' + mdi(d.pi.bio) + "</p>" : "") +
         (d.pi.email ? '<div class="pmail"><a href="mailto:' + esc(d.pi.email) + '">' + esc(d.pi.email) + "</a></div>" : "") +
+        (d.pi.bio ? '<p class="pbio">' + mdi(d.pi.bio) + "</p>" : "") +
       "</div></div>" : "";
     var groups = (d.groups || []).map(function (g) {
-      return '<div class="pgroup"><p class="glab">' + esc(g.label) + '</p>' +
-        gridOpen("pgrid", g.columns) + (g.people || []).map(personCard).join("") + "</div></div>";
+      return '<div class="pgroup"><p class="glab">' + esc(g.label) + "</p>" +
+        '<div class="pgrid">' + (g.people || []).map(personCard).join("") + "</div></div>";
     }).join("");
     return head(d) + pi + groups;
   }
 
   function renderPubs(d) {
     var metrics = (d.metrics && d.metrics.length) ? '<div class="pubmetrics">' + d.metrics.map(function (m) {
-      return '<div class="m"><b>' + esc(m.value) + "</b><span>" + esc(m.label) + "</span></div>";
+      return '<div class="m blueprint">' + corners() + "<b>" + esc(m.value) + "</b><span>" + esc(m.label) + "</span></div>";
     }).join("") + "</div>" : "";
+    var header = '<div class="pubhead"><div>' +
+      (d.kicker ? '<p class="kicker">' + esc(d.kicker) + "</p>" : "") +
+      (d.heading ? "<h2>" + mdi(d.heading) + "</h2>" : "") + "</div>" + metrics + "</div>";
     var list = '<div class="publist">' + (d.items || []).map(function (p) {
       return '<div class="pub"><div class="yr">' + esc(p.year) + "</div><div>" +
         '<p class="pt">' + mdi(p.title) + "</p>" +
         (p.meta ? '<div class="pmeta">' + mdi(p.meta) + "</div>" : "") + "</div></div>";
     }).join("") + "</div>";
-    return head(d) + metrics + list + (d.note ? '<p class="pubmore">' + mdi(d.note) + "</p>" : "");
+    return header + RULE + list + (d.note ? '<p class="pubmore">' + mdi(d.note) + "</p>" : "");
   }
 
   function renderTeaching(d) {
     var cards = (d.courses || []).map(function (c) {
-      return '<div class="tcard"><h3>' + mdi(c.title) + "</h3><p>" + mdi(c.body) + "</p></div>";
+      return '<div class="tcard blueprint">' + corners() + "<h3>" + mdi(c.title) + "</h3><p>" + mdi(c.body) + "</p></div>";
     }).join("");
-    return head(d) + gridOpen("tgrid", d.columns) + cards + "</div>";
+    return head(d) + RULE + '<div class="tgrid">' + cards + "</div>";
   }
 
   function renderContact(d) {
-    var addr = '<div class="cbox"><p class="clab">' + esc(d.address_label || "Address") + "</p><address>" +
+    var addr = '<div class="cbox blueprint">' + corners() + '<p class="clab">' + esc(d.address_label || "Address") + "</p><address>" +
       (d.address_title ? '<span class="big">' + esc(d.address_title) + "</span><br>" : "") +
       (d.address || []).map(esc).join("<br>") + "</address></div>";
-    var det = '<div class="cbox"><p class="clab">' + esc(d.details_label || "Get in touch") + "</p>" +
+    var det = '<div class="cbox blueprint">' + corners() + '<p class="clab">' + esc(d.details_label || "Get in touch") + "</p>" +
       (d.details || []).map(function (r) {
         var val = r.href ? '<a href="' + esc(r.href) + '">' + esc(r.v) + "</a>" : esc(r.v);
         return '<div class="cline"><span class="k">' + esc(r.k) + "</span><span>" + val + "</span></div>";
@@ -285,7 +296,7 @@
               .then(function (t) { return c.render(yaml.load(t) || {}); });
         p.then(function (html) { el.innerHTML = html; })
          .catch(function (err) {
-            el.innerHTML = '<p style="color:var(--copper)">Content failed to load (' + esc(err.message) +
+            el.innerHTML = '<p style="color:var(--accent-700)">Content failed to load (' + esc(err.message) +
               "). If previewing locally, serve over HTTP (see README).</p>";
             console.error(err);
          });
