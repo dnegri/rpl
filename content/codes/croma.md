@@ -1,7 +1,7 @@
 ---
 name: CROMA
 status: ACTIVE
-exp: Characteristics-based Reactor Operation & Multigroup Analysis
+exp: Core Ray-tracing based Optimized Method for reactor core Analysis
 group: PWR two-step system
 tags:
   - MOC
