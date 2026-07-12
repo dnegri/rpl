@@ -93,8 +93,8 @@
   .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
   .hero-art{margin:0}
   .core3d{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;
-    background:radial-gradient(115% 85% at 50% 34%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 62%),
-      linear-gradient(180deg,#eef1f4,#e2e6ea)}
+    background:radial-gradient(115% 85% at 50% 36%,rgba(244,180,96,.16),transparent 62%),
+      linear-gradient(180deg,#f2efeb,#e8e3dd)}
   .core3d svg{width:100%;height:100%;display:block}
   @media(max-width:919px){.hero-art{max-width:440px}}
 
@@ -384,8 +384,8 @@
   var host = document.getElementById("core3d");
   if (!host) return;
   var N = 15, TW = 34, TH = 17, HMAX = 112, CX = 300, CY = 468, R = (N - 1) / 2;
-  var stops = [[0,[29,45,61]],[0.22,[34,92,140]],[0.45,[62,150,168]],
-               [0.66,[150,196,120]],[0.84,[240,193,78]],[1,[228,120,55]]];
+  var stops = [[0,[46,20,24]],[0.20,[104,28,30]],[0.42,[178,54,32]],
+               [0.62,[228,104,38]],[0.80,[245,172,62]],[1,[255,228,160]]];
   function cmap(t) {
     t = Math.max(0, Math.min(1, t));
     for (var i = 1; i < stops.length; i++) {
@@ -439,11 +439,11 @@
   host.innerHTML =
     '<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
       '<defs><filter id="c3dsh" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="17"/></filter></defs>' +
-      '<ellipse cx="300" cy="602" rx="232" ry="64" fill="rgba(29,45,61,.17)" filter="url(#c3dsh)"/>' +
-      '<path fill="none" stroke="rgba(29,45,61,.13)" stroke-width="0.7" d="' + mesh + '"/>' +
-      '<g stroke="rgba(18,26,34,.14)" stroke-width="0.5" stroke-linejoin="round">' + boxes + '</g>' +
+      '<ellipse cx="300" cy="602" rx="232" ry="64" fill="rgba(48,28,18,.18)" filter="url(#c3dsh)"/>' +
+      '<path fill="none" stroke="rgba(70,50,40,.13)" stroke-width="0.7" d="' + mesh + '"/>' +
+      '<g stroke="rgba(40,26,18,.14)" stroke-width="0.5" stroke-linejoin="round">' + boxes + '</g>' +
       '<text x="66" y="742" font-family="&quot;Barlow Condensed&quot;,sans-serif" font-weight="600" ' +
-        'font-size="15" letter-spacing="1.4" fill="rgba(29,45,61,.5)">ASSEMBLY-WISE POWER · PIN-BY-PIN WHOLE CORE</text>' +
+        'font-size="15" letter-spacing="1.4" fill="rgba(60,42,30,.55)">ASSEMBLY-WISE POWER · PIN-BY-PIN WHOLE CORE</text>' +
     '</svg>';
 })();
 </script>
