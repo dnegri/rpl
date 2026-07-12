@@ -92,8 +92,11 @@
   .hero .lede{font-size:17px;line-height:1.62;max-width:52ch;color:var(--muted-3);margin:30px 0 0}
   .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
   .hero-art{margin:0}
-  .hero-art img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
-  @media(max-width:919px){.hero-art{max-width:420px}}
+  .core3d{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;
+    background:radial-gradient(115% 85% at 50% 34%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 62%),
+      linear-gradient(180deg,#eef1f4,#e2e6ea)}
+  .core3d svg{width:100%;height:100%;display:block}
+  @media(max-width:919px){.hero-art{max-width:440px}}
 
   /* dark-steel stat band */
   .statband{background:var(--accent-900);color:var(--bg)}
@@ -287,8 +290,8 @@
         <a class="btn btn-secondary" href="#research">Research areas</a>
       </div>
     </div>
-    <figure class="hero-art blueprint duotone">
-      <img src="assets/img/core-blueprint.jpg" alt="Assembly-wise power distribution across a reactor core">
+    <figure class="hero-art blueprint">
+      <div id="core3d" class="core3d" role="img" aria-label="3-D isometric pin-by-pin whole-core power distribution"></div>
       <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
     </figure>
   </div>
@@ -373,6 +376,69 @@
   </div>
 </footer>
 
+<script>
+/* Hero art — procedural 3-D isometric whole-core power distribution.
+   Each fuel assembly is extruded to a height proportional to its power and
+   coloured by a flux heat-map; faces are shaded for depth. No image asset. */
+(function () {
+  var host = document.getElementById("core3d");
+  if (!host) return;
+  var N = 15, TW = 34, TH = 17, HMAX = 112, CX = 300, CY = 468, R = (N - 1) / 2;
+  var stops = [[0,[29,45,61]],[0.22,[34,92,140]],[0.45,[62,150,168]],
+               [0.66,[150,196,120]],[0.84,[240,193,78]],[1,[228,120,55]]];
+  function cmap(t) {
+    t = Math.max(0, Math.min(1, t));
+    for (var i = 1; i < stops.length; i++) {
+      if (t <= stops[i][0]) {
+        var a = stops[i-1], b = stops[i], f = (t - a[0]) / (b[0] - a[0]);
+        return [Math.round(a[1][0]+(b[1][0]-a[1][0])*f),
+                Math.round(a[1][1]+(b[1][1]-a[1][1])*f),
+                Math.round(a[1][2]+(b[1][2]-a[1][2])*f)];
+      }
+    }
+    return stops[stops.length-1][1];
+  }
+  var rgb = function (c) { return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; };
+  var mul = function (c, m) { return "rgb(" + Math.round(c[0]*m) + "," + Math.round(c[1]*m) + "," + Math.round(c[2]*m) + ")"; };
+  var q = function (n) { return Math.round(n * 10) / 10; };
+
+  var cells = [];
+  for (var i = 0; i < N; i++) for (var j = 0; j < N; j++) {
+    var u = i - R, v = j - R, rr = Math.sqrt(u*u + v*v) / R;
+    if (rr > 1.04) continue;
+    var p = Math.cos(rr * 1.28) * 0.86 + 0.14;
+    p += 0.05*Math.sin(i*1.7+0.5) + 0.045*Math.cos(j*1.5) + 0.03*Math.sin((i+j)*0.9);
+    cells.push({ i:i, j:j, u:u, v:v, p:Math.max(0.12, Math.min(1, p)) });
+  }
+  cells.sort(function (a, b) { return (a.i + a.j) - (b.i + b.j); });
+
+  var mesh = "", boxes = "";
+  cells.forEach(function (c) {
+    var sx = CX + (c.u - c.v)*TW/2, sy = CY + (c.u + c.v)*TH/2;
+    mesh += "M" + q(sx) + " " + q(sy-TH/2) + "L" + q(sx+TW/2) + " " + q(sy) +
+            "L" + q(sx) + " " + q(sy+TH/2) + "L" + q(sx-TW/2) + " " + q(sy) + "Z";
+  });
+  cells.forEach(function (c) {
+    var sx = CX + (c.u - c.v)*TW/2, sy = CY + (c.u + c.v)*TH/2;
+    var h = c.p * HMAX, ty = sy - h, col = cmap(c.p);
+    var Tx=sx, Ty=ty-TH/2, Rx=sx+TW/2, Ry=ty, Bx=sx, By=ty+TH/2, Lx=sx-TW/2, Ly=ty;
+    var gBx=sx, gBy=sy+TH/2, gRx=sx+TW/2, gRy=sy, gLx=sx-TW/2, gLy=sy;
+    boxes += '<path fill="' + mul(col,0.58) + '" d="M'+q(Rx)+' '+q(Ry)+'L'+q(Bx)+' '+q(By)+'L'+q(gBx)+' '+q(gBy)+'L'+q(gRx)+' '+q(gRy)+'Z"/>';
+    boxes += '<path fill="' + mul(col,0.78) + '" d="M'+q(Lx)+' '+q(Ly)+'L'+q(Bx)+' '+q(By)+'L'+q(gBx)+' '+q(gBy)+'L'+q(gLx)+' '+q(gLy)+'Z"/>';
+    boxes += '<path fill="' + rgb(col) + '" d="M'+q(Tx)+' '+q(Ty)+'L'+q(Rx)+' '+q(Ry)+'L'+q(Bx)+' '+q(By)+'L'+q(Lx)+' '+q(Ly)+'Z"/>';
+  });
+
+  host.innerHTML =
+    '<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
+      '<defs><filter id="c3dsh" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="17"/></filter></defs>' +
+      '<ellipse cx="300" cy="602" rx="232" ry="64" fill="rgba(29,45,61,.17)" filter="url(#c3dsh)"/>' +
+      '<path fill="none" stroke="rgba(29,45,61,.13)" stroke-width="0.7" d="' + mesh + '"/>' +
+      '<g stroke="rgba(18,26,34,.14)" stroke-width="0.5" stroke-linejoin="round">' + boxes + '</g>' +
+      '<text x="66" y="742" font-family="&quot;Barlow Condensed&quot;,sans-serif" font-weight="600" ' +
+        'font-size="15" letter-spacing="1.4" fill="rgba(29,45,61,.5)">ASSEMBLY-WISE POWER · PIN-BY-PIN WHOLE CORE</text>' +
+    '</svg>';
+})();
+</script>
 <script src="assets/js/js-yaml.min.js"></script>
 <script src="assets/js/marked.min.js"></script>
 <script src="assets/js/site.js"></script>
