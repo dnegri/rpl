@@ -7,13 +7,25 @@ metrics:
     label: h-index
   - value: '9'
     label: i10-index
-note: Selected from 20+ publications (2008–2025) in Nuclear Engineering and Technology, Nuclear Engineering and Design, Progress in Nuclear Energy, and Annals of Nuclear Energy.
+note: Journal papers, technical reports, and conference proceedings (2008–2026) in Nuclear Engineering and Technology, Nuclear Engineering and Design, Progress in Nuclear Energy, Annals of Nuclear Energy, Journal of Nuclear Science and Technology, and M&C / ANS / KNS proceedings.
 order:
+  - 2026-09-sensitivity-study-1d2d-power-synthesis.md
   - 2025-01-fullcore-fuel-analysis-of.md
   - 2025-02-performance-analysis-of-a.md
   - 2025-03-transient-analysis-of-the.md
+  - 2025-10-development-of-crosssection-model.md
   - 2024-04-solution-of-the-oecdnea.md
   - 2024-05-reactor-core-design-with.md
+  - 2024-11-reactor-core-design-enriched-gadolinia.md
+  - 2023-12-gpuaccelerated-moc-discontinuous-galerkin.md
   - 2021-06-highperformance-3d-pinbypin-neutron.md
   - 2021-07-analysis-of-the-c5g7td.md
+  - 2016-13-assessment-assembly-homogenized-twosteps.md
+  - 2013-14-core-follow-calculation-ntracer.md
+  - 2012-15-implementation-advanced-multigroup-parcs.md
+  - 2011-16-application-backward-differentiation-formula.md
+  - 2011-17-benchmark-verification-karma-astra.md
+  - 2011-18-verification-validation-karma-astra.md
+  - 2010-19-verification-astra-mox-uo2.md
+  - 2009-20-multigroup-pin-power-reconstruction.md
   - 2008-08-twolevel-coarsemesh-finitedifference-formulation.md
