@@ -27,9 +27,13 @@
   function mdi(s) { return s ? marked.parseInline(String(s)) : ""; }
 
   // Resolve an image reference: bare file name -> assets/img/, path/URL as-is.
+  // A leading slash is stripped so CMS-saved absolute paths also work when the
+  // site is served from a subpath (e.g. user.github.io/rpl/).
   function imgSrc(s) {
     s = String(s || "");
-    return (/^(https?:)?\/\//.test(s) || s.charAt(0) === "/" || s.indexOf("/") >= 0) ? s : "assets/img/" + s;
+    if (/^(https?:)?\/\//.test(s)) return s;
+    s = s.replace(/^\/+/, "");
+    return s.indexOf("/") >= 0 ? s : "assets/img/" + s;
   }
 
   function initials(name) {
@@ -65,7 +69,20 @@
 
   // ---- section renderers ---------------------------------------------------
 
-  function renderAbout(d) { return head(d) + (d.body ? '<div class="prose">' + md(d.body) + "</div>" : ""); }
+  function renderAbout(d) {
+    if (!d.photo) return head(d) + (d.body ? '<div class="prose">' + md(d.body) + "</div>" : "");
+    var top = (d.kicker ? '<p class="kicker">' + esc(d.kicker) + "</p>" : "") +
+              (d.heading ? "<h2>" + mdi(d.heading) + "</h2>" : "");
+    return top + '<div class="kings-grid">' +
+      '<div class="kings-copy">' +
+        (d.intro ? "<p>" + mdi(d.intro) + "</p>" : "") +
+        (d.body ? md(d.body) : "") +
+      "</div>" +
+      '<figure class="kings-photo blueprint">' + corners() +
+        '<img src="' + esc(imgSrc(d.photo)) + '" alt="' + esc(d.photo_alt || "") + '" loading="lazy">' +
+        (d.caption ? "<figcaption>" + mdi(d.caption) + "</figcaption>" : "") +
+      "</figure></div>";
+  }
 
   function renderKings(d) {
     var facts = (d.facts && d.facts.length) ? '<div class="kings-facts">' + d.facts.map(function (f) {

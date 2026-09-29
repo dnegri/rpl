@@ -1,0 +1,120 @@
+# JOURNEY hero — 10 scroll scenes, rendered in list order. Do not reorder
+# or drop scenes without checking the video seams (see WARNING below).
+#
+# still/clip: a bare file name resolves under assets/journey/still|vid/.
+# A path containing "/" or a full URL is used as-is (e.g. CMS uploads, which
+# land in assets/img/).
+#
+# WARNING: the clips form a frame-identical chain — each clip starts on the
+# previous clip's last frame. Swapping ONE clip alone breaks the seam and the
+# picture will visibly pop. Swap stills and text freely; swap clips only as a
+# tested set, and keep each clip ~8 s.
+brand: RPL · KINGS
+hint: scroll to dive in
+skip_label: Skip to the lab
+crossfade: 0.08
+scenes:
+  - id: reactor
+    label: Reactor
+    still: s1.jpg
+    clip: s1.mp4
+    scroll: 1.3
+    accent: '#6fb7ff'
+    eyebrow: APR1400
+    title: Into the reactor.
+    body: The reactor Korea exported to the UAE.
+    tags: []
+  - id: loading
+    label: Loading
+    still: s2.jpg
+    clip: s2.mp4
+    scroll: 1.3
+    accent: '#8fc7ff'
+    eyebrow: Fuel loading
+    title: 241 fuel assemblies.
+    body: Each one a 16×16 array of fuel rods.
+    tags: []
+  - id: rods
+    label: Control rods
+    still: s3.jpg
+    clip: s3.mp4
+    scroll: 1.3
+    accent: '#ff9a3c'
+    eyebrow: Control rods out
+    title: The core comes alive.
+    body: Control rods absorb neutrons. Withdraw them, and heat rises — unevenly.
+    tags: []
+  - id: assembly
+    label: Assembly
+    still: s4.jpg
+    clip: s4.mp4
+    scroll: 1.3
+    accent: '#ffb347'
+    eyebrow: One assembly
+    title: Where does the heat come from?
+    body: ''
+    tags: []
+  - id: nucleus
+    label: Zoom in
+    still: s5.jpg
+    clip: s5.mp4
+    scroll: 1.3
+    accent: '#5fd0e0'
+    eyebrow: Zoom in
+    title: Down to the nucleus.
+    body: Between the fuel rods, water cools the core — and slows the neutrons.
+    tags: []
+  - id: scatter
+    label: Scattering
+    still: s6.jpg
+    clip: s6.mp4
+    scroll: 1.3
+    accent: '#7fa8ff'
+    eyebrow: Scattering
+    title: A neutron slows down.
+    body: It collides with hydrogen, again and again.
+    tags: []
+  - id: absorb
+    label: Absorption
+    still: s7.jpg
+    clip: s7.mp4
+    scroll: 1.3
+    accent: '#9fb4ff'
+    eyebrow: Absorption
+    title: Captured.
+    body: Uranium-238 absorbs a neutron and releases a gamma ray.
+    tags: []
+  - id: fission
+    label: Fission
+    still: s8.jpg
+    clip: s8.mp4
+    scroll: 1.3
+    accent: '#ff7a2f'
+    eyebrow: Fission
+    title: This is the heat.
+    body: Uranium-235 splits. The fragments shake the fuel around them.
+    tags: []
+  - id: chain
+    label: Chain reaction
+    still: s9.jpg
+    clip: s9.mp4
+    scroll: 1.3
+    accent: '#ffa24a'
+    eyebrow: Chain reaction
+    title: One neutron becomes many.
+    body: Each fission releases two or three new neutrons.
+    tags: []
+  - id: compute
+    label: Reactor physics
+    still: s10.jpg
+    clip: s10.mp4
+    scroll: 1.6
+    accent: '#ffd23c'
+    eyebrow: Reactor physics
+    title: You cannot look inside. We compute it.
+    body: Microscopic theory, applied to the neutrons of an entire core.
+    tags: [Scattering, Absorption, Fission]
+    cta_primary_label: Explore the codes
+    cta_primary_href: '#codes'
+    cta_secondary_label: Research areas
+    cta_secondary_href: '#research'

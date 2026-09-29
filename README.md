@@ -79,6 +79,35 @@ The page fetches files from `content/`, so it must be served over HTTP — openi
 python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
+## Content management (admin UI)
+
+Editors use Sveltia CMS at `/admin/` (e.g. `https://dnegri.github.io/rpl/admin/`)
+instead of hand-editing files. Every save is a git commit, so any change can be
+reverted with `git revert`.
+
+**Sign-in.** Click "Sign in with Token" and paste a GitHub personal access token:
+a fine-grained token scoped to this repo with **Contents read/write** (a classic
+token needs the `repo` scope). The token stays in the editor's own browser.
+
+Shared-token shortcut: the admin may issue one repo-scoped token and share the
+string privately with editors like a password. Caveats: it is a shared secret,
+all commits carry one author, and staff changes mean rotating it. Never commit a
+token to the repo or bake one into a page.
+
+**Workflows.**
+
+- New items (researcher, paper, …) must also be added to that collection's
+  *Display order* list under *Ordering & labels* — otherwise they exist but do
+  not render. Same for deletes: remove the file entry from the order list.
+- Uploaded photos land in `assets/img/` and are referenced automatically.
+- Journey hero: text and stills are free to change; clips form a
+  frame-identical chain — swap them only as a tested set (see the warning at
+  the top of `content/journey.yml`).
+
+**Local test.** Run the server above, open `/admin/index.html` in Chromium,
+choose "Work with Local Repository", and pick the repo root. Edits hit local
+files; review with `git diff`, then commit and push.
+
 ## Custom domain (rpl.kings.ac.kr)
 
 The site is live immediately at `dnegri.github.io/rpl`. To serve it at

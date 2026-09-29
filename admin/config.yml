@@ -1,0 +1,282 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+# RPL site content. Field names mirror the frontmatter keys in content/ exactly —
+# do not rename keys without updating assets/js/site.js.
+
+backend:
+  name: github
+  repo: dnegri/rpl
+  branch: main
+
+media_folder: /assets/img
+public_folder: /assets/img
+
+collections:
+  # ---- entry collections (one file per item) ----
+  - name: people
+    label: Researchers
+    label_singular: Researcher
+    folder: /content/people
+    identifier_field: name
+    fields:
+      - {label: Name, name: name, widget: string}
+      - {label: Role, name: role, widget: string, hint: "e.g. Ph.D. Student, M.S. Student, Research Professor"}
+      - {label: Affiliation, name: affiliation, widget: string, required: false}
+      - label: Group
+        name: group
+        widget: select
+        options: [Faculty, Ph.D. Students, M.S. Students, Alumni]
+        required: false
+        hint: "Blank for the PI feature box. Keep in sync with the Researcher ordering groups."
+      - {label: Photo, name: photo, widget: image, required: false}
+      - {label: Email, name: email, widget: string, required: false}
+      - {label: Principal investigator, name: pi, widget: boolean, required: false, hint: "Only one person. Renders the large feature box."}
+      - {label: Bio, name: body, widget: markdown, required: false}
+
+  - name: publications
+    label: Publications
+    label_singular: Publication
+    folder: /content/publications
+    identifier_field: body
+    slug: "{{fields.year}}-{{slug}}"
+    fields:
+      - {label: Year, name: year, widget: string}
+      - {label: Citation, name: meta, widget: text, hint: "Authors · venue volume, pages"}
+      - {label: Title, name: body, widget: markdown}
+
+  - name: research
+    label: Research areas
+    label_singular: Research area
+    folder: /content/research
+    fields:
+      - {label: Title, name: title, widget: string}
+      - {label: Description, name: body, widget: markdown}
+
+  - name: codes
+    label: Codes
+    label_singular: Code
+    folder: /content/codes
+    identifier_field: name
+    fields:
+      - {label: Name, name: name, widget: string}
+      - label: Status
+        name: status
+        widget: select
+        options: [MATURE, ACTIVE, IN DEVELOPMENT]
+      - {label: Full name, name: exp, widget: string, required: false}
+      - label: Group
+        name: group
+        widget: select
+        options: ["PWR two-step system", "Gen-IV & other geometries"]
+      - label: Tags
+        name: tags
+        widget: list
+        field: {label: Tag, name: tag, widget: string}
+        required: false
+      - {label: Description, name: body, widget: markdown}
+
+  - name: teaching
+    label: Teaching
+    label_singular: Course
+    folder: /content/teaching
+    fields:
+      - {label: Title, name: title, widget: string}
+      - {label: Description, name: body, widget: markdown}
+
+  # ---- single-page sections ----
+  - name: sections
+    label: Site sections
+    files:
+      - name: about
+        label: About
+        file: content/about.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - {label: Photo, name: photo, widget: image, required: false, hint: "Blank hides the photo column."}
+          - {label: Photo alt text, name: photo_alt, widget: string, required: false}
+          - {label: Caption, name: caption, widget: string, required: false}
+          - {label: Intro, name: intro, widget: markdown}
+      - name: kings
+        label: KINGS
+        file: content/kings.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - {label: Photo, name: photo, widget: image}
+          - {label: Photo alt text, name: photo_alt, widget: string}
+          - {label: Caption, name: caption, widget: string}
+          - {label: Body, name: body, widget: markdown}
+          - label: Facts
+            name: facts
+            widget: list
+            fields:
+              - {label: Value, name: value, widget: string}
+              - {label: Label, name: label, widget: string}
+      - name: smr
+        label: SMR
+        file: content/smr.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - {label: Intro, name: intro, widget: markdown}
+          - label: Spec boxes
+            name: boxes
+            widget: list
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Subtitle, name: subtitle, widget: string}
+              - label: Specs
+                name: specs
+                widget: list
+                fields:
+                  - {label: Key, name: k, widget: string}
+                  - {label: Value, name: v, widget: string}
+          - label: Figures
+            name: figures
+            widget: list
+            fields:
+              - {label: Image, name: src, widget: image}
+              - {label: Padded frame, name: pad, widget: boolean, required: false}
+              - {label: Caption, name: caption, widget: markdown}
+      - name: contact
+        label: Contact
+        file: content/contact.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - {label: Address label, name: address_label, widget: string}
+          - {label: Address title, name: address_title, widget: string}
+          - label: Address lines
+            name: address
+            widget: list
+            field: {label: Line, name: line, widget: string}
+          - {label: Details label, name: details_label, widget: string}
+          - label: Detail rows
+            name: details
+            widget: list
+            fields:
+              - {label: Key, name: k, widget: string}
+              - {label: Value, name: v, widget: string}
+              - {label: Link, name: href, widget: string, required: false, hint: "mailto: or https:// — blank for plain text"}
+
+      - name: journey
+        label: Journey hero
+        file: content/journey.yml
+        fields:
+          - {label: Brand, name: brand, widget: string}
+          - {label: Scroll hint, name: hint, widget: string}
+          - {label: Skip button label, name: skip_label, widget: string}
+          - {label: Crossfade, name: crossfade, widget: number, value_type: float, min: 0, max: 0.5, hint: "Seam dissolve width. Leave at 0.08."}
+          - label: Scenes (in order — do not reorder)
+            name: scenes
+            widget: list
+            fields:
+              - {label: ID, name: id, widget: string}
+              - {label: Nav label, name: label, widget: string}
+              - {label: Still image, name: still, widget: image, hint: "Uploads land in assets/img and work as-is."}
+              - label: Clip
+                name: clip
+                widget: string
+                hint: "WARNING: clips form a frame-identical chain. Swapping one clip alone breaks the seam — swap only as a tested set."
+              - {label: Scroll length, name: scroll, widget: number, value_type: float, min: 0.5, max: 3}
+              - {label: Accent, name: accent, widget: color}
+              - {label: Eyebrow, name: eyebrow, widget: string}
+              - {label: Title, name: title, widget: string}
+              - {label: Body, name: body, widget: text, required: false}
+              - label: Tags
+                name: tags
+                widget: list
+                field: {label: Tag, name: tag, widget: string}
+                required: false
+              - {label: CTA primary label, name: cta_primary_label, widget: string, required: false}
+              - {label: CTA primary link, name: cta_primary_href, widget: string, required: false}
+              - {label: CTA secondary label, name: cta_secondary_label, widget: string, required: false}
+              - {label: CTA secondary link, name: cta_secondary_href, widget: string, required: false}
+
+  # ---- ordering, labels, section extras ----
+  - name: ordering
+    label: Ordering & labels
+    files:
+      - name: people_index
+        label: Researchers — ordering
+        file: content/people/_index.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - label: Groups
+            name: groups
+            widget: list
+            field: {label: Group, name: group, widget: string}
+          - label: Display order
+            name: order
+            widget: list
+            field: {label: File, name: file, widget: string}
+            hint: "Filenames from the Researchers collection, in display order."
+      - name: publications_index
+        label: Publications — ordering
+        file: content/publications/_index.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - label: Metrics
+            name: metrics
+            widget: list
+            fields:
+              - {label: Value, name: value, widget: string}
+              - {label: Label, name: label, widget: string}
+          - {label: Note, name: note, widget: text}
+          - label: Display order
+            name: order
+            widget: list
+            field: {label: File, name: file, widget: string}
+      - name: research_index
+        label: Research — ordering
+        file: content/research/_index.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - label: Display order
+            name: order
+            widget: list
+            field: {label: File, name: file, widget: string}
+      - name: codes_index
+        label: Codes — ordering
+        file: content/codes/_index.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - {label: Intro, name: intro, widget: markdown}
+          - label: Groups
+            name: groups
+            widget: list
+            field: {label: Group, name: group, widget: string}
+          - label: Pipeline
+            name: pipeline
+            widget: list
+            fields:
+              - {label: Label, name: label, widget: string}
+              - {label: Subtitle, name: sub, widget: string}
+              - {label: Style, name: kind, widget: select, options: [mid, out], required: false}
+          - {label: Pipeline note, name: pipeline_note, widget: markdown}
+          - label: Figure
+            name: figure
+            widget: object
+            fields:
+              - {label: Image, name: src, widget: image}
+              - {label: Padded frame, name: pad, widget: boolean, required: false}
+              - {label: Caption, name: caption, widget: markdown}
+          - {label: Foundation note, name: foundation, widget: markdown}
+          - label: Display order
+            name: order
+            widget: list
+            field: {label: File, name: file, widget: string}
+      - name: teaching_index
+        label: Teaching — ordering
+        file: content/teaching/_index.yml
+        fields:
+          - {label: Kicker, name: kicker, widget: string}
+          - {label: Heading, name: heading, widget: string}
+          - label: Display order
+            name: order
+            widget: list
+            field: {label: File, name: file, widget: string}

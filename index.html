@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>KINGS RPL — Reactor Physics &amp; Computational Analysis Laboratory</title>
 <meta name="description" content="Reactor Physics and Computational Analysis Laboratory (RPL) at KINGS, Ulsan — in-house nuclear reactor core simulation codes: Monte Carlo transport, pin-by-pin whole-core diffusion, and SMR / Gen-IV core design.">
 <meta property="og:title" content="KINGS RPL — Reactor Physics and Computational Analysis Laboratory">
@@ -81,22 +81,31 @@
   .nav a.lnk{color:var(--text);font-size:14px;white-space:nowrap}
   .nav a.lnk:hover{color:var(--accent)}
 
-  /* hero */
-  .hero{border-bottom:1px solid var(--divider)}
-  .hero-in{max-width:1200px;margin:0 auto;padding:88px var(--pad) 72px;
-    display:grid;grid-template-columns:1fr;gap:48px;align-items:center}
-  @media(min-width:920px){.hero-in{grid-template-columns:7fr 5fr;gap:56px}}
-  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
-    color:var(--accent-700);margin:0 0 26px}
-  .hero h1{font-size:clamp(44px,6.4vw,72px);line-height:1.0;max-width:16ch;margin:0}
-  .hero .lede{font-size:17px;line-height:1.62;max-width:52ch;color:var(--muted-3);margin:30px 0 0}
-  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
-  .hero-art{margin:0}
-  .core3d{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;
-    background:radial-gradient(115% 85% at 50% 36%,rgba(244,180,96,.16),transparent 62%),
-      linear-gradient(180deg,#f2efeb,#e8e3dd)}
-  .core3d svg{width:100%;height:100%;display:block}
-  @media(max-width:919px){.hero-art{max-width:440px}}
+  /* journey hero — scroll-driven zoom; the engine's fixed layers own the
+     viewport only while the journey is scrolled into view (see adapter) */
+  .journey{background:#070b18}
+  #world{--sw-bg:#070b18;--sw-ink:#eef2fa;--sw-ink-soft:#a9b3c7;--sw-accent:#ff9a3c;
+    --sw-font-display:"Barlow Condensed",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --sw-font-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif}
+  #world .sw-stage,#world .sw-copylayer,#world .sw-sky,#world .sw-route,
+  #world .sw-hint,#world .sw-scrollbar,#world .sw-topbar{transition:opacity .45s ease,visibility 0s linear .45s}
+  #world.sw-past .sw-stage,#world.sw-past .sw-copylayer,#world.sw-past .sw-sky,
+  #world.sw-past .sw-route,#world.sw-past .sw-hint,#world.sw-past .sw-scrollbar,
+  #world.sw-past .sw-topbar{opacity:0;visibility:hidden;pointer-events:none!important}
+  #world.sw-past .sw-copy{pointer-events:none!important}
+  #world .sw-btn--primary{color:#070b18;background:#eef2fa}
+  #world .sw-btn--ghost{color:#eef2fa;border-color:rgba(238,242,250,.45)}
+  #world .sw-topcta{color:#070b18;background:#eef2fa}
+  /* unlayered site globals beat the engine's layered CSS — restore them here */
+  #world .sw-scene__still{max-width:none;height:100%}
+  #world .sw-copy__title{font-weight:700;line-height:1.03;letter-spacing:-.01em;text-transform:none;margin:12px 0 0}
+  #world .sw-brand{color:var(--sw-ink)}
+  #world .sw-brand:hover{color:var(--sw-ink)}
+  .bar{transition:opacity .45s ease}
+  .bar-hidden{opacity:0;pointer-events:none}
+  /* the engine asks for overflow-x:hidden, which would make body a scroll
+     container and break the sticky lab header — clip() avoids that */
+  html,body{overflow-x:clip}
 
   /* dark-steel stat band */
   .statband{background:var(--accent-900);color:var(--bg)}
@@ -260,7 +269,7 @@
 </style>
 </head>
 <body>
-<header class="bar">
+<header class="bar" id="top">
   <nav class="nav">
     <span class="nav-brand">RPL<span> · KINGS</span></span>
     <a class="lnk" href="#about">About</a>
@@ -276,25 +285,9 @@
   </nav>
 </header>
 
-<section class="hero">
-  <div class="hero-in">
-    <div>
-      <div class="eyebrow">Reactor Physics &amp; Computational Analysis Laboratory · KINGS, Ulsan</div>
-      <h1>We write the code that designs the core.</h1>
-      <p class="lede">RPL builds its own reactor-physics code suite from the kernel up —
-        Monte Carlo transport, pin-by-pin diffusion and real-time nodal solvers — and uses it
-        to design next-generation cores: soluble-boron-free SMRs, sodium fast reactors and
-        molten-salt systems.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#codes">Explore the codes</a>
-        <a class="btn btn-secondary" href="#research">Research areas</a>
-      </div>
-    </div>
-    <figure class="hero-art blueprint">
-      <div id="core3d" class="core3d" role="img" aria-label="3-D isometric pin-by-pin whole-core power distribution"></div>
-      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-    </figure>
-  </div>
+<section class="journey" aria-label="From the reactor to the nucleus: a scroll-driven zoom">
+  <div id="world"></div>
+  <noscript><div class="wrap"><p style="color:#eef2fa;padding:40px 0">Enable JavaScript to view the reactor journey.</p></div></noscript>
   <div class="statband">
     <div class="statband-in">
       <div><div class="num">7</div><div class="lab">In-house codes</div></div>
@@ -376,78 +369,74 @@
   </div>
 </footer>
 
+<script src="assets/js/js-yaml.min.js"></script>
+<script src="assets/js/scrub-engine.js"></script>
 <script>
-/* Hero art — procedural 3-D isometric whole-core power distribution.
-   Each fuel assembly is extruded to a height proportional to its power and
-   coloured by a flux heat-map; faces are shaded for depth. No image asset. */
+/* Journey hero — scenes load from content/journey.yml, then mount. If the
+   fetch fails the hero stays empty and the lab header takes over (see adapter). */
 (function () {
-  var host = document.getElementById("core3d");
-  if (!host) return;
-  var N = 15, TW = 34, TH = 17, HMAX = 112, CX = 300, CY = 468, R = (N - 1) / 2;
-  var stops = [[0,[46,20,24]],[0.20,[104,28,30]],[0.42,[178,54,32]],
-               [0.62,[228,104,38]],[0.80,[245,172,62]],[1,[255,228,160]]];
-  function cmap(t) {
-    t = Math.max(0, Math.min(1, t));
-    for (var i = 1; i < stops.length; i++) {
-      if (t <= stops[i][0]) {
-        var a = stops[i-1], b = stops[i], f = (t - a[0]) / (b[0] - a[0]);
-        return [Math.round(a[1][0]+(b[1][0]-a[1][0])*f),
-                Math.round(a[1][1]+(b[1][1]-a[1][1])*f),
-                Math.round(a[1][2]+(b[1][2]-a[1][2])*f)];
+  function media(name, dir) {
+    name = String(name || "");
+    if (/^(https?:)?\/\//.test(name) || name.charAt(0) === "/" || name.indexOf("/") >= 0) return name;
+    return "assets/journey/" + dir + "/" + name;
+  }
+  fetch("content/journey.yml").then(function (r) {
+    if (!r.ok) throw new Error(r.status);
+    return r.text();
+  }).then(function (t) {
+    var d = window.jsyaml.load(t) || {};
+    var sections = (d.scenes || []).map(function (s) {
+      var out = {
+        id: s.id, label: s.label,
+        still: media(s.still, "still"), clip: media(s.clip, "vid"),
+        scroll: s.scroll, accent: s.accent,
+        eyebrow: s.eyebrow, title: s.title, body: s.body || "",
+        tags: s.tags || []
+      };
+      if (s.cta_primary_label) {
+        out.cta = { primary: { label: s.cta_primary_label, href: s.cta_primary_href || "#" } };
+        if (s.cta_secondary_label) out.cta.secondary = { label: s.cta_secondary_label, href: s.cta_secondary_href || "#" };
       }
-    }
-    return stops[stops.length-1][1];
+      return out;
+    });
+    if (!sections.length) return;
+    mountScrollWorld(document.getElementById("world"), {
+      brand: { name: d.brand || "RPL · KINGS", href: "#top" },
+      cta: { label: d.skip_label || "Skip to the lab", href: "#about" },
+      hint: d.hint || "scroll",
+      sections: sections,
+      connectors: sections.slice(1).map(function () { return null; }),
+      crossfade: d.crossfade != null ? d.crossfade : 0.08
+    });
+    window.dispatchEvent(new Event("rpl:journey-ready"));
+  }).catch(function () { /* hero stays empty; header takes over */ });
+})();
+/* Embed adapter — the journey's fixed layers own the viewport only while the
+   journey itself is scrolled into view; past its end they fade out and the lab
+   header takes over. The header keeps its layout space (opacity only) so the
+   journey stays aligned to the scroll position. */
+(function () {
+  var world = document.getElementById('world');
+  var bar = document.querySelector('.bar');
+  var end = 0;
+  function measure() {
+    var track = world.querySelector('.sw-track');
+    end = track ? track.offsetHeight - window.innerHeight * 0.8 : 0;
   }
-  var rgb = function (c) { return "rgb(" + c[0] + "," + c[1] + "," + c[2] + ")"; };
-  var mul = function (c, m) { return "rgb(" + Math.round(c[0]*m) + "," + Math.round(c[1]*m) + "," + Math.round(c[2]*m) + ")"; };
-  var q = function (n) { return Math.round(n * 10) / 10; };
-
-  function ss(a, b, x) { var t = Math.max(0, Math.min(1, (x-a)/(b-a))); return t*t*(3-2*t); }
-  var cells = [], pmin = Infinity, pmax = -Infinity;
-  for (var i = 0; i < N; i++) for (var j = 0; j < N; j++) {
-    var u = i - R, v = j - R, rr = Math.sqrt(u*u + v*v) / R;
-    if (rr > 1.04) continue;
-    // Realistic PWR assembly power: low-leakage centre depression with a
-    // mid-radius peak ring, a fresh/burnt loading-pattern checkerboard, and
-    // leakage falloff toward the periphery.
-    var p = 1.0 - 0.20*Math.exp(-(rr*rr)/0.10) - 0.66*ss(0.52, 1.06, rr);
-    p += (((i+j)&1) ? -0.11 : 0.13) * (1 - ss(0.62, 1.02, rr));
-    p += 0.03*Math.sin(i*1.9)*Math.cos(j*1.7);
-    if (p < pmin) pmin = p; if (p > pmax) pmax = p;
-    cells.push({ i:i, j:j, u:u, v:v, p:p });
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset || 0;
+    var past = end > 0 && y > end;
+    world.classList.toggle('sw-past', past);
+    if (bar) bar.classList.toggle('bar-hidden', end > 0 && !past);
   }
-  var span = (pmax - pmin) || 1;
-  cells.forEach(function (c) { c.n = (c.p - pmin) / span; c.h = 0.12 + 0.88 * c.n; });
-  cells.sort(function (a, b) { return (a.i + a.j) - (b.i + b.j); });
-
-  var mesh = "", boxes = "";
-  cells.forEach(function (c) {
-    var sx = CX + (c.u - c.v)*TW/2, sy = CY + (c.u + c.v)*TH/2;
-    mesh += "M" + q(sx) + " " + q(sy-TH/2) + "L" + q(sx+TW/2) + " " + q(sy) +
-            "L" + q(sx) + " " + q(sy+TH/2) + "L" + q(sx-TW/2) + " " + q(sy) + "Z";
-  });
-  cells.forEach(function (c) {
-    var sx = CX + (c.u - c.v)*TW/2, sy = CY + (c.u + c.v)*TH/2;
-    var h = c.h * HMAX, ty = sy - h, col = cmap(c.n);
-    var Tx=sx, Ty=ty-TH/2, Rx=sx+TW/2, Ry=ty, Bx=sx, By=ty+TH/2, Lx=sx-TW/2, Ly=ty;
-    var gBx=sx, gBy=sy+TH/2, gRx=sx+TW/2, gRy=sy, gLx=sx-TW/2, gLy=sy;
-    boxes += '<path fill="' + mul(col,0.58) + '" d="M'+q(Rx)+' '+q(Ry)+'L'+q(Bx)+' '+q(By)+'L'+q(gBx)+' '+q(gBy)+'L'+q(gRx)+' '+q(gRy)+'Z"/>';
-    boxes += '<path fill="' + mul(col,0.78) + '" d="M'+q(Lx)+' '+q(Ly)+'L'+q(Bx)+' '+q(By)+'L'+q(gBx)+' '+q(gBy)+'L'+q(gLx)+' '+q(gLy)+'Z"/>';
-    boxes += '<path fill="' + rgb(col) + '" d="M'+q(Tx)+' '+q(Ty)+'L'+q(Rx)+' '+q(Ry)+'L'+q(Bx)+' '+q(By)+'L'+q(Lx)+' '+q(Ly)+'Z"/>';
-  });
-
-  host.innerHTML =
-    '<svg viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">' +
-      '<defs><filter id="c3dsh" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="17"/></filter></defs>' +
-      '<ellipse cx="300" cy="602" rx="232" ry="64" fill="rgba(48,28,18,.18)" filter="url(#c3dsh)"/>' +
-      '<path fill="none" stroke="rgba(70,50,40,.13)" stroke-width="0.7" d="' + mesh + '"/>' +
-      '<g stroke="rgba(40,26,18,.14)" stroke-width="0.5" stroke-linejoin="round">' + boxes + '</g>' +
-      '<text x="66" y="742" font-family="&quot;Barlow Condensed&quot;,sans-serif" font-weight="600" ' +
-        'font-size="15" letter-spacing="1.4" fill="rgba(60,42,30,.55)">ASSEMBLY-WISE POWER · PIN-BY-PIN WHOLE CORE</text>' +
-    '</svg>';
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { measure(); onScroll(); });
+  window.addEventListener('load', function () { measure(); onScroll(); });
+  window.addEventListener('rpl:journey-ready', function () { measure(); onScroll(); });
+  measure();
+  onScroll();
 })();
 </script>
-<script src="assets/js/js-yaml.min.js"></script>
 <script src="assets/js/marked.min.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
