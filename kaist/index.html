@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reactor Physics — Jooil Yoon</title>
+<style>
+  :root {
+    --navy: #0e2a47;
+    --ink: #1b2430;
+    --muted: #5f6b7a;
+    --line: #e2e6ec;
+    --soft: #f4f6f9;
+    --accent: #e4712a;
+    --bg: #ffffff;
+    --font: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #1a1d22; overflow: hidden; font-family: var(--font); color: var(--ink); }
+  #deck { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; }
+  .slide { position: absolute; inset: 0; background: var(--bg); display: none; overflow: hidden; }
+  .slide.active { display: block; }
+
+  /* ---------- content frame (identical on every content slide) ---------- */
+  .tag   { position: absolute; left: 96px; top: 64px; font-size: 18px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .title { position: absolute; left: 96px; top: 96px; font-size: 54px; font-weight: 700; color: var(--navy); letter-spacing: -.01em; }
+  .rule  { position: absolute; left: 96px; top: 176px; width: 64px; height: 4px; background: var(--accent); }
+  .lead  { position: absolute; left: 96px; top: 198px; right: 96px; font-size: 28px; color: var(--muted); }
+  .body  { position: absolute; left: 96px; right: 96px; top: 280px; bottom: 124px; }
+  .foot  { position: absolute; left: 96px; right: 96px; bottom: 44px; display: flex; justify-content: space-between;
+           font-size: 16px; color: #8a94a2; border-top: 1px solid var(--line); padding-top: 14px; }
+  .src   { position: absolute; left: 96px; bottom: 92px; font-size: 15px; color: #8a94a2; }
+
+  /* ---------- building blocks ---------- */
+  .row { display: flex; gap: 40px; height: 100%; }
+  .col { flex: 1; min-width: 0; }
+  .card .rk { display: block; width: 100%; height: auto; margin: 4px 0 16px; }
+  .card { background: var(--soft); border-top: 4px solid var(--navy); padding: 28px 30px; height: 100%; }
+  .card h3 { font-size: 30px; color: var(--navy); margin-bottom: 14px; }
+  .card p, .card li { font-size: 27px; line-height: 1.45; color: var(--ink); }
+  .card ul { list-style: none; }
+  .card li { padding-left: 22px; position: relative; margin-bottom: 10px; }
+  .card li::before { content: ""; position: absolute; left: 0; top: 15px; width: 8px; height: 8px; background: var(--accent); }
+  .k { color: var(--navy); font-weight: 700; }
+  .muted { color: var(--muted); }
+  .fig { width: 100%; height: 100%; object-fit: contain; }
+  .figbox { background: #fff; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; padding: 16px; }
+  .cap { font-size: 24px; color: var(--muted); margin-top: 10px; text-align: center; }
+  .arrow { flex: 0 0 40px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: var(--accent); }
+  .bullets { list-style: none; }
+  .bullets li { font-size: 27px; line-height: 1.45; margin-bottom: 22px; padding-left: 28px; position: relative; }
+  .bullets li::before { content: ""; position: absolute; left: 0; top: 14px; width: 10px; height: 10px; background: var(--accent); }
+  .num { font-size: 72px; font-weight: 700; color: var(--navy); line-height: 1; }
+  .numlbl { font-size: 26px; font-weight: 600; margin-top: 12px; }
+  .numsub { font-size: 24px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+  .band { position: absolute; left: 96px; right: 96px; bottom: 124px; background: var(--navy); color: #fff; font-size: 26px; padding: 18px 28px; }
+  .band b { color: #ffb37f; }
+
+  /* ---------- cover / closing ---------- */
+  .cover { background: #0b1526; }
+  .cover img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .9; }
+  .cover .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,16,30,.96) 0%, rgba(8,16,30,.88) 42%, rgba(8,16,30,.25) 75%, rgba(8,16,30,.1) 100%); }
+  .cover .inner { position: absolute; left: 120px; top: 0; bottom: 0; width: 1000px; display: flex; flex-direction: column; justify-content: center; color: #fff; }
+  .cover .kicker { font-size: 20px; letter-spacing: .14em; text-transform: uppercase; color: #9fb0c8; font-weight: 600; }
+  .cover h1 { font-size: 76px; line-height: 1.1; margin: 28px 0 30px; font-weight: 700; }
+  .cover .crule { width: 80px; height: 5px; background: var(--accent); margin-bottom: 34px; }
+  .cover .name { font-size: 38px; font-weight: 700; }
+  .cover .role { font-size: 24px; color: #c7d2e2; margin-top: 10px; line-height: 1.5; }
+
+  /* timeline */
+  .tl { position: relative; height: 100%; }
+  .tl .axis { position: absolute; left: 0; right: 0; top: 118px; height: 4px; background: var(--line); }
+  .tl .seg { position: absolute; top: 112px; height: 16px; }
+  .tl .item { position: absolute; top: 0; width: 360px; }
+  .tl .yr { font-size: 25px; font-weight: 700; color: var(--accent); }
+  .tl .dot { position: absolute; top: 108px; width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 5px solid var(--navy); }
+  .tl .box { position: absolute; top: 160px; width: 380px; }
+  .tl .box h4 { font-size: 29px; color: var(--navy); margin-bottom: 10px; }
+  .tl .box p { font-size: 26px; line-height: 1.45; }
+
+  /* video */
+  .video-wrap { position: absolute; left: 306px; top: 250px; width: 1308px; height: 736px; background: #000; }
+  .vcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 120px 56px 78px; pointer-events: none; color: #eef2fa;
+          background: linear-gradient(to top, rgba(7,11,24,.78), rgba(7,11,24,0)); transition: opacity .5s; }
+  .vcap.fade { opacity: 0; }
+  .vcap .vn { font-size: 16px; letter-spacing: .18em; color: #a9b3c7; font-family: ui-monospace, Menlo, monospace; }
+  .vcap .ve { font-size: 18px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--vc, #6fb7ff); margin-top: 14px; }
+  .vcap .vt { font-size: 52px; font-weight: 800; line-height: 1.1; margin-top: 8px; }
+  .vcap .vb { font-size: 24px; color: #d3dae6; margin-top: 12px; max-width: 900px; }
+  .video-wrap video { width: 100%; height: 100%; display: block; }
+
+
+  /* two-step figure (slide 4) */
+  .ts { position: relative; width: 1300px; height: 676px; margin: 0 auto; }
+  .ts-img { position: absolute; left: 0; top: 57px; width: 1300px; height: 580px; mix-blend-mode: multiply; filter: brightness(1.04) contrast(1.02); }
+  .ts-bracket { position: absolute; left: 0; right: 0; top: 20px; height: 26px; border: 3px solid var(--accent); border-bottom: none; }
+  .ts-bracket span { position: absolute; left: 50%; top: -22px; transform: translateX(-50%); background: #fff; padding: 0 16px;
+                     font-size: 26px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .ts-astra { position: absolute; left: 292px; top: 128px; width: 612px; height: 430px; border: 3px solid var(--accent); border-radius: 14px; }
+  .ts-pill { position: absolute; left: 292px; top: 128px; border-radius: 10px 0 6px 0; background: var(--accent); color: #fff; font-size: 23px; font-weight: 700; padding: 6px 14px; border-radius: 6px; }
+  .ts-lbl { position: absolute; top: 592px; width: 330px; text-align: center; }
+  .ts-lbl b { display: block; font-size: 27px; color: var(--navy); }
+  .ts-lbl span { display: block; font-size: 21px; white-space: nowrap; color: var(--muted); margin-top: 4px; }
+
+
+  /* two-step figure v3 (slide 4, code-rendered) */
+  .ts2 { position: relative; height: 676px; }
+  .ts2-bracket { position: absolute; left: 0; right: 0; top: 18px; height: 24px; border: 3px solid var(--accent); border-bottom: none; }
+  .ts2-bracket span { position: absolute; left: 50%; top: -21px; transform: translateX(-50%); background: #fff; padding: 0 16px;
+                      font-size: 26px; font-weight: 700; color: var(--accent); white-space: nowrap; }
+  .ts2-row { position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: flex; align-items: center; justify-content: space-between; }
+  .ts2-p { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .ts2-p img { width: 100%; height: auto; max-height: 330px; object-fit: contain; }
+  .ts2-p b { font-size: 25px; color: var(--navy); margin-top: 14px; white-space: nowrap; }
+  .ts2-p span { font-size: 21px; color: var(--muted); margin-top: 4px; white-space: nowrap; }
+  .ts2-ar { font-size: 38px; color: #9aa4b2; padding: 0 4px; }
+  .ts2-astra { position: relative; display: flex; align-items: center; gap: 8px; padding: 16px; }
+  .ts2-hom { display: flex; flex-direction: row; align-items: center; }
+  .ts2-homc { display: flex; flex-direction: column; align-items: center; text-align: center; width: 112px; }
+  .ts2-hom img { width: 104px; height: auto; margin-bottom: 6px; }
+  .ts2-hom b { font-size: 23px; color: var(--accent); white-space: nowrap; }
+  .ts2-hom span { font-size: 18px; color: var(--muted); white-space: nowrap; }
+  .ts2-hom .ts2-ar { line-height: 1; }
+  .ts2-pill { position: absolute; left: -3px; top: -3px; background: var(--accent); color: #fff; font-size: 23px; font-weight: 700; padding: 6px 14px; border-radius: 14px 0 8px 0; }
+
+
+  /* track record (slide 5) */
+  .sub { font-size: 26px; color: var(--navy); font-weight: 600; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .cite { font-size: 22px; color: var(--muted); margin-top: 10px; line-height: 1.4; }
+  .cite b { color: var(--navy); font-size: 24px; }
+  .tl.sm { height: 205px; }
+  .tl.sm .axis { top: 48px; } .tl.sm .seg { top: 42px; } .tl.sm .dot { top: 38px; }
+  .tl.sm .box { top: 84px; } .tl.sm .box h4 { font-size: 27px; margin-bottom: 6px; } .tl.sm .box p { font-size: 23px; }
+  .vtl li { gap: 46px; }
+  .ms { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; column-gap: 40px; margin-top: 18px; }
+  .ms .mi { display: flex; gap: 22px; padding: 0 0 22px; }
+  .ms .y { width: 90px; flex: none; text-align: right; font-size: 23px; font-weight: 600; color: var(--muted); padding-top: 2px; }
+  .ms .mi > div { border-left: 3px solid var(--line); padding-left: 22px; position: relative; flex: 1; }
+  .ms .mi > div::before { content: ""; position: absolute; left: -9px; top: 8px; width: 15px; height: 15px; border-radius: 50%; background: var(--navy); }
+  .ms .mi.nx > div::before { background: #fff; border: 3px solid var(--navy); width: 9px; height: 9px; }
+  .ms b { font-size: 26px; color: var(--navy); }
+  .ms p { font-size: 22px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+  .vtl { list-style: none; position: relative; margin-top: 18px; }
+  .vtl::before { content: ""; position: absolute; left: 118px; top: 10px; bottom: 10px; width: 3px; background: var(--line); }
+  .vtl li { display: flex; gap: 58px; margin-bottom: 26px; position: relative; }
+  .vtl li::before { content: ""; position: absolute; left: 113px; top: 9px; width: 13px; height: 13px; border-radius: 50%; background: var(--navy); }
+  .vtl li.next::before { background: #fff; border: 2px solid var(--navy); width: 9px; height: 9px; }
+  .vtl .y { width: 96px; flex: none; text-align: right; font-size: 23px; font-weight: 600; color: var(--muted); padding-top: 2px; }
+  .vtl b { font-size: 26px; color: var(--navy); }
+  .vtl p { font-size: 23px; color: var(--muted); margin-top: 2px; }
+  .usedat { font-size: 24px; color: var(--ink); margin-top: 18px; }
+  .chips { margin-top: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .chips span { font-size: 20px; font-weight: 700; color: var(--navy); margin-right: 4px; }
+  .chips i { font-style: normal; font-size: 20px; background: var(--soft); border: 1px solid var(--line); padding: 5px 12px; }
+
+  .kv { width: 100%; border-collapse: collapse; margin-top: 6px; }
+  .kv td { border-bottom: 1px solid var(--line); padding: 16px 0; vertical-align: middle; }
+  .kv td.n { width: 190px; font-size: 44px; font-weight: 600; color: var(--navy); white-space: nowrap; }
+  .kv b { display: block; font-size: 26px; color: var(--ink); font-weight: 600; }
+  .kv span { display: block; font-size: 23px; color: var(--muted); margin-top: 3px; }
+
+  .gain { display: flex; align-items: flex-end; gap: 44px; margin-top: 16px; }
+  .gain div b { display: block; font-size: 56px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .gain div span { display: block; font-size: 22px; color: var(--ink); margin-top: 6px; line-height: 1.3; }
+  .gain p { font-size: 20px; color: var(--muted); max-width: 300px; line-height: 1.4; }
+
+  .flow { display: flex; align-items: flex-start; gap: 18px; height: 100%; }
+  .fstep { flex: 1; min-width: 0; }
+  .fimg { height: 320px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+  .fimg img { max-width: 100%; max-height: 320px; object-fit: contain; }
+  .fstep h4 { font-size: 28px; color: var(--navy); margin-top: 18px; }
+  .fstep em { display: block; font-style: normal; font-size: 23px; color: var(--muted); margin-top: 2px; }
+  .fstep ul { list-style: none; margin-top: 14px; }
+  .fstep li { font-size: 25px; line-height: 1.4; padding-left: 16px; position: relative; margin-bottom: 8px; }
+  .fstep li::before { content: ""; position: absolute; left: 0; top: 11px; width: 6px; height: 6px; background: var(--navy); border-radius: 50%; }
+  .farr { flex: 0 0 34px; font-size: 34px; color: #9aa4b2; padding-top: 140px; text-align: center; }
+  .fperf { flex: 0 0 470px; margin-left: 40px; padding-left: 40px; border-left: 1px solid var(--line); }
+  .fperf .kv td.n { width: 130px; font-size: 38px; }
+  .vs { font-size: 22px; color: var(--muted); margin-top: 22px; line-height: 1.5; }
+  .vs b { color: var(--navy); }
+
+  .maps { flex: 1; padding-top: 30px; }
+  .maps .mt { font-size: 27px; font-weight: 600; color: var(--navy); }
+  .maps .mt span { font-size: 24px; font-weight: 400; color: var(--muted); }
+  .mrow { display: flex; gap: 14px; margin-top: 14px; }
+  .mrow figure { flex: 1; margin: 0; }
+  .mrow img { width: 100%; display: block; }
+  .mrow figcaption { font-size: 20px; color: var(--navy); text-align: center; margin-top: 6px; }
+  .maps p { font-size: 25px; color: var(--muted); margin-top: 16px; line-height: 1.45; }
+
+  .cap2 { font-size: 22px; color: var(--muted); margin-top: 12px; line-height: 1.45; }
+  .plots { display: flex; gap: 22px; margin-top: 30px; }
+  .plots figure { flex: 1; margin: 0; }
+  .plots img { width: 100%; display: block; border: 1px solid var(--line); }
+  .plots figcaption { font-size: 21px; color: var(--navy); margin-top: 8px; line-height: 1.35; }
+
+  .iss { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 40px; row-gap: 22px; }
+  .iss .ih { font-size: 26px; font-weight: 700; color: var(--navy); padding-bottom: 8px; border-bottom: 3px solid var(--accent); }
+  .iss .ih span { font-weight: 400; color: var(--muted); font-size: 23px; margin-left: 10px; }
+  .tc { margin: 0; display: flex; flex-direction: column; }
+  .tc .im { height: 380px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  .tc .im img { max-width: 94%; max-height: 94%; object-fit: contain; }
+  .tc b { font-size: 27px; color: var(--ink); margin-top: 18px; }
+  .tc p { font-size: 23px; color: var(--muted); margin: 6px 0 0; line-height: 1.4; }
+  .tc .stt { margin-top: 16px; font-size: 23px; color: var(--ink); }
+  .bd { font-style: normal; font-size: 17px; font-weight: 700; padding: 3px 9px; border-radius: 4px; margin-right: 6px; }
+  .bd + .bd, .stt .pt { margin-left: 16px; }
+  .bd.cm { background: var(--navy); color: #fff; }
+  .bd.pl { background: #fff; color: var(--accent); border: 2px solid var(--accent); }
+  .bd.pt { background: #fdebdc; color: #b3531a; }
+  .ann { position: relative; }
+  .ann .hl { position: absolute; border: 3px solid var(--accent); border-radius: 8px; background: rgba(228,113,42,.08); }
+  .ann .note { position: absolute; background: rgba(255,255,255,.94); border-left: 4px solid var(--accent); padding: 8px 14px;
+               font-size: 24px; font-weight: 700; color: var(--navy); line-height: 1.3; box-shadow: 0 1px 6px rgba(14,42,71,.12); }
+  .ann .note span { font-size: 18px; font-weight: 400; color: var(--muted); } .ann .note.sm { font-size: 19px; } .ann .note.sm span { font-size: 16px; font-weight: 400; color: var(--muted); }
+
+  .adv { display: flex; gap: 22px; margin-top: 18px; }
+  .adv figure { flex: 1; margin: 0; }
+  .adv figure > div { height: 400px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; padding: 10px; background: #fff; }
+  .adv img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .adv figcaption { font-size: 22px; color: var(--muted); margin-top: 10px; }
+  .adv figcaption b { display: block; font-size: 24px; color: var(--navy); white-space: nowrap; }
+
+  .contrib td { padding: 22px 0; }
+  .contrib td.n { width: 110px; font-size: 40px; color: var(--accent); font-weight: 600; }
+  .contrib td.h { width: 360px; font-size: 30px; font-weight: 700; color: var(--navy); }
+  .contrib b { font-size: 26px; }
+  .contrib span { font-size: 24px; }
+
+  .tagx { position: absolute; background: rgba(14,42,71,.88); color: #fff; font-size: 19px; font-weight: 700; padding: 5px 12px; border-radius: 4px; border-left: 3px solid var(--accent); }
+  .tagx.lg { background: rgba(255,255,255,.93); color: var(--navy); font-size: 22px; box-shadow: 0 1px 6px rgba(14,42,71,.15); }
+  .tagx span { display: block; font-size: 17px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .tagx.core { background: var(--navy); color: #fff; font-size: 22px; }
+  .tagx.core span { color: #ffb37f; }
+  .stair { display: flex; flex-direction: column; gap: 22px; }
+  .st { border-left: 4px solid #c9d3e0; padding: 6px 0 6px 22px; }
+  .st.top { border-left-color: var(--accent); }
+  .st em { font-style: normal; font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+  .st h4 { font-size: 32px; color: var(--navy); margin: 4px 0 6px; }
+  .st p { font-size: 24px; color: var(--muted); line-height: 1.45; }
+  .quote { position: absolute; left: 96px; right: 96px; bottom: 96px; font-size: 27px; color: var(--navy); font-style: italic; }
+  .quote b { font-style: normal; color: var(--accent); }
+
+  .plain { list-style: none; margin-top: 18px; }
+  .plain li { font-size: 24px; line-height: 1.45; padding-left: 18px; position: relative; margin-bottom: 8px; color: var(--ink); }
+  .plain li::before { content: ""; position: absolute; left: 0; top: 13px; width: 7px; height: 7px; border-radius: 50%; background: var(--navy); }
+  .rp3 { display: flex; gap: 44px; height: 100%; }
+  .rpc { flex: 1; min-width: 0; }
+  .rimg { height: 430px; margin-top: 16px; display: flex; align-items: center; justify-content: center; }
+  .rimg img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .rk { font-size: 25px; color: var(--ink); margin-top: 18px; }
+  .rk b { color: var(--accent); }
+  .rd { font-size: 23px; color: var(--muted); margin-top: 8px; line-height: 1.45; }
+
+  .fg { margin: 0; }
+  .fg img { width: 100%; display: block; }
+  .fg figcaption { font-size: 20px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+  .fg figcaption b { display: block; font-size: 23px; color: var(--navy); }
+
+  .vis { position: relative; display: flex; gap: 48px; height: 100%; }
+  .vc { flex: 1; }
+  .vfig { width: 100%; height: 200px; display: block; margin-bottom: 14px; }
+  .vc .vy { border-top: 4px solid #c9d3e0; padding-top: 12px; }
+  .vc.top .vy { border-top-color: var(--accent); }
+  .vc.top { border-top-color: var(--accent); }
+  .vy { font-size: 22px; font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+  .vm { font-size: 50px; font-weight: 700; color: var(--navy); line-height: 1.05; margin-top: 8px; }
+  .vh { font-size: 26px; font-weight: 700; color: var(--ink); margin-top: 4px; }
+  .vis .plain li { font-size: 22px; margin-bottom: 4px; }
+  .vis .plain { margin-top: 10px; }
+  .vline { position: absolute; left: 0; right: 0; bottom: 20px; height: 40px; width: 100%; }
+
+  .kk { display: block; font-size: 26px; color: var(--navy); border-top: 3px solid var(--accent); padding-top: 10px; }
+  .kd { font-size: 23px; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+
+  .ai td { padding: 24px 0; }
+  .ai td.stg { width: 110px; font-size: 22px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: .06em; }
+  .ai td.stg.nx { color: var(--accent); }
+  .ai td.n { width: 230px; font-size: 42px; }
+
+  .flab { position: absolute; font-size: 20px; font-weight: 700; color: var(--navy); background: rgba(255,255,255,.9); padding: 0 4px; }
+  .fleg { position: absolute; font-size: 16px; color: var(--muted); background: #fff; padding: 0 4px; }
+  .fleg i { display: inline-block; width: 12px; height: 12px; margin: 0 4px 0 8px; vertical-align: -1px; }
+
+  .lyr { position: absolute; left: 0; white-space: nowrap; background: rgba(14,42,71,.92); color: #fff; font-size: 18px; font-weight: 700; padding: 4px 10px; border-left: 3px solid var(--accent); }
+  .lyr span { font-weight: 400; color: #ffb37f; margin-left: 8px; font-size: 16px; }
+  .phy { position: absolute; bottom: -34px; font-size: 18px; font-weight: 700; color: var(--navy); }
+
+  /* notes */
+  #notes { position: fixed; left: 0; right: 0; bottom: 0; max-height: 36vh; overflow: auto; background: rgba(15,20,28,.95); color: #e8edf5;
+           font-size: 21px; line-height: 1.5; padding: 16px 24px; display: none; z-index: 10; font-family: var(--font); }
+  #notes.show { display: block; }
+  .notes { display: none; }
+  #hud { transition: opacity 1s; position: fixed; right: 14px; bottom: 10px; color: #6b7480; font-size: 12px; z-index: 11; font-family: var(--font); }
+</style>
+</head>
+<body>
+<div id="deck">
+
+<!-- 0 · Cover -->
+<section class="slide cover">
+  <img class="bg" src="assets/hero.jpg" alt="">
+  <div class="shade"></div>
+  <div class="inner">
+    <div class="kicker">KAIST · Department of Nuclear and Quantum Engineering</div>
+    <h1>Reactor Physics:<br>Research and Plans</h1>
+    <div class="crule"></div>
+    <div class="name">Jooil Yoon</div>
+  </div>
+  <aside class="notes">Thank you for the opportunity. I will take about fifteen minutes: who I am, what reactor physics is, what I have built, and what I would build at KAIST.</aside>
+</section>
+
+<!-- 1 · Career and track record -->
+<section class="slide">
+  <div class="tag">About me</div>
+  <div class="title">Career and Track Record</div><div class="rule"></div>
+  <div class="lead">16 years building Korea's core design code: methods → code → licensing → export.</div>
+  <div class="body">
+    <div class="tl sm">
+      <div class="axis"></div>
+      <div class="seg" style="left:0;width:23%;background:#c9d3e0"></div>
+      <div class="seg" style="left:23%;width:52%;background:var(--navy)"></div>
+      <div class="seg" style="left:75%;width:20%;background:var(--accent)"></div>
+      <div class="item" style="left:0"><div class="yr">2003 – 2021</div></div>
+      <div class="dot" style="left:0"></div>
+      <div class="box" style="left:0"><h4>Seoul National University</h4><p>B.S. 2007 · M.S. 2009 · Ph.D. 2021</p></div>
+      <div class="item" style="left:23%"><div class="yr">2007 – 2023</div></div>
+      <div class="dot" style="left:23%"></div>
+      <div class="box" style="left:23%;width:760px"><h4>KEPCO Nuclear Fuel · 16 years</h4><p>Built the core design code system · licensed in Korea and the UAE<br><span class="muted">Manager, Nuclear Fuel Design Department (2019 – 2023)</span></p></div>
+      <div class="item" style="left:75%"><div class="yr">2024 – present</div></div>
+      <div class="dot" style="left:75%"></div>
+      <div class="box" style="left:75%;width:300px"><h4>KINGS</h4><p>Associate Professor<br>Department Head</p></div>
+      <div class="dot" style="left:calc(100% - 24px);border-color:var(--accent)"></div>
+      <div class="item" style="left:calc(100% - 140px);width:140px;text-align:right"><div class="yr">Next</div></div>
+      <div class="box" style="left:calc(100% - 140px);width:140px;text-align:right"><h4>KAIST</h4></div>
+    </div>
+    <div class="row" style="gap:56px;margin-top:10px;height:auto">
+      <div style="flex:0 0 600px">
+        <div class="sub">Methods (published)</div>
+        <img src="assets/fig/p5_methods.png" alt="" style="width:560px;display:block;margin-top:10px">
+      </div>
+      <div class="col">
+        <div class="sub">Code, licensing and export</div>
+        <div class="ms"><div class="mi"><span class="y">2007–08</span><div><b>3D core analysis code</b><p>Nodal kernel and pin power reconstruction</p></div></div><div class="mi"><span class="y">2017–19</span><div><b>3D pin-by-pin code</b><p>High-performance pin-wise core calculation</p></div></div><div class="mi"><span class="y">2008–13</span><div><b>Core design code system</b><p>Pressurized Water Reactor (PWR) core design · licensing</p></div></div><div class="mi"><span class="y">2020–23</span><div><b>Core monitoring code</b><p>Applied to KHNP operating plants</p></div></div><div class="mi"><span class="y">2015</span><div><b>UAE</b><p>Exported with Barakah</p></div></div><div class="mi nx"><span class="y">Next</span><div><b>Czech Republic</b><p>Code system to follow the export</p></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Yoon &amp; Joo, <i>J. Nucl. Sci. Technol.</i> 45, 668 (2008) · Joo, Yoon &amp; Baek, <i>Ann. Nucl. Energy</i> 36, 85 (2009)</div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Sixteen years at KEPCO Nuclear Fuel. The two methods at the center of Korea's core design code — the source expansion nodal method with two-level CMFD, and the multigroup pin power reconstruction — are my published work. I implemented them in the 3D core analysis code, built the core design code system, and took it through licensing. It went to the UAE with the Barakah export, and it will go to the Czech Republic. Before that, Korea licensed this software from Westinghouse. SNU has its own code — the fact that they use mine is the most honest technical assessment I can show. Then I faced the harder problem — no one to hand it to. That is why I moved to a university, and why I am here.</aside>
+</section>
+
+<!-- 2 · What is reactor physics -->
+<section class="slide" data-video>
+  <div class="tag">Reactor physics</div>
+  <div class="title">What Is Reactor Physics?</div><div class="rule"></div>
+  <div class="lead">You cannot look inside a reactor core. We compute it.</div>
+  <div class="video-wrap"><video src="assets/zoom.mp4" poster="assets/zoom_poster.jpg" muted playsinline preload="auto" controls></video><div class="vcap"><div class="vn"></div><div class="ve"></div><div class="vt"></div><div class="vb"></div></div></div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">This is an APR1400 core — the reactor Korea exported to the UAE. Control rods absorb neutrons; withdraw them and the chain reaction begins. The core heats — but not evenly. Where does the heat come from? A neutron is born fast and slows down by colliding with hydrogen in the water. Uranium-235 absorbs the slow neutron and splits; the fragments shake the fuel around them — that is the heat. Reactor physics turns this microscopic theory into a calculation of neutron behavior across the whole core. You cannot look inside a reactor core. So we compute it.</aside>
+</section>
+
+<!-- 3 · Core analysis method -->
+<section class="slide">
+  <div class="tag">Reactor physics</div>
+  <div class="title">Core Analysis Method</div><div class="rule"></div>
+  <div class="lead">The two-step method behind every commercial design code — and where I built Korea's version.</div>
+  <div class="body">
+    <div class="ts2">
+      <div class="ts2-row">
+        <div class="ts2-p" style="width:450px"><img src="assets/fig/p1_lattice.png" alt="" style="max-height:440px"><b>① 2D lattice calculation</b><span>Method of characteristics</span></div>
+        <div class="ts2-hom"><div class="ts2-ar">→</div><div class="ts2-homc"><img src="assets/fig/p_homxs.png" alt=""><b>Homogenized Nuclear Data</b><span>few-group</span></div><div class="ts2-ar">→</div></div>
+        <div class="ts2-astra" style="flex-direction:column;align-items:stretch;padding-bottom:12px">
+          <img src="assets/fig/p23.png" alt="" style="width:640px;height:auto;display:block">
+          <div style="display:flex;justify-content:space-between;text-align:center;margin-top:12px">
+            <div class="ts2-p" style="width:350px"><b>② 3D nodal calculation</b><span>Square assembly nodes</span></div>
+            <div class="ts2-p" style="width:300px"><b>③ Pin power reconstruction</b><span>2D pin-wise, node by node</span></div>
+          </div>
+        </div>
+        <div class="ts2-ar">→</div>
+        <div class="ts2-p" style="width:290px"><img src="assets/fig/p4_wholecore.png" alt=""><b>④ 3D whole-core</b><span>Pin power of every fuel rod</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Yoon &amp; Joo, <i>J. Nucl. Sci. Technol.</i> 45, 668 (2008) · Joo, Yoon &amp; Baek, <i>Ann. Nucl. Energy</i> 36, 85 (2009)</div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">This is how we compute the core you just saw. We cannot solve the whole core in full detail, so we do it in two steps. First, the lattice code solves 2D neutron transport on one fuel assembly and passes homogenized few-group cross sections to the core code. Second, the 3D core analysis code runs a 3D nodal calculation of the whole core on coarse nodes, then takes each node — one assembly at one height — and reconstructs its 2D pin-by-pin power; combined over all nodes this gives the 3D pin power of the whole core. I developed the core functionality of that code — the nodal method and the pin power reconstruction, both published — and built the core design code system that links the two steps, and took it through licensing in Korea and the UAE. Before that, Korea licensed this software from Westinghouse.</aside>
+</section>
+
+<!-- 6 · High-fidelity core analysis: code system -->
+<section class="slide">
+  <div class="tag">Research</div>
+  <div class="title">High-Fidelity Core Analysis</div><div class="rule"></div>
+  <div class="lead">MONTEX/SPHINCS — the only production-level pin-wise core design code system.</div>
+  <div class="body">
+    <div class="flow">
+      <div class="fstep">
+        <div class="fimg"><img src="assets/fig/mx_track.png" alt=""></div>
+        <h4>MONTEX</h4><em>GPU Monte Carlo lattice code</em>
+        <ul><li>Continuous-energy, heterogeneous GPU memory</li><li>Lattice in 1 min (CPU ≈ 30 min)</li><li>Pin power vs. PRAGMA: RMS 0.35%</li></ul>
+      </div>
+      <div class="farr">→</div>
+      <div class="fstep">
+        <div class="fimg"><img src="assets/fig/mx_pinxs.png" alt="" style="max-height:280px"></div>
+        <h4>Pin-wise nuclear data</h4><em>Pin-homogenized, few-group</em>
+        <ul><li>Super-Homogenization (SPH) equivalence factors</li><li>4–8 energy groups (vs. 2 in nodal)</li><li>Reflector diffusivity correction</li></ul>
+      </div>
+      <div class="farr">→</div>
+      <div class="fstep">
+        <div class="fimg"><img src="assets/fig/p4_wholecore.png" alt=""></div>
+        <h4>SPHINCS</h4><em>Pin-wise 3D core code (C++)</em>
+        <ul><li>2D/1D decoupling, parallel</li><li>Two-level CMFD acceleration</li><li>Steady state, depletion, transient</li></ul>
+      </div>
+      <div class="fperf">
+        <div class="sub">Performance</div>
+        <table class="kv">
+          <tr><td class="n">4 s</td><td><b>3D pin-wise core</b><span>One innovative Small Modular Reactor (i-SMR) core</span></td></tr>
+          <tr><td class="n">1 min</td><td><b>Full cycle depletion</b><span>Pin by pin</span></td></tr>
+          <tr><td class="n">1 min</td><td><b>MONTEX lattice</b><span>4M histories/cycle, nuclear data σ ≈ 0.01%</span></td></tr>
+        </table>
+        <p class="vs"><b>Nodal:</b> one average per assembly, rod power reconstructed.<br><b>Pin-wise:</b> every fuel rod computed directly.</p>
+      </div>
+    </div>
+  </div>
+  <div class="src">Lim, Kwon &amp; Yoon, <i>Nucl. Eng. Technol.</i> 57, 103596 (2025) · Yoon, Lee, Joo &amp; Kim, <i>Nucl. Eng. Technol.</i> 53, 3543 (2021)</div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">We are past the catch-up stage. The conventional nodal method computes one average per assembly and reconstructs the rods. MONTEX and SPHINCS compute every fuel rod directly. MONTEX is a GPU Monte Carlo code: a lattice calculation takes one second instead of thirty minutes. It produces pin-wise cross sections with SPH equivalence factors, and SPHINCS solves the whole core pin by pin — four seconds for an i-SMR core, one minute for a full cycle. As far as I know, no one else is developing a pin-wise code system at production level, ready for design and licensing.</aside>
+</section>
+
+<!-- 6b · High-fidelity core analysis: accuracy -->
+<section class="slide">
+  <div class="tag">Research</div>
+  <div class="title">Accuracy vs. Nodal Codes</div><div class="rule"></div>
+  <div class="lead">Pin-wise computation cuts the error of conventional nodal design codes by a factor of 2.5 to 5.5.</div>
+  <div class="body">
+    <div class="row" style="gap:56px;align-items:flex-start">
+      <div style="flex:0 0 1000px">
+        <img src="assets/fig/p6_accuracy.png" alt="" style="width:100%;display:block">
+        <p class="cap2" style="font-size:21px;margin-top:10px">Mean of six C5G7 and VERA benchmark cases · same energy groups · reference: nTRACER whole-core transport</p>
+      </div>
+      <div class="maps" style="padding-top:4px">
+        <div class="mt">Pin power error map, VERA case 27<br><span>Control rods inserted · quarter core</span></div>
+        <img src="assets/fig/p7_errmaps.png" alt="" style="width:100%;display:block;margin-top:18px">
+        <p>Nodal error concentrates at the control rods; pin-wise stays near zero.</p>
+      </div>
+    </div>
+  </div>
+  <div class="src">Yoon, Lee, Joo &amp; Kim, <i>Nucl. Eng. Technol.</i> 53, 3543 (2021)</div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Against the whole-core transport reference, on six benchmark cases, pin power error drops by a factor of two and a half, the peak pin error by almost three, and the eigenvalue error by five and a half — from over a hundred pcm to about twenty. Where control rods are inserted, the nodal method struggles most; that is exactly where the pin-wise method holds.</aside>
+</section>
+
+<!-- 9 · Technical issues -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">Technical Issues in i-SMR and PWR Cores</div><div class="rule"></div>
+  <div class="lead">Two open issues — and my technologies that solve them, each on a concrete path to application.</div>
+  <div class="body">
+    <div class="iss">
+      <div class="ih" style="grid-column:1">Issue 1 · Flexible operation <span>i-SMR · PWR</span></div>
+      <div class="ih" style="grid-column:2 / 4">Issue 2 · i-SMR core design <span>soluble-boron-free · long-cycle operation</span></div>
+      <figure class="tc">
+        <div class="im"><img src="assets/rp/s07_image13.png" alt=""></div>
+        <b>Isotope-Indicated Spectrum Shift Method</b>
+        <p>New numerical method: isotope densities track each node&#39;s spectral history under load-follow and rod-only control</p>
+        <div class="stt"><i class="bd pl">Planned</i> i-SMR · PWR <i class="bd pt">Patent</i> planned</div>
+      </figure>
+      <figure class="tc">
+        <div class="im"><img src="assets/fig/p4_wholecore.png" alt=""></div>
+        <b>MONTEX/SPHINCS code system</b>
+        <p>Graphics Processing Unit (GPU) Monte Carlo lattice + pin-wise 3D core: every fuel rod computed directly</p>
+        <div class="stt"><i class="bd pl">Planned</i> i-SMR core design <i class="bd pt">Papers</i> 4 published</div>
+      </figure>
+      <figure class="tc">
+        <div class="im" style="background:#e8e8e9"><img src="assets/higa_rod.jpg" alt="" style="max-width:100%;max-height:100%;width:100%"></div>
+        <b>Highly Intensive Gadolinia/Alumina (HIGA) burnable absorber</b>
+        <p>Gd<sub>2</sub>O<sub>3</sub>–Al<sub>2</sub>O<sub>3</sub> column in a standard rod: reactivity held flat without soluble boron</p>
+        <div class="stt"><i class="bd cm">Adoption</i> official i-SMR absorber <i class="bd pt">Patent</i> 2026</div>
+      </figure>
+    </div>
+  </div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Two technical issues define the next decade of light water cores. First, flexible operation: to work with renewables, PWRs and the i-SMR must follow load daily, and the nuclear data no longer fits the core's history. My isotope-indicated spectrum shift method corrects that. Second, the i-SMR core itself: no soluble boron and a long cycle. MONTEX and SPHINCS compute every fuel rod directly, and the HIGA absorber holds reactivity flat without boron. These are not proposals. HIGA is patented and is to be adopted as the official i-SMR burnable absorber; MONTEX and SPHINCS are backed by four published papers and planned for i-SMR design; a patent for the spectrum shift method is in preparation.</aside>
+</section>
+
+<!-- 10b · Research plan II -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">Advanced Reactors</div><div class="rule"></div>
+  <div class="lead">New geometries and neutron spectra — three solvers already running, each validated against international benchmarks.</div>
+  <div class="body">
+    <div class="rp3">
+      <div class="rpc">
+        <div class="sub">HEXANUS · pin-resolved hexagonal core</div>
+        <div class="rimg"><img src="assets/rp/s09_image15.png" alt=""></div>
+        <p class="rk"><b>−31 / −46 pcm</b> vs. transport · <b>0.01–0.05 s</b> per assembly</p>
+        <p class="rd">VVER, Sodium-cooled Fast Reactor (SFR) and High-Temperature Gas-cooled Reactor (HTGR): pin powers computed directly</p>
+      </div>
+      <div class="rpc">
+        <div class="sub">VENUS · variational nodal transport</div>
+        <div class="rimg"><img src="assets/rp/s11_image21.png" alt=""></div>
+        <p class="rk"><b>+11 / +15 pcm</b> on SNR-300 and VVER-440 3D</p>
+        <p class="rd">SFR core analysis code with KAERI; P3 transport cuts Takeda-4 error from −2,172 to −222 pcm</p>
+      </div>
+      <div class="rpc">
+        <div class="sub">CYNUS · Molten Salt Reactor (MSR) simulator</div>
+        <div class="rimg"><img src="assets/rp/s15_image29_s.png" alt=""></div>
+        <p class="rk"><b>Multi-Physics Code Platform</b> for the maritime MSR</p>
+        <p class="rd">Direction-specific hybrid nodal method in r-θ-z; fast steady-state and transient analysis</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Advanced reactors break both the geometry and the neutron spectrum the light water methods were built for. I already have three solvers running: HEXANUS computes pin powers directly on hexagonal cores within fifty pcm of transport in hundredths of a second; VENUS, developed with KAERI for fast reactors, matches the SNR-300 and VVER-440 benchmarks within fifteen pcm; and CYNUS handles the cylindrical molten salt reactor, coupled with OpenFOAM for multiphysics.</aside>
+</section>
+
+<!-- 12 · AI -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">AI in Core Analysis</div><div class="rule"></div>
+  <div class="lead">Physics solvers generate the data; AI makes them interactive design engines.</div>
+  <div class="body">
+    <div class="row" style="gap:64px">
+      <div style="flex:0 0 1040px">
+        <table class="kv ai">
+          <tr><td class="stg">Done</td><td class="n">10,000×</td><td><b>CNN surrogate for PWR cores</b><span>k-eff within ≈100 pcm · deep-learning core prediction patented (2020)</span></td></tr>
+          <tr><td class="stg">Done</td><td class="n">30,000×</td><td><b>i-SMR loading-pattern surrogate</b><span>Faster than full-core calculation — automated fuel arrangement design</span></td></tr>
+          <tr><td class="stg nx">Next</td><td class="n">Verified</td><td><b>Surrogates trained on SPHINCS, CYNUS, HEXANUS</b><span>Optimization runs on the surrogate; the full solver makes the final call</span></td></tr>
+          <tr><td class="stg nx">Reach</td><td class="n">LLM</td><td><b>Conversational interface to the code system</b><span>Non-specialists request analyses and read results</span></td></tr>
+        </table>
+      </div>
+      <div class="col" style="display:flex;align-items:flex-start;justify-content:center">
+        <div class="ann" style="width:600px">
+          <img src="assets/fig/p13_ai_hf.png" alt="" style="width:100%;display:block">
+          <div class="flab" style="left:0%;top:-3%">Loading pattern</div>
+          <div class="flab" style="left:48%;top:-3%">CNN surrogate</div>
+          <div class="flab" style="left:0%;top:50%">Predicted power</div>
+          <div class="flab" style="left:57%;top:53%">Verified by SPHINCS</div>
+          <div class="fleg" style="left:0%;top:39.5%;padding:10px 8px 6px"><i style="background:#e4712a"></i>fresh <i style="background:#f3b98c"></i>once burned <i style="background:#9fb0c8"></i>twice burned</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="quote">Reactor physics has almost no public training data. The scarce asset is <b>judging what a regulator accepts</b> — and there is no training data for that.</div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Already done: automated fuel loading pattern design, patented. Next: surrogate models trained on high-fidelity results, with the full solver making the final call where being wrong is not acceptable. Reach: a conversational interface on top of the code. What decides an international standard is not performance — it is the barrier to entry.</aside>
+</section>
+
+<!-- 12b · i-SMR AI design system -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">i-SMR Integrated AI Design System</div><div class="rule"></div>
+  <div class="lead">An in-house LLM, a coupled multiphysics platform and surrogate models — in one system.</div>
+  <div class="body">
+    <div class="row" style="gap:40px">
+      <div class="ann" style="flex:0 0 1180px;align-self:flex-start">
+        <img src="assets/ismr_ai/final.png" alt="" style="width:100%;display:block">
+        <div class="lyr" style="top:1%">In-house LLM<span>KAIST interdisciplinary AI</span></div>
+        <div class="lyr" style="top:21%">AI-integrated multiphysics platform</div>
+        <div class="lyr" style="top:50.5%">Surrogate models</div>
+        <div class="lyr" style="top:74%">Physics models</div>
+        <div class="phy" style="left:1.5%">Neutronics</div>
+        <div class="phy" style="left:23%">Thermal-hydraulics</div>
+        <div class="phy" style="left:52%">Fuel performance</div>
+        <div class="phy" style="left:73.5%">System design &amp; analysis</div>
+      </div>
+      <div class="col">
+        <div class="sub">What it delivers</div>
+        <table class="kv">
+          <tr><td><b>Ultra-fast</b><span>Surrogates screen thousands of designs in seconds</span></td></tr>
+          <tr><td><b>High-fidelity</b><span>Every final answer checked by the coupled physics solvers</span></td></tr>
+          <tr><td><b>Design automation</b><span>From a request in plain language to an optimized, verified core</span></td></tr>
+          <tr><td><b>KAIST convergence</b><span>LLM, thermal-hydraulics, fuel and AI groups on one platform</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">This is the system I want to build for the i-SMR. At the top, an in-house language model — built with KAIST's AI groups — takes a design request in plain language. It drives an integrated multiphysics platform, which uses surrogate models trained on the full physics codes: neutronics, thermal-hydraulics, fuel performance and system analysis. The surrogates make it fast enough to search thousands of designs; the physics codes make every final answer trustworthy. That is design automation with the reliability a regulator can accept.</aside>
+</section>
+
+<!-- 10 · Vision -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">Vision at KAIST</div><div class="rule"></div>
+  <div class="lead">From Korea's reference code to the world's reactor physics platform — carrying KAIST's name.</div>
+  <div class="body">
+    <div class="vis">
+      <div class="vc" style="margin-top:80px"><svg viewBox="0 0 540 210" class="vfig" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><line x1="270" y1="100" x2="270" y2="20" stroke="#9fb0c8" stroke-width="2"/><rect x="244" y="6" width="51" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="270" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">SNU</text><line x1="270" y1="100" x2="402" y2="39" stroke="#9fb0c8" stroke-width="2"/><rect x="376" y="25" width="51" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="402" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">HYU</text><line x1="270" y1="100" x2="472" y2="86" stroke="#9fb0c8" stroke-width="2"/><rect x="424" y="72" width="96" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="472" y="91" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KEPCO NF</text><line x1="270" y1="100" x2="448" y2="140" stroke="#9fb0c8" stroke-width="2"/><rect x="422" y="126" width="51" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="448" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KHU</text><line x1="270" y1="100" x2="340" y2="175" stroke="#9fb0c8" stroke-width="2"/><rect x="306" y="161" width="69" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="340" y="180" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KAERI</text><line x1="270" y1="100" x2="200" y2="175" stroke="#9fb0c8" stroke-width="2" stroke-dasharray="5 4"/><rect x="174" y="161" width="51" height="28" rx="14" fill="#eef3f9" stroke="#0e2a47" stroke-width="2" stroke-dasharray="5 4"/><text x="200" y="180" text-anchor="middle" font-size="14" font-weight="700" fill="#0e2a47">PSU</text><line x1="270" y1="100" x2="92" y2="140" stroke="#9fb0c8" stroke-width="2" stroke-dasharray="5 4"/><rect x="67" y="126" width="51" height="28" rx="14" fill="#eef3f9" stroke="#0e2a47" stroke-width="2" stroke-dasharray="5 4"/><text x="92" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#0e2a47">SJU</text><line x1="270" y1="100" x2="68" y2="86" stroke="#e4712a" stroke-width="2" stroke-dasharray="5 4"/><rect x="38" y="72" width="60" height="28" rx="14" fill="#fff" stroke="#e4712a" stroke-width="2"/><text x="68" y="91" text-anchor="middle" font-size="14" font-weight="700" fill="#e4712a">KHNP</text><line x1="270" y1="100" x2="138" y2="39" stroke="#e4712a" stroke-width="2" stroke-dasharray="5 4"/><rect x="108" y="25" width="60" height="28" rx="14" fill="#fff" stroke="#e4712a" stroke-width="2"/><text x="138" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#e4712a">KINS</text><circle cx="270" cy="100" r="36" fill="#e4712a"/><text x="270" y="106" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">KAIST</text><rect x="12" y="194" width="16" height="12" rx="6" fill="#0e2a47"/><text x="33" y="205" font-size="13" fill="#5f6b7a">using</text><rect x="82" y="194" width="16" height="12" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-dasharray="3 2"/><text x="103" y="205" font-size="13" fill="#5f6b7a">in progress</text><rect x="182" y="194" width="16" height="12" rx="6" fill="#fff" stroke="#e4712a"/><text x="203" y="205" font-size="13" fill="#5f6b7a">next</text></svg>
+        <div class="vy">3 years · 2029</div>
+        <div class="vm">100+ users</div>
+        <div class="vh">Korea's largest user group</div>
+        <ul class="plain">
+          <li>SNU, HYU, KEPCO NF, KHU, KAERI · PSU, SJU in progress → KHNP, KINS</li>
+          <li>PWR, SFR and MSR solvers in one code system</li>
+          <li>Annual user workshop hosted at KAIST</li>
+        </ul>
+      </div>
+      <div class="vc" style="margin-top:40px"><svg viewBox="0 0 540 210" class="vfig" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+<rect x="14" y="10" width="502" height="40" rx="6" fill="#fff" stroke="#9fb0c8" stroke-width="2"/><text x="265" y="36" text-anchor="middle" font-size="16" fill="#5f6b7a">Design · safety · operation · licensing</text>
+<rect x="14" y="62" width="118" height="70" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-width="2"/><text x="73.0" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">Neutronics</text><rect x="142" y="62" width="118" height="70" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-width="2"/><text x="201.0" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">Thermal-</text><text x="201.0" y="114" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">hydraulics</text><rect x="270" y="62" width="118" height="70" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-width="2"/><text x="329.0" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">Fuel</text><rect x="398" y="62" width="118" height="70" rx="6" fill="#fff4ec" stroke="#e4712a" stroke-width="2"/><text x="457.0" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">AI</text>
+<rect x="14" y="144" width="502" height="52" rx="6" fill="#0e2a47"/><text x="265" y="176" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">One kernel · MONTEX / SPHINCS / HEXANUS / CYNUS</text></svg>
+        <div class="vy">5 years · 2031</div>
+        <div class="vm">One platform</div>
+        <div class="vh">Multiphysics and AI code system</div>
+        <ul class="plain">
+          <li>Neutronics × thermal-hydraulics × fuel × AI on one kernel</li>
+          <li>Built with the department's groups</li>
+          <li>The design engine for i-SMR and advanced reactors</li>
+        </ul>
+      </div>
+      <div class="vc top"><svg viewBox="0 0 540 230" class="vfig" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><ellipse cx="270" cy="110" rx="262" ry="98" fill="none" stroke="#e2e6ec" stroke-width="2"/><ellipse cx="270" cy="110" rx="262" ry="40" fill="none" stroke="#eef1f5" stroke-width="2"/><ellipse cx="270" cy="110" rx="120" ry="98" fill="none" stroke="#eef1f5" stroke-width="2"/><path d="M390,80 Q226.0,20 62,70" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="62" cy="70" r="9" fill="#e4712a"/><text x="62" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">Europe</text><text x="62" y="115" text-anchor="middle" font-size="13" fill="#5f6b7a">Czech Rep. · Poland</text><path d="M390,80 Q287.5,30 185,130" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="185" cy="130" r="9" fill="#e4712a"/><text x="185" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">Middle East</text><text x="185" y="175" text-anchor="middle" font-size="13" fill="#5f6b7a">UAE</text><path d="M390,80 Q345.0,30 300,185" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="300" cy="185" r="9" fill="#e4712a"/><text x="300" y="213" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">Asia</text><text x="300" y="230" text-anchor="middle" font-size="13" fill="#5f6b7a">Vietnam · Indonesia</text><path d="M390,80 Q439.0,30 488,150" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="488" cy="150" r="9" fill="#e4712a"/><text x="488" y="178" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">United States</text><circle cx="390" cy="80" r="30" fill="#0e2a47"/><text x="390" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">KAIST</text></svg>
+        <div class="vy">10 years · 2036</div>
+        <div class="vm">World-leading</div>
+        <div class="vh">Global user groups</div>
+        <ul class="plain">
+          <li>User groups in Europe (Czech Republic, Poland), Asia (UAE, Vietnam, Indonesia) and the United States</li>
+          <li>International benchmarks run on the KAIST platform</li>
+          <li>Open release — the path of MIT's OpenMC and Michigan's PARCS/MPACT</li>
+        </ul>
+      </div>
+      <svg class="vline" viewBox="0 0 1728 60" preserveAspectRatio="none"><defs><marker id="va" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#e4712a"/></marker></defs>
+        <line x1="0" y1="30" x2="1716" y2="30" stroke="#e4712a" stroke-width="4" marker-end="url(#va)"/></svg>
+    </div>
+  </div>
+  <div class="quote">Ask who leads reactor physics, and the answer is a code and a university. <b>In ten years, that answer is KAIST.</b></div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Within three years, a code system covering PWR, SFR and MSR, and a domestic user group. Within five years, a multiphysics platform built with the groups already in this department. Within ten years, an international user base and an open release — the path MIT's OpenMC and Michigan's PARCS and MPACT took. Methods and solver open; licensing validation data and reactor-specific design information kept separate.</aside>
+</section>
+
+<!-- 14 · Lab setup and funding -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">Lab Setup and Funding</div><div class="rule"></div>
+  <div class="lead">A self-sufficient computing lab by 2028 — no extra ask beyond the start-up fund.</div>
+  <div class="body">
+    <div class="row" style="height:540px;gap:0">
+      <div class="col card"><h3>Phase 1 · early 2027</h3><svg viewBox="0 0 490 192" class="rk" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><line x1="42" y1="7" x2="202" y2="7" stroke="#e4712a" stroke-width="3"/><line x1="42" y1="7" x2="42" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="122" y1="7" x2="122" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="202" y1="7" x2="202" y2="14" stroke="#e4712a" stroke-width="3"/><g><rect x="10" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="16" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="27" width="12" height="4" fill="#e4712a"/><rect x="36" y="27" width="12" height="4" fill="#e4712a"/><rect x="16" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="40" width="12" height="4" fill="#e4712a"/><rect x="36" y="40" width="12" height="4" fill="#e4712a"/><rect x="16" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="53" width="12" height="4" fill="#e4712a"/><rect x="36" y="53" width="12" height="4" fill="#e4712a"/><rect x="16" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="66" width="12" height="4" fill="#e4712a"/><rect x="36" y="66" width="12" height="4" fill="#e4712a"/><rect x="16" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="79" width="12" height="4" fill="#e4712a"/><rect x="36" y="79" width="12" height="4" fill="#e4712a"/><rect x="16" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="92" width="12" height="4" fill="#e4712a"/><rect x="36" y="92" width="12" height="4" fill="#e4712a"/><rect x="16" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="105" width="12" height="4" fill="#e4712a"/><rect x="36" y="105" width="12" height="4" fill="#e4712a"/><rect x="16" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="118" width="12" height="4" fill="#e4712a"/><rect x="36" y="118" width="12" height="4" fill="#e4712a"/><rect x="16" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="131" width="12" height="4" fill="#e4712a"/><rect x="36" y="131" width="12" height="4" fill="#e4712a"/><rect x="16" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="144" width="12" height="4" fill="#e4712a"/><rect x="36" y="144" width="12" height="4" fill="#e4712a"/><text x="42" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">GPU</text></g><g><rect x="90" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="96" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="29" r="1.8" fill="#0e2a47"/><rect x="96" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="42" r="1.8" fill="#0e2a47"/><rect x="96" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="55" r="1.8" fill="#0e2a47"/><rect x="96" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="68" r="1.8" fill="#0e2a47"/><rect x="96" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="81" r="1.8" fill="#0e2a47"/><rect x="96" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="94" r="1.8" fill="#0e2a47"/><rect x="96" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="107" r="1.8" fill="#0e2a47"/><rect x="96" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="120" r="1.8" fill="#0e2a47"/><rect x="96" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="133" r="1.8" fill="#0e2a47"/><rect x="96" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="146" r="1.8" fill="#0e2a47"/><text x="122" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">CPU</text></g><g><rect x="170" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="176" y="24" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="37" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="50" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="63" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="76" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="89" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="102" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="115" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="128" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="141" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="143" width="4" height="6" fill="#9fb0c8"/><text x="202" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">Storage</text></g></svg><ul><li>10 GPUs · 1,000 CPU cores</li><li>50 TB storage · InfiniBand</li><li>Dedicated server room</li></ul><p class="k" style="margin-top:14px">₩350M = start-up ₩250M + projects ₩100M</p></div>
+      <div class="arrow">→</div>
+      <div class="col card"><h3>Phase 2 · 2027 – 2028</h3><svg viewBox="0 0 490 192" class="rk" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><line x1="42" y1="7" x2="442" y2="7" stroke="#e4712a" stroke-width="3"/><line x1="42" y1="7" x2="42" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="122" y1="7" x2="122" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="202" y1="7" x2="202" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="282" y1="7" x2="282" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="362" y1="7" x2="362" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="442" y1="7" x2="442" y2="14" stroke="#e4712a" stroke-width="3"/><g opacity=".35"><rect x="10" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="16" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="27" width="12" height="4" fill="#e4712a"/><rect x="36" y="27" width="12" height="4" fill="#e4712a"/><rect x="16" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="40" width="12" height="4" fill="#e4712a"/><rect x="36" y="40" width="12" height="4" fill="#e4712a"/><rect x="16" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="53" width="12" height="4" fill="#e4712a"/><rect x="36" y="53" width="12" height="4" fill="#e4712a"/><rect x="16" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="66" width="12" height="4" fill="#e4712a"/><rect x="36" y="66" width="12" height="4" fill="#e4712a"/><rect x="16" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="79" width="12" height="4" fill="#e4712a"/><rect x="36" y="79" width="12" height="4" fill="#e4712a"/><rect x="16" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="92" width="12" height="4" fill="#e4712a"/><rect x="36" y="92" width="12" height="4" fill="#e4712a"/><rect x="16" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="105" width="12" height="4" fill="#e4712a"/><rect x="36" y="105" width="12" height="4" fill="#e4712a"/><rect x="16" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="118" width="12" height="4" fill="#e4712a"/><rect x="36" y="118" width="12" height="4" fill="#e4712a"/><rect x="16" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="131" width="12" height="4" fill="#e4712a"/><rect x="36" y="131" width="12" height="4" fill="#e4712a"/><rect x="16" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="144" width="12" height="4" fill="#e4712a"/><rect x="36" y="144" width="12" height="4" fill="#e4712a"/><text x="42" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">GPU</text></g><g opacity=".35"><rect x="90" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="96" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="29" r="1.8" fill="#0e2a47"/><rect x="96" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="42" r="1.8" fill="#0e2a47"/><rect x="96" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="55" r="1.8" fill="#0e2a47"/><rect x="96" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="68" r="1.8" fill="#0e2a47"/><rect x="96" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="81" r="1.8" fill="#0e2a47"/><rect x="96" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="94" r="1.8" fill="#0e2a47"/><rect x="96" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="107" r="1.8" fill="#0e2a47"/><rect x="96" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="120" r="1.8" fill="#0e2a47"/><rect x="96" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="133" r="1.8" fill="#0e2a47"/><rect x="96" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="146" r="1.8" fill="#0e2a47"/><text x="122" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">CPU</text></g><g opacity=".35"><rect x="170" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="176" y="24" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="37" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="50" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="63" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="76" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="89" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="102" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="115" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="128" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="141" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="143" width="4" height="6" fill="#9fb0c8"/><text x="202" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">Storage</text></g><g><rect x="250" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#e4712a" stroke-width="3"/><rect x="256" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="27" width="12" height="4" fill="#e4712a"/><rect x="276" y="27" width="12" height="4" fill="#e4712a"/><rect x="256" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="40" width="12" height="4" fill="#e4712a"/><rect x="276" y="40" width="12" height="4" fill="#e4712a"/><rect x="256" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="53" width="12" height="4" fill="#e4712a"/><rect x="276" y="53" width="12" height="4" fill="#e4712a"/><rect x="256" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="66" width="12" height="4" fill="#e4712a"/><rect x="276" y="66" width="12" height="4" fill="#e4712a"/><rect x="256" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="79" width="12" height="4" fill="#e4712a"/><rect x="276" y="79" width="12" height="4" fill="#e4712a"/><rect x="256" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="92" width="12" height="4" fill="#e4712a"/><rect x="276" y="92" width="12" height="4" fill="#e4712a"/><rect x="256" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="105" width="12" height="4" fill="#e4712a"/><rect x="276" y="105" width="12" height="4" fill="#e4712a"/><rect x="256" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="118" width="12" height="4" fill="#e4712a"/><rect x="276" y="118" width="12" height="4" fill="#e4712a"/><rect x="256" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="131" width="12" height="4" fill="#e4712a"/><rect x="276" y="131" width="12" height="4" fill="#e4712a"/><rect x="256" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="260" y="144" width="12" height="4" fill="#e4712a"/><rect x="276" y="144" width="12" height="4" fill="#e4712a"/><text x="282" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">GPU</text></g><g><rect x="330" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#e4712a" stroke-width="3"/><rect x="336" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="29" r="1.8" fill="#0e2a47"/><rect x="336" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="42" r="1.8" fill="#0e2a47"/><rect x="336" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="55" r="1.8" fill="#0e2a47"/><rect x="336" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="68" r="1.8" fill="#0e2a47"/><rect x="336" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="81" r="1.8" fill="#0e2a47"/><rect x="336" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="94" r="1.8" fill="#0e2a47"/><rect x="336" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="107" r="1.8" fill="#0e2a47"/><rect x="336" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="120" r="1.8" fill="#0e2a47"/><rect x="336" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="133" r="1.8" fill="#0e2a47"/><rect x="336" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="380" cy="146" r="1.8" fill="#0e2a47"/><text x="362" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">CPU</text></g><g><rect x="410" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#e4712a" stroke-width="3"/><rect x="416" y="24" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="37" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="50" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="63" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="76" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="89" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="102" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="115" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="128" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="141" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="143" width="4" height="6" fill="#9fb0c8"/><text x="442" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">Storage</text></g></svg><ul><li>+10 GPUs · +1,000 CPU cores</li><li>+50 TB storage</li><li>Surrogate training at scale</li></ul><p class="k" style="margin-top:14px">₩300M from projects</p></div>
+      <div class="arrow">→</div>
+      <div class="col card" style="border-top-color:var(--accent)"><h3>Complete · 2028</h3><svg viewBox="0 0 490 192" class="rk" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><line x1="42" y1="7" x2="442" y2="7" stroke="#e4712a" stroke-width="3"/><line x1="42" y1="7" x2="42" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="122" y1="7" x2="122" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="202" y1="7" x2="202" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="282" y1="7" x2="282" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="362" y1="7" x2="362" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="442" y1="7" x2="442" y2="14" stroke="#e4712a" stroke-width="3"/><g><rect x="10" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="16" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="27" width="12" height="4" fill="#e4712a"/><rect x="36" y="27" width="12" height="4" fill="#e4712a"/><rect x="16" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="40" width="12" height="4" fill="#e4712a"/><rect x="36" y="40" width="12" height="4" fill="#e4712a"/><rect x="16" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="53" width="12" height="4" fill="#e4712a"/><rect x="36" y="53" width="12" height="4" fill="#e4712a"/><rect x="16" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="66" width="12" height="4" fill="#e4712a"/><rect x="36" y="66" width="12" height="4" fill="#e4712a"/><rect x="16" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="79" width="12" height="4" fill="#e4712a"/><rect x="36" y="79" width="12" height="4" fill="#e4712a"/><rect x="16" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="92" width="12" height="4" fill="#e4712a"/><rect x="36" y="92" width="12" height="4" fill="#e4712a"/><rect x="16" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="105" width="12" height="4" fill="#e4712a"/><rect x="36" y="105" width="12" height="4" fill="#e4712a"/><rect x="16" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="118" width="12" height="4" fill="#e4712a"/><rect x="36" y="118" width="12" height="4" fill="#e4712a"/><rect x="16" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="131" width="12" height="4" fill="#e4712a"/><rect x="36" y="131" width="12" height="4" fill="#e4712a"/><rect x="16" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="144" width="12" height="4" fill="#e4712a"/><rect x="36" y="144" width="12" height="4" fill="#e4712a"/><text x="42" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">GPU</text></g><g><rect x="90" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="96" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="27" width="12" height="4" fill="#e4712a"/><rect x="116" y="27" width="12" height="4" fill="#e4712a"/><rect x="96" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="40" width="12" height="4" fill="#e4712a"/><rect x="116" y="40" width="12" height="4" fill="#e4712a"/><rect x="96" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="53" width="12" height="4" fill="#e4712a"/><rect x="116" y="53" width="12" height="4" fill="#e4712a"/><rect x="96" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="66" width="12" height="4" fill="#e4712a"/><rect x="116" y="66" width="12" height="4" fill="#e4712a"/><rect x="96" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="79" width="12" height="4" fill="#e4712a"/><rect x="116" y="79" width="12" height="4" fill="#e4712a"/><rect x="96" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="92" width="12" height="4" fill="#e4712a"/><rect x="116" y="92" width="12" height="4" fill="#e4712a"/><rect x="96" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="105" width="12" height="4" fill="#e4712a"/><rect x="116" y="105" width="12" height="4" fill="#e4712a"/><rect x="96" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="118" width="12" height="4" fill="#e4712a"/><rect x="116" y="118" width="12" height="4" fill="#e4712a"/><rect x="96" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="131" width="12" height="4" fill="#e4712a"/><rect x="116" y="131" width="12" height="4" fill="#e4712a"/><rect x="96" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="100" y="144" width="12" height="4" fill="#e4712a"/><rect x="116" y="144" width="12" height="4" fill="#e4712a"/><text x="122" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">GPU</text></g><g><rect x="170" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="176" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="29" r="1.8" fill="#0e2a47"/><rect x="176" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="42" r="1.8" fill="#0e2a47"/><rect x="176" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="55" r="1.8" fill="#0e2a47"/><rect x="176" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="68" r="1.8" fill="#0e2a47"/><rect x="176" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="81" r="1.8" fill="#0e2a47"/><rect x="176" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="94" r="1.8" fill="#0e2a47"/><rect x="176" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="107" r="1.8" fill="#0e2a47"/><rect x="176" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="120" r="1.8" fill="#0e2a47"/><rect x="176" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="133" r="1.8" fill="#0e2a47"/><rect x="176" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="220" cy="146" r="1.8" fill="#0e2a47"/><text x="202" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">CPU</text></g><g><rect x="250" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="256" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="29" r="1.8" fill="#0e2a47"/><rect x="256" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="42" r="1.8" fill="#0e2a47"/><rect x="256" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="55" r="1.8" fill="#0e2a47"/><rect x="256" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="68" r="1.8" fill="#0e2a47"/><rect x="256" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="81" r="1.8" fill="#0e2a47"/><rect x="256" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="94" r="1.8" fill="#0e2a47"/><rect x="256" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="107" r="1.8" fill="#0e2a47"/><rect x="256" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="120" r="1.8" fill="#0e2a47"/><rect x="256" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="133" r="1.8" fill="#0e2a47"/><rect x="256" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="300" cy="146" r="1.8" fill="#0e2a47"/><text x="282" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">CPU</text></g><g><rect x="330" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="336" y="24" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="37" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="50" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="63" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="76" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="89" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="102" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="115" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="128" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="336" y="141" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="339" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="345" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="351" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="357" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="363" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="369" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="375" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="381" y="143" width="4" height="6" fill="#9fb0c8"/><text x="362" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">Storage</text></g><g><rect x="410" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="416" y="24" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="37" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="50" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="63" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="76" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="89" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="102" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="115" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="128" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="416" y="141" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="419" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="425" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="431" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="437" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="443" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="449" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="455" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="461" y="143" width="4" height="6" fill="#9fb0c8"/><text x="442" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">Storage</text></g></svg><ul><li>20 GPUs · 2,000 cores · 100 TB</li><li>Multiphysics + AI environment</li><li>No external supercomputer needed</li></ul><p class="k" style="margin-top:14px">Total ₩650M</p></div>
+    </div>
+    <div class="row" style="height:110px;margin-top:26px">
+      <div class="col"><div class="k" style="font-size:30px">Bring</div><p style="font-size:26px;margin-top:8px">MSIT ₩1.01B project (2025 – 2029) and a new MSR project</p></div>
+      <div class="col"><div class="k" style="font-size:30px">Lead</div><p style="font-size:26px;margin-top:8px">Designers and the regulator on one code — national infrastructure, run from KAIST</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">Computing capacity is research capacity. The start-up fund builds the server room and the first phase; project equipment budgets double it by 2028 — twenty GPUs, two thousand cores, one hundred terabytes, six hundred fifty million won in total. I have never won a grant as a university PI — I was on the side designing and reviewing these programs. I know what passes, and I know the people.</aside>
+</section>
+
+<!-- 15 · Closing -->
+<section class="slide cover">
+  <img class="bg" src="assets/hero.jpg" alt="">
+  <div class="shade"></div>
+  <div class="inner">
+    <div class="kicker">Thank you</div>
+    <h1 style="font-size:60px">I completed a catch-up.<br>The next step — leading —<br>should happen at KAIST.</h1>
+    <div class="crule"></div>
+  </div>
+  <aside class="notes">I have spent my career replacing technology we used to import. What I could not do was train the next generation to carry it forward. I want to do that here — and I want the next step, not catching up but leading, to happen at KAIST. Thank you.</aside>
+</section>
+
+</div>
+<div id="notes"></div>
+<div id="hud">← → navigate · N notes · F fullscreen</div>
+
+<script>
+(function () {
+  const deck = document.getElementById('deck');
+  const slides = [...document.querySelectorAll('.slide')];
+  const notes = document.getElementById('notes');
+  const N = slides.length;
+  slides.forEach((s, i) => { const pg = s.querySelector('.pg'); if (pg) pg.textContent = (i + 1) + ' / ' + N; });
+
+  function fit() {
+    const k = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    deck.style.transform = `translate(-50%, -50%) scale(${k})`;
+    deck.style.transformOrigin = 'center center';
+  }
+  let cur = 0;
+  function show(i) {
+    cur = Math.max(0, Math.min(N - 1, i));
+    slides.forEach((s, j) => {
+      s.classList.toggle('active', j === cur);
+      const v = s.querySelector('video');
+      if (v && j !== cur) { v.pause(); }
+    });
+    const v = slides[cur].querySelector('video');
+    if (v) { v.currentTime = 0; v.play().catch(() => {}); }
+    const n = slides[cur].querySelector('.notes');
+    notes.textContent = n ? n.textContent.trim() : '';
+    try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+  }
+  window.addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', 'ArrowDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+    else if (['ArrowLeft', 'PageUp', 'ArrowUp'].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(N - 1);
+    else if (e.key === 'n' || e.key === 'N') notes.classList.toggle('show');
+    else if (e.key === 'f' || e.key === 'F') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }
+  });
+  window.addEventListener('resize', fit);
+  fit();
+  setTimeout(() => { document.getElementById('hud').style.opacity = 0; }, 4000);
+  const start = parseInt((location.hash || '#1').slice(1), 10) - 1;
+  show(isNaN(start) ? 0 : start);
+})();
+</script>
+<script>
+(function () {
+  const C = [
+    ['#6fb7ff','APR1400','Into the reactor.','The reactor Korea exported to the UAE.'],
+    ['#8fc7ff','Fuel loading','241 fuel assemblies.','Each one a 16×16 array of fuel rods.'],
+    ['#ff9a3c','Control rods out','The core comes alive.','Control rods absorb neutrons. Withdraw them, and heat rises — unevenly.'],
+    ['#ffb347','One assembly','Where does the heat come from?',''],
+    ['#5fd0e0','Zoom in','Down to the nucleus.','Between the fuel rods, water cools the core — and slows the neutrons.'],
+    ['#7fa8ff','Scattering','A neutron slows down.','It collides with hydrogen, again and again.'],
+    ['#9fb4ff','Absorption','Captured.','Uranium-238 absorbs a neutron and releases a gamma ray.'],
+    ['#ff7a2f','Fission','This is the heat.','Uranium-235 splits. The fragments shake the fuel around them.'],
+    ['#ffa24a','Chain reaction','One neutron becomes many.','Each fission releases two or three new neutrons.'],
+    ['#ffd23c','Reactor physics','You cannot look inside. We compute it.','Microscopic theory, applied to the neutrons of an entire core.'],
+  ];
+  document.querySelectorAll('.video-wrap').forEach(w => {
+    const v = w.querySelector('video'), cap = w.querySelector('.vcap');
+    if (!cap) return;
+    let cur = -1;
+    const show = k => {
+      const [c, e, t, b] = C[k];
+      cap.style.setProperty('--vc', c);
+      cap.querySelector('.vn').textContent = String(k + 1).padStart(2, '0') + ' / 10';
+      cap.querySelector('.ve').textContent = e;
+      cap.querySelector('.vt').textContent = t;
+      cap.querySelector('.vb').textContent = b;
+    };
+    const upd = () => {
+      const k = Math.min(9, Math.floor(v.currentTime / 8));
+      if (k === cur) return;
+      const first = cur < 0; cur = k;
+      if (first) { show(k); return; }
+      cap.classList.add('fade');
+      setTimeout(() => { show(cur); cap.classList.remove('fade'); }, 350);
+    };
+    v.addEventListener('timeupdate', upd); v.addEventListener('seeked', upd); upd();
+  });
+})();
+</script>
+</body>
+</html>
