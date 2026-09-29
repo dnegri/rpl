@@ -1,6 +1,3 @@
-# CONTACT.
-#  • address: one line per row.
-#  • details: key/value rows. Add "href:" to make the value a link (mailto: or https://).
 kicker: Contact
 heading: Find us in Ulsan.
 address_label: Address
@@ -12,7 +9,15 @@ address:
   - Ulsan 45014, Republic of Korea
 details_label: Get in touch
 details:
-  - {k: PI, v: Prof. Joo-il Yoon}
-  - {k: Email, v: jiyoon@kings.ac.kr, href: "mailto:jiyoon@kings.ac.kr"}
-  - {k: Phone, v: "+82-52-712-7367"}
-  - {k: Institution, v: www.kings.ac.kr, href: "https://www.kings.ac.kr"}
+  - k: PI
+    v: Prof. Jooil Yoon
+    href: ''
+  - k: Email
+    v: jiyoon@kings.ac.kr
+    href: mailto:jiyoon@kings.ac.kr
+  - k: Phone
+    v: +82-52-712-7367
+    href: ''
+  - k: Institution
+    v: www.kings.ac.kr
+    href: https://www.kings.ac.kr
