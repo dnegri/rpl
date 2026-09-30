@@ -79,14 +79,14 @@
   .tl .box p { font-size: 26px; line-height: 1.45; }
 
   /* video */
-  .video-wrap { position: absolute; left: 306px; top: 250px; width: 1308px; height: 736px; background: #000; }
-  .vcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 120px 56px 78px; pointer-events: none; color: #eef2fa;
+  .video-wrap { position: absolute; left: 96px; top: 280px; width: 960px; height: 540px; background: #000; }
+  .vcap { position: absolute; left: 0; right: 0; bottom: 0; padding: 90px 36px 64px; pointer-events: none; color: #eef2fa;
           background: linear-gradient(to top, rgba(7,11,24,.78), rgba(7,11,24,0)); transition: opacity .5s; }
   .vcap.fade { opacity: 0; }
   .vcap .vn { font-size: 16px; letter-spacing: .18em; color: #a9b3c7; font-family: ui-monospace, Menlo, monospace; }
   .vcap .ve { font-size: 18px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; color: var(--vc, #6fb7ff); margin-top: 14px; }
-  .vcap .vt { font-size: 52px; font-weight: 800; line-height: 1.1; margin-top: 8px; }
-  .vcap .vb { font-size: 24px; color: #d3dae6; margin-top: 12px; max-width: 900px; }
+  .vcap .vt { font-size: 38px; font-weight: 800; line-height: 1.1; margin-top: 8px; }
+  .vcap .vb { font-size: 20px; color: #d3dae6; margin-top: 12px; max-width: 900px; }
   .video-wrap video { width: 100%; height: 100%; display: block; }
 
 
@@ -104,6 +104,16 @@
 
 
   /* two-step figure v3 (slide 4, code-rendered) */
+  .cname { position: absolute; left: 0; top: -6px; font-style: normal; font-size: 23px; font-weight: 700; color: #fff; background: var(--navy); padding: 6px 14px; border-radius: 6px; }
+  .ts2-p span.mine { color: var(--accent); font-weight: 700; font-size: 23px; line-height: 1.25; }
+  .ach { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 26px; margin-top: 18px; }
+  .ach > div { border-top: 4px solid var(--navy); padding-top: 10px; }
+  .ach h5 { font-size: 25px; color: var(--navy); }
+  .ach ul { list-style: none; margin-top: 8px; }
+  .ach li { font-size: 23px; color: var(--ink); padding-left: 18px; position: relative; margin-bottom: 4px; }
+  .ach li::before { content: ""; position: absolute; left: 0; top: 13px; width: 8px; height: 8px; background: var(--accent); }
+  .ach .res { border-top-color: var(--accent); background: #fdf3ea; padding: 10px 18px 12px; }
+  .ach .res h5 { color: var(--accent); } .ach .res li { font-weight: 700; color: var(--navy); }
   .ts2 { position: relative; height: 676px; }
   .ts2-bracket { position: absolute; left: 0; right: 0; top: 18px; height: 24px; border: 3px solid var(--accent); border-bottom: none; }
   .ts2-bracket span { position: absolute; left: 50%; top: -21px; transform: translateX(-50%); background: #fff; padding: 0 16px;
@@ -116,9 +126,9 @@
   .ts2-ar { font-size: 38px; color: #9aa4b2; padding: 0 4px; }
   .ts2-astra { position: relative; display: flex; align-items: center; gap: 8px; padding: 16px; }
   .ts2-hom { display: flex; flex-direction: row; align-items: center; }
-  .ts2-homc { display: flex; flex-direction: column; align-items: center; text-align: center; width: 112px; }
+  .ts2-homc { display: flex; flex-direction: column; align-items: center; text-align: center; width: 150px; }
   .ts2-hom img { width: 104px; height: auto; margin-bottom: 6px; }
-  .ts2-hom b { font-size: 23px; color: var(--accent); white-space: nowrap; }
+  .ts2-hom b { font-size: 23px; color: var(--accent); white-space: nowrap; line-height: 1.2; }
   .ts2-hom span { font-size: 18px; color: var(--muted); white-space: nowrap; }
   .ts2-hom .ts2-ar { line-height: 1; }
   .ts2-pill { position: absolute; left: -3px; top: -3px; background: var(--accent); color: #fff; font-size: 23px; font-weight: 700; padding: 6px 14px; border-radius: 14px 0 8px 0; }
@@ -132,6 +142,9 @@
   .tl.sm .axis { top: 48px; } .tl.sm .seg { top: 42px; } .tl.sm .dot { top: 38px; }
   .tl.sm .box { top: 84px; } .tl.sm .box h4 { font-size: 27px; margin-bottom: 6px; } .tl.sm .box p { font-size: 23px; }
   .vtl li { gap: 46px; }
+  .ms.ms3 { grid-template-columns: repeat(3, 1fr); column-gap: 36px; margin-top: 34px; }
+  .ms.ms3 .mi { padding-bottom: 54px; } .ms.ms3 b { font-size: 31px; } .ms.ms3 p { font-size: 25px; margin-top: 6px; } .ms.ms3 .y { font-size: 26px; width: 106px; padding-top: 3px; }
+  .ms.ms3 .mi > div::before { top: 11px; }
   .ms { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; column-gap: 40px; margin-top: 18px; }
   .ms .mi { display: flex; gap: 22px; padding: 0 0 22px; }
   .ms .y { width: 90px; flex: none; text-align: right; font-size: 23px; font-weight: 600; color: var(--muted); padding-top: 2px; }
@@ -214,6 +227,57 @@
                font-size: 24px; font-weight: 700; color: var(--navy); line-height: 1.3; box-shadow: 0 1px 6px rgba(14,42,71,.12); }
   .ann .note span { font-size: 18px; font-weight: 400; color: var(--muted); } .ann .note.sm { font-size: 19px; } .ann .note.sm span { font-size: 16px; font-weight: 400; color: var(--muted); }
 
+  .chips2 { display: flex; gap: 12px; margin-top: 16px; }
+  .chips2 i { font-style: normal; font-size: 22px; font-weight: 600; color: var(--navy); background: var(--soft); border-left: 3px solid var(--accent); padding: 6px 14px; }
+  .trd { display: flex; gap: 18px; margin-top: 20px; }
+  .trd figure { flex: 1; margin: 0; }
+  .trd figure > div { height: 290px; border: 1px solid var(--line); border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 8px; background: #fff; }
+  .trd img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .trd figcaption { font-size: 21px; color: var(--muted); margin-top: 10px; line-height: 1.3; }
+  .trd figcaption b { display: block; font-size: 21px; color: var(--navy); white-space: nowrap; }
+  .trd figcaption em { display: block; font-style: normal; font-weight: 700; color: var(--accent); }
+  .why { margin-top: 18px; background: var(--soft); border-top: 4px solid var(--accent); padding: 16px 26px 20px; }
+  .why h4 { font-size: 28px; color: var(--navy); font-weight: 700; }
+  .why .wg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 12px; }
+  .why .wg > div { border-left: 4px solid var(--navy); padding-left: 16px; }
+  .why .wg b { display: block; font-size: 26px; color: var(--accent); }
+  .why .wg span { display: block; font-size: 21px; color: var(--ink); margin-top: 4px; line-height: 1.3; }
+  .cstrip { display: flex; align-items: center; gap: 18px; margin-top: 20px; padding: 10px 18px; background: var(--soft); border-left: 4px solid var(--navy); flex-wrap: wrap; }
+  .cstrip img { height: 84px; }
+  .cstrip b { font-size: 27px; color: var(--navy); margin-right: 8px; }
+  .cstrip span { font-size: 23px; font-weight: 600; color: var(--navy); background: #fff; border: 1px solid var(--line); padding: 5px 14px; }
+  .cstrip em { font-style: normal; font-size: 22px; color: var(--muted); margin-left: auto; }
+  .corek { display: flex; align-items: center; gap: 26px; margin-top: 16px; }
+  .corek img { width: 380px; }
+  .corek ul { list-style: none; }
+  .corek li { font-size: 28px; font-weight: 700; color: var(--navy); padding: 12px 0 12px 18px; border-left: 4px solid var(--accent); margin-bottom: 18px; white-space: nowrap; }
+  .keys { display: flex; gap: 22px; margin-top: 34px; }
+  .keys > div { flex: 1; border-top: 3px solid var(--navy); padding-top: 10px; }
+  .keys b { display: block; font-size: 27px; color: var(--accent); }
+  .keys span { display: block; font-size: 22px; color: var(--muted); margin-top: 2px; }
+  .bys { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; }
+  .by { border-top: 4px solid var(--navy); padding-top: 14px; }
+  .by h4 { font-size: 31px; white-space: nowrap; color: var(--navy); font-weight: 700; }
+  .by h4 span { color: var(--accent); }
+  .by .bim { height: 250px; margin-top: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 6px; background: #fff; padding: 8px; }
+  .by .bim img, .by .bim svg { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .by ul { list-style: none; margin-top: 20px; }
+  .by li { font-size: 22px; color: var(--ink); padding: 10px 0 10px 16px; border-left: 3px solid var(--accent); margin-bottom: 12px; line-height: 1.3; }
+  .rpmap { position: absolute; left: 1104px; right: 96px; top: 280px; }
+  .rpg { display: flex; gap: 16px; margin-top: 18px; align-items: stretch; }
+  .rpg .hub { flex: 0 0 190px; background: var(--navy); color: #fff; display: flex; flex-direction: column; justify-content: center; padding: 16px; }
+  .rpg .hub b { font-size: 28px; line-height: 1.15; }
+  .rpg .hub span { font-size: 20px; color: #c7d2e2; margin-top: 10px; line-height: 1.3; }
+  .rpg .hub em { font-style: normal; font-size: 20px; color: #ffb37f; margin-top: 10px; font-weight: 700; line-height: 1.3; }
+  .rpg .rr { flex: 1; display: grid; grid-template-columns: 1fr 28px 1.15fr; row-gap: 10px; align-items: center; }
+  .rpg .pv { font-size: 20px; font-weight: 700; color: var(--accent); text-align: right; line-height: 1.25; }
+  .rpg .ar { font-size: 24px; color: #9aa4b2; text-align: center; }
+  .rpg .fd { background: var(--soft); border-left: 4px solid var(--navy); padding: 9px 14px; }
+  .rpg .fd b { display: block; font-size: 23px; color: var(--navy); }
+  .rpg .fd span { display: block; font-size: 19px; color: var(--muted); }
+  .stg3 { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+  .stg3 span { font-size: 22px; font-weight: 700; color: var(--navy); border: 2px solid var(--navy); padding: 6px 16px; }
+  .stg3 em { font-style: normal; font-size: 22px; color: var(--accent); font-weight: 700; margin-left: 10px; }
   .adv { display: flex; gap: 22px; margin-top: 18px; }
   .adv figure { flex: 1; margin: 0; }
   .adv figure > div { height: 400px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; padding: 10px; background: #fff; }
@@ -246,7 +310,8 @@
   .plain li::before { content: ""; position: absolute; left: 0; top: 13px; width: 7px; height: 7px; border-radius: 50%; background: var(--navy); }
   .rp3 { display: flex; gap: 44px; height: 100%; }
   .rpc { flex: 1; min-width: 0; }
-  .rimg { height: 430px; margin-top: 16px; display: flex; align-items: center; justify-content: center; }
+  .pj { font-size: 22px; color: var(--ink); margin-top: 12px; }
+  .rimg { height: 390px; margin-top: 10px; display: flex; align-items: center; justify-content: center; }
   .rimg img { max-width: 100%; max-height: 100%; object-fit: contain; }
   .rk { font-size: 25px; color: var(--ink); margin-top: 18px; }
   .rk b { color: var(--accent); }
@@ -276,7 +341,7 @@
   .ai td { padding: 24px 0; }
   .ai td.stg { width: 110px; font-size: 22px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: .06em; }
   .ai td.stg.nx { color: var(--accent); }
-  .ai td.n { width: 230px; font-size: 42px; }
+  .ai td.n { width: 270px; font-size: 42px; }
 
   .flab { position: absolute; font-size: 20px; font-weight: 700; color: var(--navy); background: rgba(255,255,255,.9); padding: 0 4px; }
   .fleg { position: absolute; font-size: 16px; color: var(--muted); background: #fff; padding: 0 4px; }
@@ -320,7 +385,7 @@
 <section class="slide">
   <div class="tag">About me</div>
   <div class="title">Career and Track Record</div><div class="rule"></div>
-  <div class="lead">16 years building Korea's core design code: methods → code → licensing → export.</div>
+  <div class="lead">16 years: methods → code → licensing → export</div>
   <div class="body">
     <div class="tl sm">
       <div class="axis"></div>
@@ -340,18 +405,9 @@
       <div class="item" style="left:calc(100% - 140px);width:140px;text-align:right"><div class="yr">Next</div></div>
       <div class="box" style="left:calc(100% - 140px);width:140px;text-align:right"><h4>KAIST</h4></div>
     </div>
-    <div class="row" style="gap:56px;margin-top:10px;height:auto">
-      <div style="flex:0 0 600px">
-        <div class="sub">Methods (published)</div>
-        <img src="assets/fig/p5_methods.png" alt="" style="width:560px;display:block;margin-top:10px">
-      </div>
-      <div class="col">
-        <div class="sub">Code, licensing and export</div>
-        <div class="ms"><div class="mi"><span class="y">2007–08</span><div><b>3D core analysis code</b><p>Nodal kernel and pin power reconstruction</p></div></div><div class="mi"><span class="y">2017–19</span><div><b>3D pin-by-pin code</b><p>High-performance pin-wise core calculation</p></div></div><div class="mi"><span class="y">2008–13</span><div><b>Core design code system</b><p>Pressurized Water Reactor (PWR) core design · licensing</p></div></div><div class="mi"><span class="y">2020–23</span><div><b>Core monitoring code</b><p>Applied to KHNP operating plants</p></div></div><div class="mi"><span class="y">2015</span><div><b>UAE</b><p>Exported with Barakah</p></div></div><div class="mi nx"><span class="y">Next</span><div><b>Czech Republic</b><p>Code system to follow the export</p></div></div></div>
-      </div>
-    </div>
+    <div class="sub" style="margin-top:56px">Code, licensing and export</div>
+    <div class="ms ms3"><div class="mi"><span class="y">2007–08</span><div><b>3D core analysis code</b><p>Nodal kernel and pin power reconstruction</p></div></div><div class="mi"><span class="y">2008–13</span><div><b>Core design code system</b><p>Pressurized Water Reactor (PWR) core design · licensing</p></div></div><div class="mi"><span class="y">2015</span><div><b>UAE</b><p>Exported with Barakah</p></div></div><div class="mi"><span class="y">2017–19</span><div><b>3D pin-by-pin code</b><p>High-performance pin-wise core calculation</p></div></div><div class="mi"><span class="y">2020–23</span><div><b>Core monitoring code</b><p>Applied to KHNP operating plants</p></div></div><div class="mi nx"><span class="y">Next</span><div><b>Czech Republic</b><p>Code system to follow the export</p></div></div></div>
   </div>
-  <div class="src">Yoon &amp; Joo, <i>J. Nucl. Sci. Technol.</i> 45, 668 (2008) · Joo, Yoon &amp; Baek, <i>Ann. Nucl. Energy</i> 36, 85 (2009)</div>
   <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
   <aside class="notes">Sixteen years at KEPCO Nuclear Fuel. The two methods at the center of Korea's core design code — the source expansion nodal method with two-level CMFD, and the multigroup pin power reconstruction — are my published work. I implemented them in the 3D core analysis code, built the core design code system, and took it through licensing. It went to the UAE with the Barakah export, and it will go to the Czech Republic. Before that, Korea licensed this software from Westinghouse. SNU has its own code — the fact that they use mine is the most honest technical assessment I can show. Then I faced the harder problem — no one to hand it to. That is why I moved to a university, and why I am here.</aside>
 </section>
@@ -360,32 +416,74 @@
 <section class="slide" data-video>
   <div class="tag">Reactor physics</div>
   <div class="title">What Is Reactor Physics?</div><div class="rule"></div>
-  <div class="lead">You cannot look inside a reactor core. We compute it.</div>
+  <div class="lead">Computing what cannot be seen</div>
   <div class="video-wrap"><video src="assets/zoom.mp4" poster="assets/zoom_poster.jpg" muted playsinline preload="auto" controls></video><div class="vcap"><div class="vn"></div><div class="ve"></div><div class="vt"></div><div class="vb"></div></div></div>
+  <div class="rpmap">
+    <div class="sub">Reactor physics in nuclear technology</div>
+    <div class="rpg">
+      <div class="hub"><b>Reactor Physics</b><span>Neutron behavior in the core</span><em>Core design and analysis</em></div>
+      <div class="rr"><div class="pv">Power distribution</div><div class="ar">→</div><div class="fd"><b>Thermal-hydraulics</b><span>Heat removal</span></div><div class="pv">Power history · burnup</div><div class="ar">→</div><div class="fd"><b>Fuel performance</b><span>Fuel integrity</span></div><div class="pv">Reactivity · kinetics</div><div class="ar">→</div><div class="fd"><b>Safety analysis</b><span>Accident response</span></div><div class="pv">Nuclear Data</div><div class="ar">→</div><div class="fd"><b>Operation · control</b><span>Monitoring · reload design</span></div><div class="pv">Isotope inventory</div><div class="ar">→</div><div class="fd"><b>Spent fuel and waste</b><span>Shielding · fuel cycle</span></div></div>
+    </div>
+    <div class="stg3"><span>Design</span><span>Licensing</span><span>Operation</span><em>Needed at every stage</em></div>
+  </div>
   <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
-  <aside class="notes">This is an APR1400 core — the reactor Korea exported to the UAE. Control rods absorb neutrons; withdraw them and the chain reaction begins. The core heats — but not evenly. Where does the heat come from? A neutron is born fast and slows down by colliding with hydrogen in the water. Uranium-235 absorbs the slow neutron and splits; the fragments shake the fuel around them — that is the heat. Reactor physics turns this microscopic theory into a calculation of neutron behavior across the whole core. You cannot look inside a reactor core. So we compute it.</aside>
+  <aside class="notes">This is an APR1400 core — the reactor Korea exported to the UAE. Control rods absorb neutrons; withdraw them and the chain reaction begins. The core heats — but not evenly. Where does the heat come from? A neutron is born fast and slows down by colliding with hydrogen in the water. Uranium-235 absorbs the slow neutron and splits; the fragments shake the fuel around them — that is the heat. Reactor physics turns this microscopic theory into a calculation of neutron behavior across the whole core. You cannot look inside a reactor core. So we compute it. And this calculation is the starting point of nuclear technology: the power distribution goes to thermal-hydraulics, the power history to fuel performance, reactivity and kinetics to safety analysis, nuclear data to operation and control, and the isotope inventory to spent fuel and waste. It is needed at every stage — design, licensing and operation.</aside>
+</section>
+
+<!-- 8a · Trend and the core -->
+<section class="slide">
+  <div class="tag">Field</div>
+  <div class="title">Reactor Development Trend and Reactor Physics</div><div class="rule"></div>
+  <div class="lead">New reactor → new core → new core analysis code</div>
+  <div class="body">
+    <div class="chips2" style="margin-top:0"><i>Carbon neutrality</i><i>AI data centers</i><i>Flexible operation</i><i>Heat · hydrogen · ships</i></div>
+    <div class="trd"><figure><div><img src="assets/ismr_plant.png" alt=""></div><figcaption><b>Light-water SMR</b>Water · 320°C · integral vessel<em>Boron-free, load-following core</em></figcaption></figure><figure><div><img src="assets/gif4/sfr.png" alt=""></div><figcaption><b>Sodium-cooled Fast Reactor (SFR)</b>Liquid sodium · 550°C · fuel recycling<em>Hexagonal core, fast spectrum</em></figcaption></figure><figure><div><img src="assets/gif4/msr.png" alt=""></div><figcaption><b>Molten Salt Reactor (MSR)</b>Liquid fuel salt · 700°C · low pressure<em>Flowing fuel</em></figcaption></figure><figure><div><img src="assets/gif4/vhtr.png" alt=""></div><figcaption><b>Very-High-Temperature Reactor (VHTR)</b>Helium · 750–950°C · hydrogen, process heat<em>Graphite core, coated-particle fuel</em></figcaption></figure></div>
+    <div class="why">
+      <h4>Why Reactor Physics &amp; Computational Analysis?</h4>
+      <div class="wg">
+        <div><b>No operating data</b><span>Simulation is the only evidence</span></div>
+        <div><b>Starting point of design</b><span>Thermal-hydraulics · fuel · safety begin from core power</span></div>
+        <div><b>No validated code, no license</b><span>Licensing requires a verified core analysis code</span></div>
+        <div><b>Own code, own design</b><span>Technology sovereignty · export</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Reactor schematics: Generation IV International Forum (gen-4.org)</div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">The world is no longer building one kind of reactor. Carbon neutrality, AI data centers, flexible operation with renewables, and non-electric uses — heat, hydrogen, ships — are driving many reactor types: light-water SMRs, sodium-cooled fast reactors, molten salt reactors, microreactors. What changes between them is the core. The core decides power, cycle length, safety margin and fuel design, and every licensing case starts from it. We cannot experiment inside a core, and the new reactors have no operating data, so a validated core analysis code is the only design tool. And whoever owns the code owns the design. Korea learned that with the PWR. A new reactor means a new core, and a new core means a new code.</aside>
 </section>
 
 <!-- 3 · Core analysis method -->
 <section class="slide">
-  <div class="tag">Reactor physics</div>
-  <div class="title">Core Analysis Method</div><div class="rule"></div>
-  <div class="lead">The two-step method behind every commercial design code — and where I built Korea's version.</div>
+  <div class="tag">Research</div>
+  <div class="title">Korea's Own PWR Core Analysis Technology</div><div class="rule"></div>
+  <div class="lead">KARMA/ASTRA: the standard core design code system of Korea and the UAE</div>
   <div class="body">
-    <div class="ts2">
-      <div class="ts2-row">
-        <div class="ts2-p" style="width:450px"><img src="assets/fig/p1_lattice.png" alt="" style="max-height:440px"><b>① 2D lattice calculation</b><span>Method of characteristics</span></div>
-        <div class="ts2-hom"><div class="ts2-ar">→</div><div class="ts2-homc"><img src="assets/fig/p_homxs.png" alt=""><b>Homogenized Nuclear Data</b><span>few-group</span></div><div class="ts2-ar">→</div></div>
-        <div class="ts2-astra" style="flex-direction:column;align-items:stretch;padding-bottom:12px">
-          <img src="assets/fig/p23.png" alt="" style="width:640px;height:auto;display:block">
-          <div style="display:flex;justify-content:space-between;text-align:center;margin-top:12px">
-            <div class="ts2-p" style="width:350px"><b>② 3D nodal calculation</b><span>Square assembly nodes</span></div>
-            <div class="ts2-p" style="width:300px"><b>③ Pin power reconstruction</b><span>2D pin-wise, node by node</span></div>
-          </div>
+    <div class="ts2" style="height:470px">
+      <div class="ts2-row" style="align-items:stretch">
+        <div class="ts2-astra" style="flex-direction:column;justify-content:center;padding:52px 18px 14px;border:3px solid var(--navy);border-radius:14px">
+          <div class="ts2-pill" style="background:var(--navy)">KARMA</div>
+          <div class="ts2-p" style="width:300px"><img src="assets/fig/p1_lattice.png" alt="" style="max-height:290px"><b>① 2D lattice calculation</b><span>Method of characteristics</span></div>
         </div>
-        <div class="ts2-ar">→</div>
-        <div class="ts2-p" style="width:290px"><img src="assets/fig/p4_wholecore.png" alt=""><b>④ 3D whole-core</b><span>Pin power of every fuel rod</span></div>
+        <div class="ts2-hom" style="align-self:center"><div class="ts2-ar">→</div><div class="ts2-homc"><img src="assets/fig/p_homxs.png" alt=""><b>Homogenized<br>Nuclear Data</b><span>few-group</span></div><div class="ts2-ar">→</div></div>
+        <div class="ts2-astra" style="flex-direction:row;align-items:center;padding:52px 18px 14px;border:3px solid var(--accent);border-radius:14px;gap:10px">
+          <div class="ts2-pill">ASTRA · original technology</div>
+          <div>
+            <img src="assets/fig/p23.png" alt="" style="width:500px;height:auto;display:block;margin:0 auto">
+            <div style="display:flex;justify-content:space-between;text-align:center;margin-top:10px;gap:18px">
+              <div class="ts2-p" style="width:300px"><b>② 3D nodal calculation</b><span class="mine">Source Expansion<br>Nodal Method</span></div>
+              <div class="ts2-p" style="width:340px"><b>③ Pin power reconstruction</b><span class="mine">Source Expansion<br>Pin Power Reconstruction</span></div>
+            </div>
+          </div>
+          <div class="ts2-ar">→</div>
+          <div class="ts2-p" style="width:215px"><img src="assets/fig/p4_wholecore.png" alt=""><b>④ 3D whole-core</b><span>Every fuel rod</span></div>
+        </div>
       </div>
+    </div>
+    <div class="ach">
+      <div><h5>Source Expansion Nodal Method</h5><ul><li>Two-node, multigroup kernel</li><li>Two-level CMFD acceleration</li></ul></div>
+      <div><h5>Source Expansion Pin Power Reconstruction</h5><ul><li>Multigroup, node by node</li><li>Corner discontinuity factor</li></ul></div>
+      <div class="res"><h5>Results</h5><ul><li>Regulatory licensing in Korea</li><li>Standard design code: Korea · UAE</li><li>Technology self-reliance</li></ul></div>
     </div>
   </div>
   <div class="src">Yoon &amp; Joo, <i>J. Nucl. Sci. Technol.</i> 45, 668 (2008) · Joo, Yoon &amp; Baek, <i>Ann. Nucl. Energy</i> 36, 85 (2009)</div>
@@ -397,7 +495,7 @@
 <section class="slide">
   <div class="tag">Research</div>
   <div class="title">High-Fidelity Core Analysis</div><div class="rule"></div>
-  <div class="lead">MONTEX/SPHINCS — the only production-level pin-wise core design code system.</div>
+  <div class="lead">MONTEX/SPHINCS: the only production-level pin-wise code system</div>
   <div class="body">
     <div class="flow">
       <div class="fstep">
@@ -414,7 +512,7 @@
       <div class="farr">→</div>
       <div class="fstep">
         <div class="fimg"><img src="assets/fig/p4_wholecore.png" alt=""></div>
-        <h4>SPHINCS</h4><em>Pin-wise 3D core code (C++)</em>
+        <h4>SPHINCS</h4><em>Pin-wise 3D core code</em>
         <ul><li>2D/1D decoupling, parallel</li><li>Two-level CMFD acceleration</li><li>Steady state, depletion, transient</li></ul>
       </div>
       <div class="fperf">
@@ -436,18 +534,18 @@
 <!-- 6b · High-fidelity core analysis: accuracy -->
 <section class="slide">
   <div class="tag">Research</div>
-  <div class="title">Accuracy vs. Nodal Codes</div><div class="rule"></div>
-  <div class="lead">Pin-wise computation cuts the error of conventional nodal design codes by a factor of 2.5 to 5.5.</div>
+  <div class="title">Conventional Code vs. High-Fidelity Code</div><div class="rule"></div>
+  <div class="lead">2.5–5.5× lower error than conventional codes</div>
   <div class="body">
     <div class="row" style="gap:56px;align-items:flex-start">
       <div style="flex:0 0 1000px">
         <img src="assets/fig/p6_accuracy.png" alt="" style="width:100%;display:block">
-        <p class="cap2" style="font-size:21px;margin-top:10px">Mean of six C5G7 and VERA benchmark cases · same energy groups · reference: nTRACER whole-core transport</p>
+        <p class="cap2" style="font-size:21px;margin-top:10px">Mean of six C5G7 and VERA benchmark cases · same energy groups · reference: whole-core transport</p>
       </div>
       <div class="maps" style="padding-top:4px">
         <div class="mt">Pin power error map, VERA case 27<br><span>Control rods inserted · quarter core</span></div>
         <img src="assets/fig/p7_errmaps.png" alt="" style="width:100%;display:block;margin-top:18px">
-        <p>Nodal error concentrates at the control rods; pin-wise stays near zero.</p>
+        <p>Conventional-code error concentrates at the control rods; high-fidelity stays near zero.</p>
       </div>
     </div>
   </div>
@@ -459,14 +557,14 @@
 <!-- 9 · Technical issues -->
 <section class="slide">
   <div class="tag">Plan</div>
-  <div class="title">Technical Issues in i-SMR and PWR Cores</div><div class="rule"></div>
-  <div class="lead">Two open issues — and my technologies that solve them, each on a concrete path to application.</div>
+  <div class="title">Challenges in i-SMR and PWR Cores</div><div class="rule"></div>
+  <div class="lead">Two challenges, solutions on a path to application</div>
   <div class="body">
     <div class="iss">
-      <div class="ih" style="grid-column:1">Issue 1 · Flexible operation <span>i-SMR · PWR</span></div>
-      <div class="ih" style="grid-column:2 / 4">Issue 2 · i-SMR core design <span>soluble-boron-free · long-cycle operation</span></div>
+      <div class="ih" style="grid-column:1">Challenge 1 · Flexible operation <span>i-SMR · PWR</span></div>
+      <div class="ih" style="grid-column:2 / 4">Challenge 2 · i-SMR core design <span>soluble-boron-free · long-cycle operation</span></div>
       <figure class="tc">
-        <div class="im"><img src="assets/rp/s07_image13.png" alt=""></div>
+        <div class="im"><img src="assets/fig/p8_flex.png" alt=""></div>
         <b>Isotope-Indicated Spectrum Shift Method</b>
         <p>New numerical method: isotope densities track each node&#39;s spectral history under load-follow and rod-only control</p>
         <div class="stt"><i class="bd pl">Planned</i> i-SMR · PWR <i class="bd pt">Patent</i> planned</div>
@@ -474,42 +572,45 @@
       <figure class="tc">
         <div class="im"><img src="assets/fig/p4_wholecore.png" alt=""></div>
         <b>MONTEX/SPHINCS code system</b>
-        <p>Graphics Processing Unit (GPU) Monte Carlo lattice + pin-wise 3D core: every fuel rod computed directly</p>
-        <div class="stt"><i class="bd pl">Planned</i> i-SMR core design <i class="bd pt">Papers</i> 4 published</div>
+        <p>GPU Monte Carlo lattice + pin-wise 3D core: every fuel rod computed directly</p>
+        <div class="stt"><i class="bd pl">Planned</i> i-SMR core design <i class="bd pt">Papers</i> 3 published</div>
       </figure>
       <figure class="tc">
         <div class="im" style="background:#e8e8e9"><img src="assets/higa_rod.jpg" alt="" style="max-width:100%;max-height:100%;width:100%"></div>
         <b>Highly Intensive Gadolinia/Alumina (HIGA) burnable absorber</b>
         <p>Gd<sub>2</sub>O<sub>3</sub>–Al<sub>2</sub>O<sub>3</sub> column in a standard rod: reactivity held flat without soluble boron</p>
-        <div class="stt"><i class="bd cm">Adoption</i> official i-SMR absorber <i class="bd pt">Patent</i> 2026</div>
+        <div class="stt"><i class="bd pl">Planned</i> official i-SMR absorber <i class="bd pt">Patent</i> 2026</div>
       </figure>
     </div>
   </div>
   <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
-  <aside class="notes">Two technical issues define the next decade of light water cores. First, flexible operation: to work with renewables, PWRs and the i-SMR must follow load daily, and the nuclear data no longer fits the core's history. My isotope-indicated spectrum shift method corrects that. Second, the i-SMR core itself: no soluble boron and a long cycle. MONTEX and SPHINCS compute every fuel rod directly, and the HIGA absorber holds reactivity flat without boron. These are not proposals. HIGA is patented and is to be adopted as the official i-SMR burnable absorber; MONTEX and SPHINCS are backed by four published papers and planned for i-SMR design; a patent for the spectrum shift method is in preparation.</aside>
+  <aside class="notes">Two challenges define the next decade of light water cores. First, flexible operation: to work with renewables, PWRs and the i-SMR must follow load daily, and the nuclear data no longer fits the core's history. My isotope-indicated spectrum shift method corrects that. Second, the i-SMR core itself: no soluble boron and a long cycle. MONTEX and SPHINCS compute every fuel rod directly, and the HIGA absorber holds reactivity flat without boron. These are not proposals. HIGA is patented and is to be adopted as the official i-SMR burnable absorber; MONTEX and SPHINCS are backed by three published papers and planned for i-SMR design; a patent for the spectrum shift method is in preparation.</aside>
 </section>
 
 <!-- 10b · Research plan II -->
 <section class="slide">
   <div class="tag">Plan</div>
   <div class="title">Advanced Reactors</div><div class="rule"></div>
-  <div class="lead">New geometries and neutron spectra — three solvers already running, each validated against international benchmarks.</div>
+  <div class="lead">SFR and MSR: no operating data — validated codes first</div>
   <div class="body">
     <div class="rp3">
       <div class="rpc">
         <div class="sub">HEXANUS · pin-resolved hexagonal core</div>
+        <p class="pj"><i class="bd cm">Project</i> SFR development</p>
         <div class="rimg"><img src="assets/rp/s09_image15.png" alt=""></div>
         <p class="rk"><b>−31 / −46 pcm</b> vs. transport · <b>0.01–0.05 s</b> per assembly</p>
-        <p class="rd">VVER, Sodium-cooled Fast Reactor (SFR) and High-Temperature Gas-cooled Reactor (HTGR): pin powers computed directly</p>
+        <p class="rd">Hexagonal cores: pin powers computed directly</p>
       </div>
       <div class="rpc">
         <div class="sub">VENUS · variational nodal transport</div>
+        <p class="pj"><i class="bd cm">Project</i> SFR development</p>
         <div class="rimg"><img src="assets/rp/s11_image21.png" alt=""></div>
         <p class="rk"><b>+11 / +15 pcm</b> on SNR-300 and VVER-440 3D</p>
         <p class="rd">SFR core analysis code with KAERI; P3 transport cuts Takeda-4 error from −2,172 to −222 pcm</p>
       </div>
       <div class="rpc">
-        <div class="sub">CYNUS · Molten Salt Reactor (MSR) simulator</div>
+        <div class="sub">CYNUS · cylindrical MSR simulator</div>
+        <p class="pj"><i class="bd cm">Project</i> Maritime MSR</p>
         <div class="rimg"><img src="assets/rp/s15_image29_s.png" alt=""></div>
         <p class="rk"><b>Multi-Physics Code Platform</b> for the maritime MSR</p>
         <p class="rd">Direction-specific hybrid nodal method in r-θ-z; fast steady-state and transient analysis</p>
@@ -524,14 +625,14 @@
 <section class="slide">
   <div class="tag">Plan</div>
   <div class="title">AI in Core Analysis</div><div class="rule"></div>
-  <div class="lead">Physics solvers generate the data; AI makes them interactive design engines.</div>
+  <div class="lead">Physics solvers for data, AI for interactive design</div>
   <div class="body">
     <div class="row" style="gap:64px">
       <div style="flex:0 0 1040px">
         <table class="kv ai">
-          <tr><td class="stg">Done</td><td class="n">10,000×</td><td><b>CNN surrogate for PWR cores</b><span>k-eff within ≈100 pcm · deep-learning core prediction patented (2020)</span></td></tr>
-          <tr><td class="stg">Done</td><td class="n">30,000×</td><td><b>i-SMR loading-pattern surrogate</b><span>Faster than full-core calculation — automated fuel arrangement design</span></td></tr>
-          <tr><td class="stg nx">Next</td><td class="n">Verified</td><td><b>Surrogates trained on SPHINCS, CYNUS, HEXANUS</b><span>Optimization runs on the surrogate; the full solver makes the final call</span></td></tr>
+          <tr><td class="stg">Done</td><td class="n">100×</td><td><b>CNN surrogate for PWR cores</b><span>k-eff within ≈100 pcm · deep-learning core prediction patented (2020)</span></td></tr>
+          <tr><td class="stg">Done</td><td class="n">300×</td><td><b>i-SMR loading-pattern surrogate</b><span>Faster than full-core calculation — automated fuel arrangement design</span></td></tr>
+          <tr><td class="stg nx">Next</td><td class="n">Verification</td><td><b>Surrogates trained on SPHINCS, CYNUS, HEXANUS</b><span>Optimization runs on the surrogate; the full solver makes the final call</span></td></tr>
           <tr><td class="stg nx">Reach</td><td class="n">LLM</td><td><b>Conversational interface to the code system</b><span>Non-specialists request analyses and read results</span></td></tr>
         </table>
       </div>
@@ -556,7 +657,7 @@
 <section class="slide">
   <div class="tag">Plan</div>
   <div class="title">i-SMR Integrated AI Design System</div><div class="rule"></div>
-  <div class="lead">An in-house LLM, a coupled multiphysics platform and surrogate models — in one system.</div>
+  <div class="lead">In-house LLM + multiphysics platform + surrogate models</div>
   <div class="body">
     <div class="row" style="gap:40px">
       <div class="ann" style="flex:0 0 1180px;align-self:flex-start">
@@ -589,7 +690,7 @@
 <section class="slide">
   <div class="tag">Plan</div>
   <div class="title">Vision at KAIST</div><div class="rule"></div>
-  <div class="lead">From Korea's reference code to the world's reactor physics platform — carrying KAIST's name.</div>
+  <div class="lead">From Korea's reference code to the world's platform</div>
   <div class="body">
     <div class="vis">
       <div class="vc" style="margin-top:80px"><svg viewBox="0 0 540 210" class="vfig" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><line x1="270" y1="100" x2="270" y2="20" stroke="#9fb0c8" stroke-width="2"/><rect x="244" y="6" width="51" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="270" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">SNU</text><line x1="270" y1="100" x2="402" y2="39" stroke="#9fb0c8" stroke-width="2"/><rect x="376" y="25" width="51" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="402" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">HYU</text><line x1="270" y1="100" x2="472" y2="86" stroke="#9fb0c8" stroke-width="2"/><rect x="424" y="72" width="96" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="472" y="91" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KEPCO NF</text><line x1="270" y1="100" x2="448" y2="140" stroke="#9fb0c8" stroke-width="2"/><rect x="422" y="126" width="51" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="448" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KHU</text><line x1="270" y1="100" x2="340" y2="175" stroke="#9fb0c8" stroke-width="2"/><rect x="306" y="161" width="69" height="28" rx="14" fill="#0e2a47" stroke="#0e2a47" stroke-width="2"/><text x="340" y="180" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">KAERI</text><line x1="270" y1="100" x2="200" y2="175" stroke="#9fb0c8" stroke-width="2" stroke-dasharray="5 4"/><rect x="174" y="161" width="51" height="28" rx="14" fill="#eef3f9" stroke="#0e2a47" stroke-width="2" stroke-dasharray="5 4"/><text x="200" y="180" text-anchor="middle" font-size="14" font-weight="700" fill="#0e2a47">PSU</text><line x1="270" y1="100" x2="92" y2="140" stroke="#9fb0c8" stroke-width="2" stroke-dasharray="5 4"/><rect x="67" y="126" width="51" height="28" rx="14" fill="#eef3f9" stroke="#0e2a47" stroke-width="2" stroke-dasharray="5 4"/><text x="92" y="145" text-anchor="middle" font-size="14" font-weight="700" fill="#0e2a47">SJU</text><line x1="270" y1="100" x2="68" y2="86" stroke="#e4712a" stroke-width="2" stroke-dasharray="5 4"/><rect x="38" y="72" width="60" height="28" rx="14" fill="#fff" stroke="#e4712a" stroke-width="2"/><text x="68" y="91" text-anchor="middle" font-size="14" font-weight="700" fill="#e4712a">KHNP</text><line x1="270" y1="100" x2="138" y2="39" stroke="#e4712a" stroke-width="2" stroke-dasharray="5 4"/><rect x="108" y="25" width="60" height="28" rx="14" fill="#fff" stroke="#e4712a" stroke-width="2"/><text x="138" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#e4712a">KINS</text><circle cx="270" cy="100" r="36" fill="#e4712a"/><text x="270" y="106" text-anchor="middle" font-size="16" font-weight="700" fill="#fff">KAIST</text><rect x="12" y="194" width="16" height="12" rx="6" fill="#0e2a47"/><text x="33" y="205" font-size="13" fill="#5f6b7a">using</text><rect x="82" y="194" width="16" height="12" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-dasharray="3 2"/><text x="103" y="205" font-size="13" fill="#5f6b7a">in progress</text><rect x="182" y="194" width="16" height="12" rx="6" fill="#fff" stroke="#e4712a"/><text x="203" y="205" font-size="13" fill="#5f6b7a">next</text></svg>
@@ -634,11 +735,24 @@
   <aside class="notes">Within three years, a code system covering PWR, SFR and MSR, and a domestic user group. Within five years, a multiphysics platform built with the groups already in this department. Within ten years, an international user base and an open release — the path MIT's OpenMC and Michigan's PARCS and MPACT took. Methods and solver open; licensing validation data and reactor-specific design information kept separate.</aside>
 </section>
 
+<!-- 10c · Beyond series -->
+<section class="slide">
+  <div class="tag">Plan</div>
+  <div class="title">Research and the Beyond Series</div><div class="rule"></div>
+  <div class="lead">Fundamentals First, Innovation Forward: reactor physics in KAIST's strategy</div>
+  <div class="body"><div class="bys"><div class="by"><h4><span>Beyond</span> AI</h4><div class="bim"><img src="assets/ismr_ai/final.png" alt=""></div><ul><li>AI design system</li><li>Surrogates + in-house LLM</li><li>Verified by physics codes</li></ul></div><div class="by"><h4><span>Beyond</span> Laboratory</h4><div class="bim"><img src="assets/fig/p4_wholecore.png" alt=""></div><ul><li>Code → licensing → export</li><li>i-SMR application</li><li>Patents</li></ul></div><div class="by"><h4><span>Beyond</span> Barriers</h4><div class="bim"><svg viewBox="0 0 540 210" class="vfig" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif">
+<rect x="14" y="10" width="502" height="40" rx="6" fill="#fff" stroke="#9fb0c8" stroke-width="2"/><text x="265" y="36" text-anchor="middle" font-size="16" fill="#5f6b7a">Design · safety · operation · licensing</text>
+<rect x="14" y="62" width="118" height="70" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-width="2"/><text x="73.0" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">Neutronics</text><rect x="142" y="62" width="118" height="70" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-width="2"/><text x="201.0" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">Thermal-</text><text x="201.0" y="114" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">hydraulics</text><rect x="270" y="62" width="118" height="70" rx="6" fill="#eef3f9" stroke="#0e2a47" stroke-width="2"/><text x="329.0" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">Fuel</text><rect x="398" y="62" width="118" height="70" rx="6" fill="#fff4ec" stroke="#e4712a" stroke-width="2"/><text x="457.0" y="102" text-anchor="middle" font-size="15" font-weight="700" fill="#0e2a47">AI</text>
+<rect x="14" y="144" width="502" height="52" rx="6" fill="#0e2a47"/><text x="265" y="176" text-anchor="middle" font-size="17" font-weight="700" fill="#fff">One kernel · MONTEX / SPHINCS / HEXANUS / CYNUS</text></svg></div><ul><li>In-department convergence</li><li>Interdisciplinary: fuel · AI</li><li>One shared platform</li></ul></div><div class="by"><h4><span>Beyond</span> Carbon</h4><div class="bim"><img src="assets/ismr_plant.png" alt=""></div><ul><li>Flexible operation</li><li>i-SMR · SFR · MSR cores</li><li>Heat · hydrogen · ships</li></ul></div><div class="by"><h4><span>Beyond</span> KAIST</h4><div class="bim"><svg viewBox="0 0 540 230" class="vfig" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><ellipse cx="270" cy="110" rx="262" ry="98" fill="none" stroke="#e2e6ec" stroke-width="2"/><ellipse cx="270" cy="110" rx="262" ry="40" fill="none" stroke="#eef1f5" stroke-width="2"/><ellipse cx="270" cy="110" rx="120" ry="98" fill="none" stroke="#eef1f5" stroke-width="2"/><path d="M390,80 Q226.0,20 62,70" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="62" cy="70" r="9" fill="#e4712a"/><text x="62" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">Europe</text><text x="62" y="115" text-anchor="middle" font-size="13" fill="#5f6b7a">Czech Rep. · Poland</text><path d="M390,80 Q287.5,30 185,130" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="185" cy="130" r="9" fill="#e4712a"/><text x="185" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">Middle East</text><text x="185" y="175" text-anchor="middle" font-size="13" fill="#5f6b7a">UAE</text><path d="M390,80 Q345.0,30 300,185" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="300" cy="185" r="9" fill="#e4712a"/><text x="300" y="213" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">Asia</text><text x="300" y="230" text-anchor="middle" font-size="13" fill="#5f6b7a">Vietnam · Indonesia</text><path d="M390,80 Q439.0,30 488,150" fill="none" stroke="#e4712a" stroke-width="2.5"/><circle cx="488" cy="150" r="9" fill="#e4712a"/><text x="488" y="178" text-anchor="middle" font-size="16" font-weight="700" fill="#0e2a47">United States</text><circle cx="390" cy="80" r="30" fill="#0e2a47"/><text x="390" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">KAIST</text></svg></div><ul><li>Global user group</li><li>Europe · Asia · Middle East · US</li><li>International benchmarks</li></ul></div></div></div>
+  <div class="foot"><span>Jooil Yoon · KAIST Presidential Interview</span><span class="pg"></span></div>
+  <aside class="notes">KAIST's vision puts fundamentals first. Reactor physics is a fundamentals field, and my work already points in the five directions of the Beyond Series. Beyond AI: surrogate models and an in-house language model on top of physics codes, so that a non-specialist can ask for a core design — and the physics code checks the answer. Beyond Laboratory: my code did not stay in the lab; it went through licensing and export. Beyond Barriers: one multiphysics platform shared inside the department and across disciplines — thermal-hydraulics, fuel and AI groups working on the same code. Beyond Carbon: every carbon-free use of nuclear energy, from flexible operation with renewables to hydrogen and ships, starts with a core that has to be computed. Beyond KAIST: a user group that starts in Korea and reaches Europe, Asia and the United States.</aside>
+</section>
+
 <!-- 14 · Lab setup and funding -->
 <section class="slide">
   <div class="tag">Plan</div>
   <div class="title">Lab Setup and Funding</div><div class="rule"></div>
-  <div class="lead">A self-sufficient computing lab by 2028 — no extra ask beyond the start-up fund.</div>
+  <div class="lead">Self-sufficient computing lab by 2028, within the start-up fund</div>
   <div class="body">
     <div class="row" style="height:540px;gap:0">
       <div class="col card"><h3>Phase 1 · early 2027</h3><svg viewBox="0 0 490 192" class="rk" font-family="Segoe UI, Helvetica Neue, Arial, sans-serif"><line x1="42" y1="7" x2="202" y2="7" stroke="#e4712a" stroke-width="3"/><line x1="42" y1="7" x2="42" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="122" y1="7" x2="122" y2="14" stroke="#e4712a" stroke-width="3"/><line x1="202" y1="7" x2="202" y2="14" stroke="#e4712a" stroke-width="3"/><g><rect x="10" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="16" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="27" width="12" height="4" fill="#e4712a"/><rect x="36" y="27" width="12" height="4" fill="#e4712a"/><rect x="16" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="40" width="12" height="4" fill="#e4712a"/><rect x="36" y="40" width="12" height="4" fill="#e4712a"/><rect x="16" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="53" width="12" height="4" fill="#e4712a"/><rect x="36" y="53" width="12" height="4" fill="#e4712a"/><rect x="16" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="66" width="12" height="4" fill="#e4712a"/><rect x="36" y="66" width="12" height="4" fill="#e4712a"/><rect x="16" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="79" width="12" height="4" fill="#e4712a"/><rect x="36" y="79" width="12" height="4" fill="#e4712a"/><rect x="16" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="92" width="12" height="4" fill="#e4712a"/><rect x="36" y="92" width="12" height="4" fill="#e4712a"/><rect x="16" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="105" width="12" height="4" fill="#e4712a"/><rect x="36" y="105" width="12" height="4" fill="#e4712a"/><rect x="16" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="118" width="12" height="4" fill="#e4712a"/><rect x="36" y="118" width="12" height="4" fill="#e4712a"/><rect x="16" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="131" width="12" height="4" fill="#e4712a"/><rect x="36" y="131" width="12" height="4" fill="#e4712a"/><rect x="16" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><rect x="20" y="144" width="12" height="4" fill="#e4712a"/><rect x="36" y="144" width="12" height="4" fill="#e4712a"/><text x="42" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">GPU</text></g><g><rect x="90" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="96" y="24" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="29" r="1.8" fill="#0e2a47"/><rect x="96" y="37" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="42" r="1.8" fill="#0e2a47"/><rect x="96" y="50" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="55" r="1.8" fill="#0e2a47"/><rect x="96" y="63" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="68" r="1.8" fill="#0e2a47"/><rect x="96" y="76" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="81" r="1.8" fill="#0e2a47"/><rect x="96" y="89" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="94" r="1.8" fill="#0e2a47"/><rect x="96" y="102" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="107" r="1.8" fill="#0e2a47"/><rect x="96" y="115" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="120" r="1.8" fill="#0e2a47"/><rect x="96" y="128" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="133" r="1.8" fill="#0e2a47"/><rect x="96" y="141" width="52" height="10" fill="#dbe6f3" stroke="#0e2a47" stroke-width=".8"/><circle cx="140" cy="146" r="1.8" fill="#0e2a47"/><text x="122" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">CPU</text></g><g><rect x="170" y="14" width="64" height="150" rx="3" fill="#fff" stroke="#0e2a47" stroke-width="2"/><rect x="176" y="24" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="26" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="37" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="39" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="50" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="52" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="63" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="65" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="76" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="78" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="89" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="91" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="102" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="104" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="115" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="117" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="128" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="130" width="4" height="6" fill="#9fb0c8"/><rect x="176" y="141" width="52" height="10" fill="#eef1f5" stroke="#0e2a47" stroke-width=".8"/><rect x="179" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="185" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="191" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="197" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="203" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="209" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="215" y="143" width="4" height="6" fill="#9fb0c8"/><rect x="221" y="143" width="4" height="6" fill="#9fb0c8"/><text x="202" y="184" text-anchor="middle" font-size="14" fill="#5f6b7a">Storage</text></g></svg><ul><li>10 GPUs · 1,000 CPU cores</li><li>50 TB storage · InfiniBand</li><li>Dedicated server room</li></ul><p class="k" style="margin-top:14px">₩350M = start-up ₩250M + projects ₩100M</p></div>
