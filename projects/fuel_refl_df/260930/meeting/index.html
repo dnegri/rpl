@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9월30일 회의 — fuel_refl_df/260930</title>
+<style>
+  :root { --bg:#eceff3; --card:#fff; --ink:#0e2a47; --muted:#5f6b7a; --line:#d7dee8; --accent:#e4712a; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; min-height:100%; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI","Helvetica Neue",Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
+  .top { display:flex; align-items:center; gap:14px; padding:14px 20px; background:var(--card); border-bottom:1px solid var(--line); }
+  .top a.back { color:var(--muted); text-decoration:none; font-size:14px; white-space:nowrap; }
+  .top a.back:hover { color:var(--accent); }
+  .top h1 { font-size:17px; margin:0; font-weight:700; }
+  .top .count { margin-left:auto; font-size:14px; color:var(--muted); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .top a.dl { font-size:13px; color:var(--accent); text-decoration:none; border:1px solid var(--accent);
+    padding:6px 12px; border-radius:999px; white-space:nowrap; }
+  .stage { max-width:1280px; margin:0 auto; padding:20px 20px 8px; }
+  figure.slide { margin:0; background:var(--card); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  figure.slide img { display:block; width:100%; height:auto; max-height:calc(100vh - 260px); object-fit:contain; background:#fff; }
+  figcaption.cap { padding:12px 18px; font-size:15px; font-weight:600; border-top:1px solid var(--line);
+    display:flex; gap:10px; align-items:baseline; }
+  figcaption.cap .n { color:var(--accent); font-variant-numeric:tabular-nums; }
+  .nav { display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 20px 26px; }
+  .nav button { width:46px; height:46px; border-radius:50%; border:1px solid var(--line); background:var(--card);
+    color:var(--ink); font-size:22px; cursor:pointer; line-height:1; padding:0 0 3px; touch-action:manipulation; }
+  .nav button:hover:not(:disabled) { border-color:var(--accent); color:var(--accent); }
+  .nav button:disabled { opacity:.3; cursor:default; }
+  .nav .hint { font-size:12px; color:var(--muted); margin-left:8px; }
+  @media (max-width:640px){ .top h1{font-size:14px;} .nav .hint{display:none;} .stage{padding:12px 12px 4px;} }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="../">← 260930</a>
+  <h1>9월30일 회의</h1>
+  <span class="count" id="count"></span>
+  <a class="dl" href="260930-meeting.pptx" download>원본 PPTX</a>
+</header>
+<main class="stage">
+  <figure class="slide">
+    <img id="img" src="slides/s01.png" alt="">
+    <figcaption class="cap"><span class="n" id="capn"></span><span id="capt"></span></figcaption>
+  </figure>
+</main>
+<nav class="nav">
+  <button id="prev" aria-label="이전 슬라이드">‹</button>
+  <button id="next" aria-label="다음 슬라이드">›</button>
+  <span class="hint">← → 키 · 스와이프</span>
+</nav>
+<script>
+(function () {
+  var titles = ["업무내용","CROMA 3D vs PRAGMA — ARO, 축방향 출력","CROMA 3D vs PRAGMA — 반경방향 출력","CROMA 3D vs SPHINCS — Xe transient","PRAGMA vs SPHINCS — Xe transient","종합비교표 요약 (vs PRAGMA)","업무내용","요청사항"];
+  var N = titles.length, cur = 0;
+  var img = document.getElementById('img');
+  function src(i) { return 'slides/s' + ('0' + (i + 1)).slice(-2) + '.png'; }
+  function show(i) {
+    cur = Math.max(0, Math.min(N - 1, i));
+    img.src = src(cur);
+    img.alt = titles[cur];
+    document.getElementById('capt').textContent = titles[cur];
+    document.getElementById('capn').textContent = (cur + 1) + ' / ' + N;
+    document.getElementById('count').textContent = (cur + 1) + ' / ' + N;
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === N - 1;
+    [cur + 1, cur - 1].forEach(function (j) { if (j >= 0 && j < N) { new Image().src = src(j); } });
+    try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+  }
+  document.getElementById('prev').addEventListener('click', function () { show(cur - 1); });
+  document.getElementById('next').addEventListener('click', function () { show(cur + 1); });
+  window.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'PageDown', 'ArrowDown', ' ', 'Enter'].indexOf(e.key) >= 0) { e.preventDefault(); show(cur + 1); }
+    else if (['ArrowLeft', 'PageUp', 'ArrowUp'].indexOf(e.key) >= 0) { e.preventDefault(); show(cur - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(N - 1);
+  });
+  var tx = 0, ty = 0, tracking = false;
+  window.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { tracking = false; return; }
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; tracking = true;
+  }, { passive: true });
+  window.addEventListener('touchend', function (e) {
+    if (!tracking || e.changedTouches.length !== 1) return;
+    tracking = false;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.2) show(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  var start = parseInt((location.hash || '#1').slice(1), 10) - 1;
+  show(isNaN(start) ? 0 : start);
+})();
+</script>
+</body>
+</html>
