@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>260930 회의 자료 — fuel_refl_df</title>
+<title>260930 Meeting Materials — fuel_refl_df</title>
 <style>
   :root {
     --navy: #0e2a47;
@@ -412,21 +412,21 @@
 </head>
 <body>
 <div id="deck">
-<!-- 1 · 업무내용 -->
+<!-- 1 · work summary -->
 <section class="slide">
-  <div class="tag">9월30일 회의 · 업무내용</div>
-  <div class="title">논문 방향 검토</div><div class="rule"></div>
-  <div class="lead">반사체 γ factor 적용 효과 및 CROMA/SPHINCS 체계 검증 (vs. PRAGMA)</div>
+  <div class="tag">Sep 30 meeting · work summary</div>
+  <div class="title">Paper Direction Review</div><div class="rule"></div>
+  <div class="lead">Reflector γ-factor effect and CROMA/SPHINCS validation (vs. PRAGMA)</div>
   <div class="cols2">
-    <div class="col card"><h3>기존 계획</h3><ul>
-      <li>2D에서 γ factor 적용 효과 확인 (CROMA/SPHINCS vs. CROMA, depletion 포함)
-        <ul><li>참고용으로 PRAGMA도 2D로 같이 비교하여 차이 확인</li></ul></li>
-      <li>3D도 같은 방식으로 비교</li>
-      <li>기대사항: γ factor 적용 시 CROMA reference와 동시에 PRAGMA 양쪽에 모두 가까워질 것</li>
+    <div class="col card"><h3>Original plan</h3><ul>
+      <li>Confirm γ-factor effect in 2D (CROMA/SPHINCS vs. CROMA, incl. depletion)
+        <ul><li>Also compare PRAGMA in 2D as a reference</li></ul></li>
+      <li>Same comparison in 3D</li>
+      <li>Expectation: with the γ factor, results approach both the CROMA reference and PRAGMA</li>
     </ul></div>
-    <div class="col card" style="border-top-color:var(--accent)"><h3>고민 사항</h3><ul>
-      <li>γ factor 적용 시 CROMA/SPHINCS 체계는 same-code reference인 CROMA 해에 더 가까워짐</li>
-      <li>CROMA reference 자체가 PRAGMA 대비 in-out tilt (외곽 과대, 중심 과소) 보유 → γ factor로 가까워질수록 편향까지 따라가 기존 two-step SPH 해보다 오히려 차이 증가 경향</li>
+    <div class="col card" style="border-top-color:var(--accent)"><h3>Concern</h3><ul>
+      <li>With the γ factor, CROMA/SPHINCS approaches the same-code reference (CROMA solution)</li>
+      <li>The CROMA reference itself has an in-out tilt vs. PRAGMA (periphery overestimated, center underestimated) → approaching it via the γ factor follows that bias, tending to increase differences vs. the previous two-step SPH solution</li>
     </ul></div>
   </div>
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
@@ -436,7 +436,7 @@
 <section class="slide">
   <div class="tag">i-SMR ARO · BOC, Xenon transient</div>
   <div class="title">CROMA 3D vs. PRAGMA</div><div class="rule"></div>
-  <div class="lead">moc1d axial P1 scattering 적용 시 축방향·3D 출력분포가 PRAGMA에 근접 · 반경방향 분포는 거의 동일</div>
+  <div class="lead">With moc1d axial P1 scattering, axial and 3D power approach PRAGMA · radial distribution nearly identical</div>
   <div class="figrow">
     <figure><img src="fig/ax_err_xz.png" alt="x-z pin power error"><figcaption>x–z pin power error: CROMA 3D vs. PRAGMA</figcaption></figure>
     <figure><img src="fig/ax_dist.png" alt="axial power distribution"><figcaption>CROMA (TCP0, P1) vs. PRAGMA: axial power &amp; error (BOC)</figcaption></figure>
@@ -447,8 +447,8 @@
 <!-- 3 · radial -->
 <section class="slide">
   <div class="tag">i-SMR ARO · BOC, Xenon transient</div>
-  <div class="title">CROMA 3D vs. PRAGMA — 반경방향</div><div class="rule"></div>
-  <div class="lead">P1 적용 유무와 무관하게 반경방향 출력분포는 거의 동일 · CROMA reference 자체가 in-out tilt 보유</div>
+  <div class="title">CROMA 3D vs. PRAGMA — Radial</div><div class="rule"></div>
+  <div class="lead">Radial power nearly identical with or without P1 · the CROMA reference itself carries an in-out tilt</div>
   <div class="figrow">
     <figure><img src="fig/rad_fa.png" alt="FA-wise radial error"><figcaption>FA-wise radial power error</figcaption></figure>
     <figure><img src="fig/rad_pin.png" alt="pin-wise radial error"><figcaption>Pin-wise radial power error</figcaption></figure>
@@ -460,7 +460,7 @@
 <section class="slide">
   <div class="tag">Xe transient</div>
   <div class="title">CROMA 3D vs. SPHINCS</div><div class="rule"></div>
-  <div class="lead">CROMA 3D 기준 · γ factor 적용 시 same-code reference (CROMA 해)에 근접</div>
+  <div class="lead">Relative to CROMA 3D · with the γ factor, approaches the same-code reference (CROMA solution)</div>
   <div class="figrow single">
     <figure><img src="fig/xe_croma.png" alt="SPHINCS vs CROMA 3D"><figcaption>SPHINCS (SPH) vs. CROMA &nbsp;·&nbsp; SPHINCS (SPH+D correction) vs. CROMA</figcaption></figure>
   </div>
@@ -471,7 +471,7 @@
 <section class="slide">
   <div class="tag">Xe transient</div>
   <div class="title">PRAGMA vs. SPHINCS</div><div class="rule"></div>
-  <div class="lead">PRAGMA 기준 · γ factor 적용 시 기존 two-step SPH 해보다 오히려 일부 차이 증가</div>
+  <div class="lead">Relative to PRAGMA · with the γ factor, some differences grow vs. the previous two-step SPH solution</div>
   <div class="figrow single">
     <figure><img src="fig/xe_pragma.png" alt="SPHINCS vs PRAGMA"><figcaption>SPHINCS (SPH) vs. PRAGMA &nbsp;·&nbsp; SPHINCS (SPH+D correction) vs. PRAGMA</figcaption></figure>
   </div>
@@ -481,8 +481,8 @@
 <!-- 6 · summary table -->
 <section class="slide">
   <div class="tag">vs. PRAGMA · BOC</div>
-  <div class="title">종합비교표 요약</div><div class="rule"></div>
-  <div class="lead">keff 오차 및 FA·pin·axial 출력 오차 (MAX / RMS, %)</div>
+  <div class="title">Summary Comparison</div><div class="rule"></div>
+  <div class="lead">keff error and FA / pin / axial power errors (MAX / RMS, %)</div>
   <div class="tblwrap"><table class="dtable">
     <tr><th>case (BOC)</th><th>keff err (pcm)</th><th>FA MAX</th><th>FA RMS</th><th>Pin MAX</th><th>Pin RMS</th><th>Axial MAX</th><th>Axial RMS</th></tr>
     <tr><td class="l">*Nodal (2g)</td><td>+57</td><td>2.00</td><td>1.41</td><td>5.63</td><td>1.58</td><td>4.75</td><td>1.65</td></tr>
@@ -494,45 +494,45 @@
     <tr><td class="l">**Pin (7g): SPH+D</td><td>+16</td><td>1.07</td><td>0.73</td><td>1.60</td><td>0.79</td><td>2.25</td><td>0.64</td></tr>
     <tr class="hl"><td class="l">CROMA 3D</td><td>+13</td><td>1.46</td><td>1.03</td><td>2.23</td><td>1.09</td><td>1.10</td><td>0.41</td></tr>
   </table>
-  <p class="fn">*Nodal: CROMA FA · CROMA radial XS · PRAGMA axial reflector XS (CROMA z축 current 출력 필요)<br>**Pin: CROMA FA · CROMA radial XS · CROMA axial reflector XS (moc1d, P1 scattering)</p></div>
+  <p class="fn">*Nodal: CROMA FA · CROMA radial XS · PRAGMA axial reflector XS (requires CROMA z-axis current output)<br>**Pin: CROMA FA · CROMA radial XS · CROMA axial reflector XS (moc1d, P1 scattering)</p></div>
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
 </section>
 
-<!-- 7 · 업무내용 -->
+<!-- 7 · work summary -->
 <section class="slide">
-  <div class="tag">업무내용</div>
-  <div class="title">반사체 γ factor 적용 효과</div><div class="rule"></div>
+  <div class="tag">Work summary</div>
+  <div class="title">Reflector γ-Factor Effect</div><div class="rule"></div>
   <div class="lead">reference: CROMA · XS generation: CROMA</div>
   <div class="cols2">
-    <div class="col card"><h3>적용 효과 검증 범위</h3><ul>
+    <div class="col card"><h3>Validation scope</h3><ul>
       <li>APR1400 benchmark (2D, V01~V09)</li>
       <li>APR1400 · OPR1000 · i-SMR (2D, depletion)</li>
-      <li>3D problem: i-SMR ARO · rodded (CROMA 제어봉 위치 고정)</li>
+      <li>3D problem: i-SMR ARO · rodded (CROMA control-rod positions fixed)</li>
     </ul></div>
-    <div class="col card" style="border-top-color:var(--accent)"><h3>종합 비교</h3><ul>
+    <div class="col card" style="border-top-color:var(--accent)"><h3>Overall comparison</h3><ul>
       <li>PRAGMA vs. CROMA vs. SPHINCS pin (SPH+D correction) vs. SPHINCS nodal</li>
     </ul></div>
   </div>
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
 </section>
 
-<!-- 8 · 요청사항 -->
+<!-- 8 · requests -->
 <section class="slide">
   <div class="tag">fuel_refl_df · 260930</div>
-  <div class="title">요청사항</div><div class="rule"></div>
+  <div class="title">Requests</div><div class="rule"></div>
   <div class="steps">
-    <div class="stp"><span class="no">01</span><span class="tx">CROMA z축 current 출력</span></div>
-    <div class="stp"><span class="no">02</span><span class="tx">CROMA 리눅스 버전 실행파일</span></div>
+    <div class="stp"><span class="no">01</span><span class="tx">CROMA z-axis current output</span></div>
+    <div class="stp"><span class="no">02</span><span class="tx">CROMA Linux executable</span></div>
   </div>
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
 </section>
 
-<!-- 1 · 주간업무 -->
+<!-- 1 · weekly work -->
 <section class="slide">
-  <div class="tag">5group test · 주간업무</div>
+  <div class="tag">5-group test · weekly work</div>
   <div class="title">2·4·5·7 group structure test</div><div class="rule"></div>
-  <div class="lead">Group·반사체 모델에 따라 보정인자가 일반적으로 개선하는지 확인</div>
-  <div class="tblwrap narrow"><div class="tblcap">[ 군 구조 ] group upper boundary (eV)</div><table class="dtable">
+  <div class="lead">Check whether the correction factors generally improve across group and reflector models</div>
+  <div class="tblwrap narrow"><div class="tblcap">[ Group structure ] group upper boundary (eV)</div><table class="dtable">
     <tr><th>2 group</th><th>4 group</th><th>5 group</th><th>7 group</th></tr>
     <tr><td>2.000e+7</td><td>2.000e+7</td><td>2.000e+7</td><td>2.000e+7</td></tr>
     <tr><td></td><td></td><td class="rd">2.231e+6</td><td class="rd">2.231e+6</td></tr>
@@ -709,14 +709,14 @@
 <!-- 18 · sec -->
 <section class="slide sec">
   <div class="inner"><div class="kicker">group structure test</div><h1>i-SMR rodded</h1><div class="crule"></div>
-  <div class="secsub">2D rodded 비교 · 2 · 4 · 5 · 7군</div></div>
+  <div class="secsub">2D rodded comparison · 2 / 4 / 5 / 7 groups</div></div>
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
 </section>
 
 <!-- 19 · rodded 4 figs -->
 <section class="slide">
   <div class="tag">group structure test</div>
-  <div class="title">2D i-SMR rodded 비교 (2·4·5·7군)</div><div class="rule"></div>
+  <div class="title">2D i-SMR Rodded Comparison (2 / 4 / 5 / 7 Groups)</div><div class="rule"></div>
   <div class="figrow notitle cols4">
     <figure><img src="fig/rod_2g.png" alt="rodded 2 group"><figcaption>i-SMR rodded (ARI) · 2 group · full core XS</figcaption></figure>
     <figure><img src="fig/rod_4g.png" alt="rodded 4 group"><figcaption>i-SMR rodded (ARI) · 4 group · full core XS</figcaption></figure>
@@ -726,19 +726,19 @@
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
 </section>
 
-<!-- 20 · 결론 -->
+<!-- 20 · conclusions -->
 <section class="slide">
-  <div class="tag">5group test</div>
-  <div class="title">결론 및 향후 계획</div><div class="rule"></div>
-  <div class="band" style="top:280px;bottom:auto">결론: 반사체 보정인자가 대부분 케이스 <b>(7g OPR/APR 제외)</b>에서 RMS·MAX 개선</div>
+  <div class="tag">5-group test</div>
+  <div class="title">Conclusions &amp; Next Steps</div><div class="rule"></div>
+  <div class="band" style="top:280px;bottom:auto">Conclusion: reflector correction factors improve RMS / MAX in most cases <b>(except 7g OPR/APR)</b></div>
   <div class="cols2" style="top:470px">
-    <div class="col card"><h3>향후 계획</h3><ul>
-      <li>2·4·5·7 group pin-wise XS → --hom → 2 group nodal XS 균질화 후 해 일치 확인</li>
-      <li>9월 넷째 주부터 논문 작성 시작</li>
+    <div class="col card"><h3>Next steps</h3><ul>
+      <li>Homogenize 2/4/5/7-group pin-wise XS via --hom to 2-group nodal XS, then confirm solution agreement</li>
+      <li>Start paper writing in the fourth week of September</li>
     </ul></div>
-    <div class="col card" style="border-top-color:var(--accent)"><h3>Reload 모델 (참고)</h3><ul>
-      <li>PRAGMA 3D 연소계산 (ARO) — 몇 주기까지?</li>
-      <li>노심계산: CROMA XS (FA·radial) + PRAGMA XS (axial)</li>
+    <div class="col card" style="border-top-color:var(--accent)"><h3>Reload model (reference)</h3><ul>
+      <li>PRAGMA 3D depletion (ARO) — how many cycles?</li>
+      <li>Core calculation: CROMA XS (FA/radial) + PRAGMA XS (axial)</li>
     </ul></div>
   </div>
   <div class="foot"><span>fuel_refl_df · 260930</span><span class="pg"></span></div>
